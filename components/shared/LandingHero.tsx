@@ -2,7 +2,7 @@
 import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 import TypewriterComponent from 'typewriter-effect';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 
 export const LandingHero = () => {
   const { isSignedIn } = useAuth();

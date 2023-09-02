@@ -72,7 +72,7 @@ export const routes:{
   {
     label: 'General Quiz',
     icon: ImageIcon,
-    href: '/image',
+    href: '/quiz',
     color: "text-pink-700",
   },
   {
