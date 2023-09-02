@@ -10,7 +10,7 @@ export const LandingHero = () => {
   return (
     <div className='text-white font-bold py-36 text-center space-y-5'>
       <div className='text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl'>
-        <h1>The Best Know Your Prakriti</h1>
+        <h1>Know Your Prakriti,Know Your LifeStyle</h1>
         <div className='text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 py-2'>
           <TypewriterComponent
             options={{
