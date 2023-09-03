@@ -1,7 +1,5 @@
-'use client';
-
-import ChatComponent from '@/components/ChatComponent'
-import { BotAvatar } from '@/components/BotAvatar';
+import ChatComponent from '@/components/ai/ChatComponent'
+import { BotAvatar } from '@/components/ai/BotAvatar'
 
 
 export default function Home() {

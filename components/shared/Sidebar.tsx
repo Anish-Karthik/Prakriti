@@ -74,23 +74,11 @@ export const routes:{
     icon: ImageIcon,
     href: '/quiz',
     color: "text-pink-700",
-  },
-  {
-    label: 'Pesonalized Quiz',
-    icon: VideoIcon,
-    href: '/video',
-    color: "text-orange-700",
-  },    
-  {
-    label: 'Conversation',
-    icon: MessageSquareIcon,
-    href: '/conversation',
-    color: "text-violet-500",
-  },
+  }, 
   {
     label: 'Chatbot',
-    icon: MusicIcon,
-    href: '/music',
+    icon: MessageSquareIcon,
+    href: '/chatbot',
     color: "text-emerald-500",
   },
   {

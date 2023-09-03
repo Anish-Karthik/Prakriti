@@ -1,6 +1,7 @@
+"use client"
 import React, { useEffect, useRef, useState } from "react";
 import { useChat, Message } from "ai/react";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 import { BotAvatar } from "./BotAvatar";
 
 export default function ChatComponent() {
@@ -8,6 +9,7 @@ export default function ChatComponent() {
   const { input, handleInputChange, handleSubmit, isLoading, messages } = useChat();
   const [display,setDisplay]=useState('block')
   const yogi="https://i.ibb.co/N7cJc3F/1024.png";
+  // TODO: get user profile image from auth
   const user="https://github.com/shadcn.png";
 
   useEffect(() => {
