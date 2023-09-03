@@ -3,14 +3,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { useChat, Message } from "ai/react";
 import { Input } from "../ui/input";
 import { BotAvatar } from "./BotAvatar";
+import { useUser} from "@clerk/nextjs"
 
 export default function ChatComponent() {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const { input, handleInputChange, handleSubmit, isLoading, messages } = useChat();
   const [display,setDisplay]=useState('block')
   const yogi="https://i.ibb.co/N7cJc3F/1024.png";
-  // TODO: get user profile image from auth
-  const user="https://github.com/shadcn.png";
+  const {user}=useUser();
+  const Profile=user?.profileImageUrl;
 
   useEffect(() => {
     if(messages.length>0)
@@ -38,7 +39,7 @@ export default function ChatComponent() {
                 {message.role === "assistant" ? (
                   <BotAvatar props={yogi} />
                 ) : (
-                  <BotAvatar props={user} />
+                  <BotAvatar props={Profile} />
                 )}
 
                 <h2 className="px-2">{message.role === "assistant" ? "Yogi" : "You"}</h2>
