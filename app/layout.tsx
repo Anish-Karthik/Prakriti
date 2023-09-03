@@ -3,6 +3,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { NEXT_PUBLIC_APP_DESCRIPTION } from '@/public/constants'
+import { ToasterProvider } from '@/components/toaster-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,7 +20,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className='h-screen w-screen overflow-hidden'>{children}</body>
+        <body className='h-screen w-screen overflow-hidden'>
+          <ToasterProvider />
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   )

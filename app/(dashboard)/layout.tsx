@@ -1,5 +1,5 @@
-import Navbar from '@/components/Navbar'
-import Sidebar from '@/components/Sidebar'
+import Navbar from '@/components/shared/Navbar'
+import Sidebar from '@/components/shared/Sidebar'
 import React from 'react'
 
 const DashBoardLayout = ({
