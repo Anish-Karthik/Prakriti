@@ -6,7 +6,6 @@ const DashboardPage = () => {
     <div>
       <h1>DashboardPage</h1>
       <p>Welcome to the dashboard page!</p>
-
     </div>
   )
 }
