@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useChat, Message } from "ai/react";
 import { Input } from "../ui/input";
+import {Button} from "../ui/button"
 import { BotAvatar } from "./BotAvatar";
 import { useUser} from "@clerk/nextjs"
 
@@ -61,9 +62,17 @@ export default function ChatComponent() {
       <form className="mt-12" onSubmit={handleSubmit}>
         <div className={"flex flex-row p-2 "+display}>
             <BotAvatar props={yogi}/>
-            <p className="px-2">Hey there! I am Yogi,Your Personalized AI for Prakriti</p>
+            <p className="px-2">Hey there! I am Yogi,Your Personalized AI for </p>
         </div>
-        <Input className="text-black" value={input} placeholder="Ask to Y.O.G.I" onChange={handleInputChange} />
+        <div className="flex flex-row py-2">
+          <Input className="text-black" value={input} placeholder="Ask to Y.O.G.I" onChange={handleInputChange} />
+          <Button 
+          className="font-bold text-lg mx-2 bg-green-500 hover:bg-green-400"
+          type="submit"
+          > →
+          </Button>
+        </div>
+       
       </form>
     </div>
   );

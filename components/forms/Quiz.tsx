@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 
 
 
-const Quiz = () => {
+const Quiz = () => {    
   const [index, setIndex] = useState(0)
   const [question, setQuestion] = useState(questionMCQ[index])
   const router = useRouter()
