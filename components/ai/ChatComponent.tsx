@@ -11,7 +11,7 @@ export default function ChatComponent() {
   const [display,setDisplay]=useState('block')
   const yogi="https://i.ibb.co/N7cJc3F/1024.png";
   const {user}=useUser();
-  const Profile=user?.profileImageUrl;
+  const Profile=user?.imageUrl;
 
   useEffect(() => {
     if(messages.length>0)
