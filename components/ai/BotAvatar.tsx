@@ -2,7 +2,7 @@
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 interface BotAvatarProps {
-  props: string;
+  props: string | undefined;
 }
 
 export const BotAvatar: React.FC<BotAvatarProps> = ({ props }) => {
