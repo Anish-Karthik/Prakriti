@@ -1,3 +1,8 @@
+export type Toption = {
+  vatta: string;
+  pitta: string;
+  kapha: string;
+}
 export type TquestionMCQ = {
   question: string;
   options: string[];
@@ -6,11 +11,21 @@ export type TquestionMCQ = {
 export const questionMCQarray : TquestionMCQ[] = [
   {
     question: "How would you describe your body frame?",
-    options: ["Slender", "Medium", "Robust"],
+    options: ["Thin, light, and bony", "Medium build and muscular", "Heavyset and sturdy"]
+    // options: {
+    //   vatta: "Thin, light, and bony",
+    //   pitta: "Medium build and muscular",
+    //   kapha: "Heavyset and sturdy",
+    // },
   },
   {
     question: "What is your typical body temperature?",
     options: ["Cold", "Normal", "Warm"],
+    // {
+    //   vatta: "Cold",
+    //   pitta: "Normal",
+    //   kapha: "Warm",
+    // },
   },
   {
     question: "How is your skin?",
@@ -82,7 +97,7 @@ export const questionMCQarray : TquestionMCQ[] = [
   },
   {
     question: "Do you have a preference for certain tastes?",
-    options: ["Sweet", "Sour", "Salty", "Bitter", "Astringent"],
+    options: ["Sweet", "Sour", "Salty"],
   },
   {
     question: "How do you react to caffeine or stimulants?",
@@ -94,7 +109,7 @@ export const questionMCQarray : TquestionMCQ[] = [
   },
   {
     question: "How is your menstrual cycle (if applicable)?",
-    options: ["Regular", "Irregular", "Heavy", "Light"],
+    options: ["Regular", "Heavy", "Light"],
   },
   {
     question: "Do you have a preference for certain colors or environments?",
@@ -114,7 +129,7 @@ export const questionMCQarray : TquestionMCQ[] = [
   },
   {
     question: "How is your overall energy level throughout the day?",
-    options: ["Consistent", "Fluctuating"],
+    options: ["Consistent", "Fluctuating", "Low"],
   },
   {
     question: "Are you more comfortable in social settings or solitude?",

@@ -1,8 +1,6 @@
 // route.ts Route Handlers
 import { Configuration, OpenAIApi } from "openai-edge";
 import { OpenAIStream, StreamingTextResponse } from "ai";
-import { auth } from "@clerk/nextjs";
-import { NextResponse } from "next/server";
 
 export const runtime = 'edge';
 
@@ -13,13 +11,8 @@ const openai = new OpenAIApi(config);
 
 
 export async function POST(request: Request) {
-
-    const { userId } = auth();
     const { messages } = await request.json(); 
 
-    if (!userId) {
-        return new NextResponse("Unauthorized", { status: 401 });
-    }
     
 
     const response = await openai.createChatCompletion({
