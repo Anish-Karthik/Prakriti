@@ -21,6 +21,32 @@ export default function ChatComponent() {
         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
   }, [messages]);
 
+ 
+  const mess="You should speak in French ";
+  const sendPostRequest = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+         messages:messages,
+         lang:"malayalam",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const responseData = await response.json();
+      console.log(responseData);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <div
       className="chat-container scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200 no-scrollbar overflow-auto"
@@ -62,7 +88,7 @@ export default function ChatComponent() {
       <form className="mt-12" onSubmit={handleSubmit}>
         <div className={"flex flex-row p-2 "+display}>
             <BotAvatar props={yogi}/>
-            <p className="px-2">Hey there! I am Yogi,Your Personalized AI for </p>
+            <p className="px-2">Hey there! I am Yogi,Your Personalized AI for Prakirthi </p>
         </div>
         <div className="flex flex-row py-2">
           <Input className="text-black" value={input} placeholder="Ask to Y.O.G.I" onChange={handleInputChange} />
