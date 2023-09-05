@@ -22,6 +22,7 @@
     "@types/react-dom": "18.2.7",
     "ai": "^2.2.11",
     "autoprefixer": "10.4.15",
+    "axios": "^1.5.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "crisp-sdk-web": "^1.0.21",
