@@ -46,7 +46,7 @@ export function DietSummary() {
       <div className="flex items-center">
         
         <div className="ml-4 space-y-1">
-          <p className="text-sm font-medium leading-none">At Aunt's Home</p>
+          <p className="text-sm font-medium leading-none">At Aunt&rsquo;s Home</p>
           <p className="text-sm text-muted-foreground">Friday</p>
         </div>
         <div className="ml-auto font-medium">+39 calories</div>
