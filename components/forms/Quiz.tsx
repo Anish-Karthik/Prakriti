@@ -22,7 +22,7 @@ const mapNumberToType = (number: string) => {
 }
   
 
-const Quiz = () => {
+const Quiz = () => {    
   const [index, setIndex] = useState(0)
   const [question, setQuestion] = useState(questionMCQarray[index])
   const [answerMCQarray, setAnswers] = useState<TAnswer[]>(new Array(questionMCQarray.length).fill({answer: '', type: 'initial', qno: -1}))
