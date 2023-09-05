@@ -1,7 +1,5 @@
 import { Metadata } from "next"
-import Image from "next/image"
 import {FaRobot} from 'react-icons/fa'
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -15,13 +13,12 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker"
-import { MainNav } from "@/components/dashboard/main-nav"
+
+
 import { Overview } from "@/components/dashboard/overview"
 import { DietSummary } from "@/components/dashboard/DietSummary"
-import { Search } from "@/components/dashboard/search" 
 
-import { UserNav } from "@/components/dashboard//user-nav"
+
 
 export const metadata: Metadata = {
   title: "Dashboard",
