@@ -11,11 +11,7 @@ import {
 
 import { Overview_Tab } from "@/components/Overview_Tab/Overview_Tab"
 
-export const metadata: Metadata = {
-  title: "Dashboard",
-  description: "Example dashboard app built using the components.",
-}
- 
+
 
 export default function DashboardPage() {
   return (
