@@ -1,13 +1,15 @@
 import React from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { DietSummary } from '../dashboard/DietSummary'
+import Link from 'next/link'
 import { Overview } from '../dashboard/overview'
 
 export const Overview_Tab = () => {
   return (
     <>
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-    <Card>
+    <Link href="/quiz"  className='cursor-pointer'>
+    <Card className='cursor-pointer'>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">
           Know Your Phenotype
@@ -23,6 +25,8 @@ export const Overview_Tab = () => {
         </p>
       </CardContent>
     </Card>
+    </Link>
+    <Link href="/chatbot" className='cursor-pointer'>
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">
@@ -44,11 +48,13 @@ export const Overview_Tab = () => {
       <CardContent>
         <div className="text-2xl font-bold">Y.O.G.I</div>
         <p className="text-xs text-muted-foreground">
-          An Companion who could enrich your knowledge
+          A Companion for your Ayurveda needs
         </p>
       </CardContent>
     </Card>
-    <Card>
+    </Link>
+    <Link href="/quiz" className='cursor-pointer'>
+    <Card className='cursor-pointer'>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">Socialize in our community</CardTitle>
         <svg
@@ -74,7 +80,9 @@ export const Overview_Tab = () => {
         </p>
       </CardContent>
     </Card>
-    <Card>
+    </Link>
+    <Link href="/quiz" className='cursor-pointer'>
+    <Card className='cursor-pointer'>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">
           Get Expert Consutations
@@ -95,10 +103,11 @@ export const Overview_Tab = () => {
       <CardContent>
         <div className="text-2xl font-bold">Ayur-Sama</div>
         <p className="text-xs text-muted-foreground">
-          Get consultation from real world Doctors
+          Get consultation from real Doctors
         </p>
       </CardContent>
     </Card>
+    </Link>
   </div>
   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
     <Card className="col-span-4">
