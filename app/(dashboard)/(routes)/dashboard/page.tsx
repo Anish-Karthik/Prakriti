@@ -151,7 +151,7 @@ export default function DashboardPage() {
                     <Overview />
                   </CardContent>
                 </Card>
-                <Card className="col-span-3">
+                <Card className="md:col-span-3 col-span-4">
                   <CardHeader>
                     <CardTitle>Diet Plan Summary</CardTitle>
                     <CardDescription>
