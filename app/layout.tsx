@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className='h-screen w-screen'>
+        <body className='h-screen w-screen overflow-x-hidden'>
           <ToasterProvider />
           {children}
         </body>
