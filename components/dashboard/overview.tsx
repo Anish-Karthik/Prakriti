@@ -1,42 +1,58 @@
 "use client"
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip  } from "recharts"
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+const vatta =Number(window.localStorage.getItem('vatta') || 0);
+const pitta =Number(window.localStorage.getItem('pitta') || 0);
+const kapha =Number(window.localStorage.getItem('kapha') || 0);
+
+const totalCount = 30;
+//vatta=parseInt(JSON.parse(vatta))
+
+const vattaPercentage = (vatta / totalCount) * 100;
+const pittaPercentage = (pitta / totalCount) * 100;
+const kaphaPercentage = (kapha / totalCount) * 100;
+
+// Calculate combinations based on counts
+const vattaPittaPercentage = (vatta / totalCount) * (pitta / totalCount) * 100;
+const vattaKaphaPercentage = (vatta / totalCount) * (kapha / totalCount) * 100;
+const pittaKaphaPercentage = (pitta / totalCount) * (kapha / totalCount) * 100;
+const vattaPittaKaphaPercentage =(vatta / totalCount) * (kapha / totalCount) * (pitta / totalCount) * 100  ;
 
 const data = [
   {
     name: "Vata",
-    total: Math.floor(Math.random() * 50) + 10,
+    percentage: vattaPercentage,
   },
   {
-    name: "Pitha",
-    total: Math.floor(Math.random() * 50) + 10,
+    name: "Pitta",
+    percentage: pittaPercentage,
   },
   {
     name: "Kapha",
-    total: Math.floor(Math.random() * 50) + 10,
+    percentage: kaphaPercentage,
   },
   {
-    name: "Vata-pita",
-    total: Math.floor(Math.random() * 50) + 10,
+    name: "Vata-Pitta",
+    percentage: vattaPittaPercentage,
   },
   {
     name: "Vata-Kapha",
-    total: Math.floor(Math.random() * 50) + 10,
+    percentage: vattaKaphaPercentage,
   },
   {
-    name: "Kapha-Pita",
-    total: Math.floor(Math.random() * 50) + 10,
+    name: "Pitta-Kapha",
+    percentage: pittaKaphaPercentage,
   },
   {
-    name: "Vata-pita",
-    total: Math.floor(Math.random() * 50) + 10,
+    name: "Vata-Pitta-Kapha",
+    percentage:vattaPittaKaphaPercentage,
   },
 ]
 
 export function Overview() {
   return (
-    <ResponsiveContainer width="100%" height={350} >
-      <BarChart data={data}>
+    <ResponsiveContainer width="100%" height={350}>
+      <BarChart data={data} margin={{ left: 30, right: 10, top: 10, bottom: 20 }}>
         <XAxis
           dataKey="name"
           stroke="#888888"
@@ -45,13 +61,16 @@ export function Overview() {
           axisLine={false}
         />
         <YAxis
+          tickFormatter={(value) => `${value}%`}
           stroke="#888888"
           fontSize={12}
           tickLine={false}
           axisLine={false}
-          tickFormatter={(value) => `${value}`}
+          domain={[0, 100]} 
         />
-        <Bar dataKey="total" fill="#adfa1d" radius={[4, 4, 0, 0]} />
+        <Tooltip />
+       
+        <Bar dataKey="percentage" fill="#adfa1d" radius={[4, 4, 0, 0]} stackId="a" />
       </BarChart>
     </ResponsiveContainer>
   )

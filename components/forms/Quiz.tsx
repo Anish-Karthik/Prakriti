@@ -38,16 +38,30 @@ const Quiz = () => {
     }
     setAnswers((prev)=> tmp)
     setIndex((prev) => prev + 1)
+    if(index==29)
+    {
+      console.log("I AM AT 30");
+    }
+  }
+  async function  submitAnswers()
+  {
+    router.push('/dashboard')
+    toast.success(`Quiz Completed`)
+    const response = await axios.post('/api/ai/submitAnswers', {
+      answers: answerMCQarray,
+    })
+    window.localStorage.setItem('vatta',JSON.stringify(response.data.vatta))
+    window.localStorage.setItem('pitta',JSON.stringify(response.data.pitta))
+    window.localStorage.setItem('kapha',JSON.stringify(response.data.kapha))
+    console.log(response.data.vatta)
   }
 
   useEffect(() => {
     if(index === questionMCQarray.length) {
       // import react toast
-      router.push('/dashboard')
-      console.log(`answer`, answerMCQarray)
-      toast.success(`Quiz Completed`)
+      submitAnswers();
     } else{
-      console.log(`question`, questionMCQarray)
+      //console.log(`question`, questionMCQarray)
       setQuestion(questionMCQarray[index])
     }
   }, [index])
@@ -79,6 +93,7 @@ function OptionalInput({question, onClick}: TOptionalInput) {
   const [value, setValue] = useState('')
 
   async function callAPI() {
+
     //TODO: call API here
     const userMessage: ChatCompletionRequestMessage = {
       role: 'user',
@@ -96,7 +111,6 @@ function OptionalInput({question, onClick}: TOptionalInput) {
   return (
     <div className='flex w-full pt-7'>
       <Input 
-      // remove outline
         className='w-full mr-[-5px] p-1 border-2 border-gray-300 rounded-md active:outline-none focus:outline-none focus:ring-2 focus:ring-gray-300'
         placeholder='If you have any other opinions, please mention here'
         value={value}
