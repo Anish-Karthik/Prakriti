@@ -14,8 +14,7 @@ export async function POST(req: Request) {
   try {
     const { userId } = auth();
     const body = await req.json();
-    const { messages } = body;
-   
+    const { answers } = body;
     // TODO
 
     if(!userId) {
@@ -26,10 +25,26 @@ export async function POST(req: Request) {
       return new NextResponse("OpenAI API Key not configured", { status: 500 });
     }
 
-    if (!messages) {
+    if (!answers) {
       return new NextResponse("Missing messages", { status: 400 });
     }
-
+    let vatta=0,pitta=0,kapha=0;
+    
+    for(const answer of answers)
+    {
+      if(answer.type=='vatta')
+        vatta++;
+      else if(answer.type=='pitta')
+        pitta++;
+      else if(answer.type=='kapha')
+        kapha++;
+    }
+    const responseObj = {
+      vatta,
+      pitta,
+      kapha
+    };
+    return new NextResponse(JSON.stringify(responseObj), { status: 200, headers: { 'Content-Type': 'application/json' } });
     
   } catch (error) {
     console.error("[CODE_ERROR]",error);

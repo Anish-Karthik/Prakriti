@@ -35,7 +35,7 @@ export default function ChatComponent() {
         },
         body: JSON.stringify({
           messages: messages,
-          lang: "malayalam",
+          lang: language,
         }),
       });
       if (!response.ok) {
@@ -44,7 +44,7 @@ export default function ChatComponent() {
   
       const stream = await response.arrayBuffer();
       const data = JSON.parse(new TextDecoder().decode(stream));
-      
+    
       // Create a new message object with id, role, and content
       const newMessage: Message = {
         id: String(Math.random() * 10),
@@ -110,13 +110,8 @@ export default function ChatComponent() {
                     <h2 className="px-2">{message.role === "assistant" ? "Yogi" : "You"}</h2>
                   </div>
                 </h3>
-                {message.content.split("\n").map((currentTextBlock: string, index: number) => {
-                  if (currentTextBlock === "") {
-                    return <p key={message.id + index}>&nbsp;</p>;
-                  } else {
-                    return <p key={message.id + index}>{currentTextBlock}</p>;
-                  }
-                })}
+                <p>{message.content}</p>
+                
               </div>
               
             ))
