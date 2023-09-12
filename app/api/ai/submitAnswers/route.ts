@@ -44,6 +44,9 @@ export async function POST(req: Request) {
       pitta,
       kapha
     };
+    
+
+
     return new NextResponse(JSON.stringify(responseObj), { status: 200, headers: { 'Content-Type': 'application/json' } });
     
   } catch (error) {
