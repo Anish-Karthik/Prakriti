@@ -37,7 +37,7 @@ const Quiz = () => {
       tmp[index] = answerFromUser
     }
     setAnswers((prev)=> tmp)
-    setIndex((prev) => prev + 1)
+      setIndex((prev) => prev + 1)
     if(index==29)
     {
       console.log("I AM AT 30");
@@ -75,6 +75,7 @@ const Quiz = () => {
       <div className=' w-full lg:h-20'>
         <h1 className='text-2xl'>{question.question}</h1>
       </div>
+      <Button type="submit" className=''>Back</Button>
       {question.options.map((option, i) => (
         <Button key={i} variant='outline' className='w-full' name={`${i}`} value={option} onClick={(e) => onClick(e)}>
           {option}
