@@ -1,9 +1,14 @@
-"use client"
+"use client";
+import { useEffect } from "react";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip  } from "recharts"
 
-const vatta =Number(window.localStorage.getItem('vatta') || 0);
-const pitta =Number(window.localStorage.getItem('pitta') || 0);
-const kapha =Number(window.localStorage.getItem('kapha') || 0);
+let vatta=0,pitta=0,kapha=0;
+
+  vatta =Number(localStorage.getItem('vatta') || 0);
+  pitta =Number(localStorage.getItem('pitta') || 0);
+  kapha =Number(localStorage.getItem('kapha') || 0);
+
+
 
 const totalCount = 30;
 //vatta=parseInt(JSON.parse(vatta))
