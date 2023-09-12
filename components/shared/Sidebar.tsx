@@ -7,7 +7,7 @@ import React from 'react'
 
 import { cn } from '@/lib/utils'
 import { NEXT_PUBLIC_APP_NAME } from '@/public/constants'
-import { FileIcon, LayoutDashboardIcon, MessageSquareIcon, ImageIcon, VideoIcon, MusicIcon, CodeIcon, SettingsIcon } from "lucide-react"
+import { FileIcon, LayoutDashboardIcon, MessageSquareIcon, FileQuestion, Users, HeartPulse, HelpCircle, SettingsIcon,Apple,SunSnow } from "lucide-react"
 
 const montserrat = Montserrat({
   weight: "600",
@@ -71,7 +71,7 @@ export const routes:{
   },
   {
     label: 'General Quiz',
-    icon: ImageIcon,
+    icon: FileQuestion,
     href: '/quiz',
     color: "text-pink-700",
   }, 
@@ -82,32 +82,33 @@ export const routes:{
     color: "text-emerald-500",
   },
   {
-    label: 'Forum',
-    icon: CodeIcon,
+    label: 'Ayur-Unity',
+    icon: Users,
     href: '/code',
-    color: "text-green-500",
+    color: "text-blue-500",
   },
   {
     label: 'Expert Consultation',
-    icon: MusicIcon,
+    icon: HeartPulse,
     href: '/music',
-    color: "text-emerald-500",
+    color: "text-red-700",
+  },
+  
+  {
+    label: 'Diet Plan',
+    icon: Apple,
+    href: '/diet-plan',
+    color: "text-red-500",
+  },
+  {
+    label: 'Seasonal Care',
+    icon:   SunSnow,
+    href: '/music',
+    color: "text-yellow-500",
   },
   {
     label: 'FAQs',
-    icon: CodeIcon,
-    href: '/code',
-    color: "text-green-500",
-  },
-  {
-    label: 'Articles',
-    icon: MusicIcon,
-    href: '/music',
-    color: "text-emerald-500",
-  },
-  {
-    label: 'Reviews',
-    icon: CodeIcon,
+    icon: HelpCircle,
     href: '/code',
     color: "text-green-500",
   },

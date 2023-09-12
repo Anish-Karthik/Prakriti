@@ -1,0 +1,16 @@
+[
+  {
+    "id": "TASK-1",
+    "title": "Morning Exercise",
+    "status": "in progress",
+    "label": "documentation",
+    "priority": "medium"
+  },
+  {
+    "id": "TASK-2",
+    "title": "BreakFast",
+    "status": "backlog",
+    "label": "documentation",
+    "priority": "high"
+  }
+]
