@@ -1,13 +1,13 @@
 "use client"
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-interface BotAvatarProps {
+interface RecipeAvatar {
   props: string | undefined;
 }
 
-export const BotAvatar: React.FC<BotAvatarProps> = ({ props}) => {
+export const RecipeAvatar: React.FC<RecipeAvatar> = ({ props}) => {
   return (
-    <Avatar className='h-8 w-8 cursor-pointer items-center justify-center'>
+    <Avatar className='h-12 w-12 cursor-pointer '>
     <AvatarImage src={props} />
     <AvatarFallback>CN</AvatarFallback>
   </Avatar>
