@@ -81,7 +81,7 @@ const Quiz = () => {
       <div className=' w-full lg:h-20'>
         <h1 className='text-2xl'>{question.question}</h1>
       </div>
-     
+    
     
       {question.options.map((option, i) => (
         <Button key={i} variant='outline' className='w-full' name={`${i}`} value={option} onClick={(e) => onClick(e)}>
