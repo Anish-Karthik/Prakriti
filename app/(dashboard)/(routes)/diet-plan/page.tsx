@@ -40,13 +40,19 @@ export default function DashboardPage() {
               </Router>
             </TabsContent>
             <TabsContent value="Lunch" className="space-y-4">
-              
+            <Router>
+               <BreakFast/>
+              </Router>
             </TabsContent>
             <TabsContent value="Snacks" className="space-y-4">
-             
+            <Router>
+               <BreakFast/>
+              </Router>
             </TabsContent>
             <TabsContent value="Dinner" className="space-y-4">
-            
+            <Router>
+               <BreakFast/>
+              </Router>
             </TabsContent>
           </Tabs>
         </div>
