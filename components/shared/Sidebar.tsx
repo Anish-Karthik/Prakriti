@@ -81,34 +81,34 @@ export const routes:{
     color: "text-emerald-500",
   },
   {
-    label: 'Ayur-Unity',
-    icon: Users,
-    href: '/code',
-    color: "text-blue-500",
-  },
-  {
-    label: 'Expert Consultation',
-    icon: HeartPulse,
-    href: '/music',
-    color: "text-red-700",
-  },
-  
-  {
     label: 'Diet Plan',
     icon: Apple,
     href: '/diet-plan',
     color: "text-red-500",
   },
   {
+    label: 'Ayur-Unity',
+    icon: Users,
+    href: '/ayur-unity',
+    color: "text-blue-500",
+  },
+  {
+    label: 'Expert Consultation',
+    icon: HeartPulse,
+    href: '/expert-consultation',
+    color: "text-red-700",
+  },
+  
+  {
     label: 'Seasonal Care',
     icon:   SunSnow,
-    href: '/music',
+    href: '/seasonal-care',
     color: "text-yellow-500",
   },
   {
     label: 'FAQs',
     icon: HelpCircle,
-    href: '/code',
+    href: '/faq',
     color: "text-green-500",
   },
   {

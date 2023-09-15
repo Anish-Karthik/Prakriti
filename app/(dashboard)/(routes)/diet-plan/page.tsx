@@ -1,56 +1,61 @@
-import { promises as fs } from "fs"
-import path from "path"
-import { Metadata } from "next"
-import Image from "next/image"
-import { z } from "zod"
+'use client';
 
-import { columns } from "@/components/diet-plan/colums"
-import { DataTable } from "@/components/diet-plan/data-table"
-import { taskSchema } from "@/components/data/schema"
+import { BrowserRouter as Router } from 'react-router-dom'; 
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
+import { BreakFast } from '@/components/diet-plan/BreakFast';
 
 
 
-async function getTasks() {
-  const data = await fs.readFile(
-    path.join(process.cwd(), "./components/data/tasks.json")
-  )
 
-  const tasks = JSON.parse(data.toString())
 
-  return z.array(taskSchema).parse(tasks)
-}
-
-export default async function TaskPage() {
-  const tasks = await getTasks()
-
+export default function DashboardPage() {
   return (
     <>
-      <div className="md:hidden" >
-        <Image
-          src="/examples/tasks-light.png"
-          width={1280}
-          height={998}
-          alt="Playground"
-          className="block dark:hidden"
-        />
-        <Image
-          src="/examples/tasks-dark.png"
-          width={1280}
-          height={998}
-          alt="Playground"
-          className="hidden dark:block"
-        />
-      </div>
-      <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-        <div className="flex items-center justify-between space-y-2">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight">Welcome back!</h2>
-            <p className="text-muted-foreground">
-              Here&apos;s a list of your tasks for this week!
-            </p>
+      <div className=" flex-col md:flex">
+        <div className="flex-1 space-y-4 pr-5">
+          <div className="flex items-center justify-between space-y-2">
+            <h2 className="text-3xl font-bold tracking-tight">Diet Planner</h2>
           </div>
+          <Tabs defaultValue="Breakfast" className="space-y-4">
+            <TabsList>
+              <TabsTrigger value="Breakfast">Breakfast</TabsTrigger>
+              <TabsTrigger value="Lunch">
+                Lunch
+              </TabsTrigger>
+              <TabsTrigger value="Snacks">
+                Snacks
+              </TabsTrigger>
+              <TabsTrigger value="Dinner">
+              Dinner
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="Breakfast" className="space-y-4">
+              <Router>
+               <BreakFast/>
+              </Router>
+            </TabsContent>
+            <TabsContent value="Lunch" className="space-y-4">
+            <Router>
+               <BreakFast/>
+              </Router>
+            </TabsContent>
+            <TabsContent value="Snacks" className="space-y-4">
+            <Router>
+               <BreakFast/>
+              </Router>
+            </TabsContent>
+            <TabsContent value="Dinner" className="space-y-4">
+            <Router>
+               <BreakFast/>
+              </Router>
+            </TabsContent>
+          </Tabs>
         </div>
-        <DataTable data={tasks} columns={columns} />
       </div>
     </>
   )

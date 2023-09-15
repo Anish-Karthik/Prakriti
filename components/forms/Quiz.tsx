@@ -42,6 +42,7 @@ const Quiz = () => {
   {
     router.push('/dashboard')
     toast.success(`Quiz Completed`)
+    console.log(answerMCQarray)
     const response = await axios.post('/api/ai/submitAnswers', {
       answers: answerMCQarray,
     })
@@ -64,13 +65,19 @@ const Quiz = () => {
 
   return (
     <div className='flex-1 flex flex-col items-center justify-center w-2/3 gap-4 bg-slate-100 p-4 h-full'>
-      <div className='w-full lg:h-10 rounded-md'>
+      <div className='w-full lg:h-15 rounded-md '>
+      {(index>0 &&
+        <Button type="submit" className='bg-white text-black hover:bg-gray-300' onClick={(e)=>{
+        setIndex((prev)=>prev-1)
+        }}>←</Button>
+      )}
         <h1 className='text-2xl text-center'>Q.{index+1} of {questionMCQarray.length}</h1>
       </div>
       <div className=' w-full lg:h-20'>
         <h1 className='text-2xl'>{question.question}</h1>
       </div>
-      <Button type="submit" className=''>Back</Button>
+    
+    
       {question.options.map((option, i) => (
         <Button key={i} variant='outline' className='w-full' name={`${i}`} value={option} onClick={(e) => onClick(e)}>
           {option}
