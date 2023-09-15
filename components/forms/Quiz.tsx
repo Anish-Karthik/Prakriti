@@ -9,35 +9,30 @@ import { ChatCompletionRequestMessage } from 'openai-edge'
 import axios from 'axios'
 
 // export type TAnswer = array of string size of questionMCQ.length
-export type TAnswer = {
-  answer: string,
-  type: 'vatta' | 'pitta' | 'kapha' | 'initial'
-  qno: number
-}
-const mapNumberToType = (number: string) => {
-  if (number == '0') return 'vatta'
-  if (number == '1') return 'pitta'
-  if (number == '2') return 'kapha'
-  return 'initial'
-}
+
   
 
 const Quiz = () => {    
   const [index, setIndex] = useState(0)
   const [question, setQuestion] = useState(questionMCQarray[index])
-  const [answerMCQarray, setAnswers] = useState<TAnswer[]>(new Array(questionMCQarray.length).fill({answer: '', type: 'initial', qno: -1}))
+  const [answerMCQarray, setAnswers] = useState<TAnswer[]>(new Array(questionMCQarray.length).fill({answer: '', type: 'initial', qno: -1, option: -1}))
   const router = useRouter()
 
   function onClick(e?: React.MouseEvent<HTMLButtonElement, MouseEvent>, answerFromUser?: TAnswer) {
     const tmp = [...answerMCQarray]
     // type if 0 then vatta, 1 then pitta, 2 then kapha
     if (e) {
-      tmp[index] = {answer: e.currentTarget.value, type: mapNumberToType(e.currentTarget.name), qno: index}
+      tmp[index] = {
+        answer: e.currentTarget.value, 
+        type: mapNumberToType(e.currentTarget.name), 
+        option: mapNumberToOptions(e.currentTarget.name),
+        qno: index
+      }
     } else if(answerFromUser) {
       tmp[index] = answerFromUser
     }
     setAnswers((prev)=> tmp)
-      setIndex((prev) => prev + 1)
+    setIndex((prev) => prev + 1)
     if(index==29)
     {
       console.log("I AM AT 30");
@@ -85,10 +80,7 @@ const Quiz = () => {
     </div>
   )
 }
-export type TOptionalInput = {
-  question: TquestionMCQ,
-  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, answerFromUser?: TAnswer) => void
-}
+
 
 function OptionalInput({question, onClick}: TOptionalInput) {
   const [value, setValue] = useState('')
@@ -133,5 +125,28 @@ function OptionalInput({question, onClick}: TOptionalInput) {
 
 
 export default Quiz
+
+export type TAnswer = {
+  answer: string,
+  option: 0 | 1 | 2 | -1,
+  type: 'vatta' | 'pitta' | 'kapha' | 'initial'
+  qno: number
+}
+export type TOptionalInput = {
+  question: TquestionMCQ,
+  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, answerFromUser?: TAnswer) => void
+}
+export const mapNumberToType = (number: string) => {
+  if (number == '0') return 'vatta'
+  if (number == '1') return 'pitta'
+  if (number == '2') return 'kapha'
+  return 'initial'
+}
+export const mapNumberToOptions = (number: string) => {
+  if (number == '0') return 0
+  if (number == '1') return 1
+  if (number == '2') return 2
+  return -1
+}
 
 

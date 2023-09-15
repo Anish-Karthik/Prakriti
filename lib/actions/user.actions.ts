@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import User from "@/lib/models/user.model"
 import { connectToDB } from "@/lib/mongoose"
-import Post from "@/lib/models/post.model";
+import Post from "@/lib/models/thread.model";
 import { FilterQuery, SortOrder } from "mongoose";
 interface UpdateUserProps {
   userId: string;
