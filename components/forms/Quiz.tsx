@@ -68,13 +68,14 @@ const Quiz = () => {
 
 
   return (
-    <div className='flex-1 flex flex-col items-center justify-center w-2/3 gap-4 bg-slate-100 p-4 h-full'>
-      <div className='w-full lg:h-15 rounded-md '>
-      {(index>0 &&
-        <Button disabled={index == 30} type="submit" className='bg-white text-black hover:bg-gray-300' onClick={(e)=>{
-        setIndex((prev)=>prev-1)
+    <div className='flex-1 flex flex-col items-center justify-start quiz gap-4 bg-slate-100 px-4' style={{
+      // media query
+      
+    }}>
+      <div className='w-full lg:h-15 rounded-md pt-[130px]'>
+        <Button disabled={index == 30 || index == 0} type="submit" className='bg-white text-black hover:bg-gray-300' onClick={(e)=>{
+          setIndex((prev)=>prev-1)
         }}>←</Button>
-      )}
         <h1 className='text-2xl text-center'>Q.{Math.min(index+1, questionMCQarray.length)} of {questionMCQarray.length}</h1>
       </div>
       <div className=' w-full lg:h-20'>
