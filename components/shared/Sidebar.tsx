@@ -84,7 +84,7 @@ export const routes:{
   {
     label: 'Ayur-Unity',
     icon: Users,
-    href: '/code',
+    href: '/community',
     color: "text-blue-500",
   },
   {
