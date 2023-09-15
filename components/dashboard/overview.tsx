@@ -5,6 +5,7 @@ import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip  } from "rech
 import { useAuth } from "@clerk/nextjs";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { fetchUserQuiz } from "@/lib/actions/user-quiz.actions";
+import toast from "react-hot-toast";
 
 type Tdata = {
     name: string,
@@ -79,8 +80,10 @@ export function Overview() {
   };
 
   useEffect(() => {
+    
     fetchData().then((data: Tdata[]) => setData(data));
   }, []);
+
 
   return (
     <ResponsiveContainer width="100%" height={350}>

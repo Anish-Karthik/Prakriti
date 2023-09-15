@@ -8,9 +8,16 @@ import { questionMCQarray, TquestionMCQ } from '@/lib/questions'
 import { ChatCompletionRequestMessage } from 'openai-edge'
 import axios from 'axios'
 
-// export type TAnswer = array of string size of questionMCQ.length
-
-  
+export type TAnswer = {
+  answer: string,
+  option: 0 | 1 | 2 | -1,
+  type: 'vatta' | 'pitta' | 'kapha' | 'initial'
+  qno: number
+}
+export type TOptionalInput = {
+  question: TquestionMCQ,
+  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, answerFromUser?: TAnswer) => void
+}
 
 const Quiz = () => {    
   const [index, setIndex] = useState(0)
@@ -33,13 +40,10 @@ const Quiz = () => {
     }
     setAnswers((prev)=> tmp)
     setIndex((prev) => prev + 1)
-    if(index==29)
-    {
-      console.log("I AM AT 30");
-    }
   }
   async function  submitAnswers()
   {
+    router.refresh()
     router.push('/dashboard')
     toast.success(`Quiz Completed`)
     console.log(answerMCQarray)
@@ -67,11 +71,11 @@ const Quiz = () => {
     <div className='flex-1 flex flex-col items-center justify-center w-2/3 gap-4 bg-slate-100 p-4 h-full'>
       <div className='w-full lg:h-15 rounded-md '>
       {(index>0 &&
-        <Button type="submit" className='bg-white text-black hover:bg-gray-300' onClick={(e)=>{
+        <Button disabled={index == 30} type="submit" className='bg-white text-black hover:bg-gray-300' onClick={(e)=>{
         setIndex((prev)=>prev-1)
         }}>←</Button>
       )}
-        <h1 className='text-2xl text-center'>Q.{index+1} of {questionMCQarray.length}</h1>
+        <h1 className='text-2xl text-center'>Q.{Math.min(index+1, questionMCQarray.length)} of {questionMCQarray.length}</h1>
       </div>
       <div className=' w-full lg:h-20'>
         <h1 className='text-2xl'>{question.question}</h1>
@@ -79,7 +83,7 @@ const Quiz = () => {
     
     
       {question.options.map((option, i) => (
-        <Button key={i} variant='outline' className='w-full' name={`${i}`} value={option} onClick={(e) => onClick(e)}>
+        <Button disabled={index == 30} key={i} variant='outline' className='w-full' name={`${i}`} value={option} onClick={(e) => onClick(e)}>
           {option}
         </Button>
       ))}
@@ -94,7 +98,6 @@ function OptionalInput({question, onClick}: TOptionalInput) {
 
   async function callAPI() {
 
-    //TODO: call API here
     const userMessage: ChatCompletionRequestMessage = {
       role: 'user',
       content: value,
@@ -133,16 +136,7 @@ function OptionalInput({question, onClick}: TOptionalInput) {
 
 export default Quiz
 
-export type TAnswer = {
-  answer: string,
-  option: 0 | 1 | 2 | -1,
-  type: 'vatta' | 'pitta' | 'kapha' | 'initial'
-  qno: number
-}
-export type TOptionalInput = {
-  question: TquestionMCQ,
-  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, answerFromUser?: TAnswer) => void
-}
+
 export const mapNumberToType = (number: string) => {
   if (number == '0') return 'vatta'
   if (number == '1') return 'pitta'
