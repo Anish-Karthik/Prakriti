@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const PostSchema = new mongoose.Schema({
+const ThreadSchema = new mongoose.Schema({
   text: { type: String, required: true },
   author: {
     type: mongoose.Schema.Types.ObjectId,
@@ -18,19 +18,19 @@ const PostSchema = new mongoose.Schema({
   children: [
     { 
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Post" 
+      ref: "Thread" 
     }
   ],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
 
-const Post = mongoose.models.Post || mongoose.model("Post", PostSchema);
+const Thread = mongoose.models.Thread || mongoose.model("Thread", ThreadSchema);
 
-export default Post;
+export default Thread;
 
 /*
-Post Original
+Thread Original
   -> Comment 1
     -> Comment 1.1
       -> Comment 1.1.1

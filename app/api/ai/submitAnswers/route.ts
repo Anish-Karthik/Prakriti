@@ -2,6 +2,10 @@
 import { NextResponse } from 'next/server';
 import { auth } from "@clerk/nextjs"
 import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from 'openai-edge';
+import { updateUserQuiz } from '@/lib/actions/user-quiz.actions';
+import { fetchUser } from '@/lib/actions/user.actions';
+import { TquestionMCQ } from '@/lib/questions';
+import { TAnswer } from '@/components/forms/Quiz';
 
 const runtime = 'edge';
 const configuration = new Configuration({
@@ -29,6 +33,15 @@ export async function POST(req: Request) {
       return new NextResponse("Missing messages", { status: 400 });
     }
     let vatta=0,pitta=0,kapha=0;
+
+    const user = await fetchUser(userId);
+
+    if(!user) {
+      return new NextResponse("User not found", { status: 404 });
+    }
+    const ans = answers.map((answer: TAnswer) => answer.option);
+    
+    updateUserQuiz(user._id, ans)
     
     for(const answer of answers)
     {

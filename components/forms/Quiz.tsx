@@ -8,43 +8,42 @@ import { questionMCQarray, TquestionMCQ } from '@/lib/questions'
 import { ChatCompletionRequestMessage } from 'openai-edge'
 import axios from 'axios'
 
-// export type TAnswer = array of string size of questionMCQ.length
 export type TAnswer = {
   answer: string,
+  option: 0 | 1 | 2 | -1,
   type: 'vatta' | 'pitta' | 'kapha' | 'initial'
   qno: number
 }
-const mapNumberToType = (number: string) => {
-  if (number == '0') return 'vatta'
-  if (number == '1') return 'pitta'
-  if (number == '2') return 'kapha'
-  return 'initial'
+export type TOptionalInput = {
+  question: TquestionMCQ,
+  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, answerFromUser?: TAnswer) => void
 }
-  
 
 const Quiz = () => {    
   const [index, setIndex] = useState(0)
   const [question, setQuestion] = useState(questionMCQarray[index])
-  const [answerMCQarray, setAnswers] = useState<TAnswer[]>(new Array(questionMCQarray.length).fill({answer: '', type: 'initial', qno: -1}))
+  const [answerMCQarray, setAnswers] = useState<TAnswer[]>(new Array(questionMCQarray.length).fill({answer: '', type: 'initial', qno: -1, option: -1}))
   const router = useRouter()
 
   function onClick(e?: React.MouseEvent<HTMLButtonElement, MouseEvent>, answerFromUser?: TAnswer) {
     const tmp = [...answerMCQarray]
     // type if 0 then vatta, 1 then pitta, 2 then kapha
     if (e) {
-      tmp[index] = {answer: e.currentTarget.value, type: mapNumberToType(e.currentTarget.name), qno: index}
+      tmp[index] = {
+        answer: e.currentTarget.value, 
+        type: mapNumberToType(e.currentTarget.name), 
+        option: mapNumberToOptions(e.currentTarget.name),
+        qno: index
+      }
     } else if(answerFromUser) {
       tmp[index] = answerFromUser
     }
     setAnswers((prev)=> tmp)
-      setIndex((prev) => prev + 1)
-    if(index==29)
-    {
-      console.log("I AM AT 30");
-    }
+    setIndex((prev) => prev + 1)
   }
   async function  submitAnswers()
   {
+    router.refresh()
     router.push('/dashboard')
     toast.success(`Quiz Completed`)
     console.log(answerMCQarray)
@@ -72,11 +71,11 @@ const Quiz = () => {
     <div className='flex-1 flex flex-col items-center justify-center w-2/3 gap-4 bg-slate-100 p-4 h-full'>
       <div className='w-full lg:h-15 rounded-md '>
       {(index>0 &&
-        <Button type="submit" className='bg-white text-black hover:bg-gray-300' onClick={(e)=>{
+        <Button disabled={index == 30} type="submit" className='bg-white text-black hover:bg-gray-300' onClick={(e)=>{
         setIndex((prev)=>prev-1)
         }}>←</Button>
       )}
-        <h1 className='text-2xl text-center'>Q.{index+1} of {questionMCQarray.length}</h1>
+        <h1 className='text-2xl text-center'>Q.{Math.min(index+1, questionMCQarray.length)} of {questionMCQarray.length}</h1>
       </div>
       <div className=' w-full lg:h-20'>
         <h1 className='text-2xl'>{question.question}</h1>
@@ -84,7 +83,7 @@ const Quiz = () => {
     
     
       {question.options.map((option, i) => (
-        <Button key={i} variant='outline' className='w-full' name={`${i}`} value={option} onClick={(e) => onClick(e)}>
+        <Button disabled={index == 30} key={i} variant='outline' className='w-full' name={`${i}`} value={option} onClick={(e) => onClick(e)}>
           {option}
         </Button>
       ))}
@@ -92,17 +91,13 @@ const Quiz = () => {
     </div>
   )
 }
-export type TOptionalInput = {
-  question: TquestionMCQ,
-  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, answerFromUser?: TAnswer) => void
-}
+
 
 function OptionalInput({question, onClick}: TOptionalInput) {
   const [value, setValue] = useState('')
 
   async function callAPI() {
 
-    //TODO: call API here
     const userMessage: ChatCompletionRequestMessage = {
       role: 'user',
       content: value,
@@ -140,5 +135,19 @@ function OptionalInput({question, onClick}: TOptionalInput) {
 
 
 export default Quiz
+
+
+export const mapNumberToType = (number: string) => {
+  if (number == '0') return 'vatta'
+  if (number == '1') return 'pitta'
+  if (number == '2') return 'kapha'
+  return 'initial'
+}
+export const mapNumberToOptions = (number: string) => {
+  if (number == '0') return 0
+  if (number == '1') return 1
+  if (number == '2') return 2
+  return -1
+}
 
 
