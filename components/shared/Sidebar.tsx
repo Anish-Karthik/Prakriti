@@ -1,9 +1,8 @@
-"use client"
+
 
 import { Montserrat } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
 
 import { cn } from '@/lib/utils'
 import { NEXT_PUBLIC_APP_NAME } from '@/public/constants'
