@@ -68,7 +68,7 @@ const Quiz = () => {
 
 
   return (
-    <div className='flex-1 flex flex-col items-center justify-start quiz gap-4 bg-slate-100 px-4' style={{
+    <div className='flex-1 flex flex-col items-center justify-start w-full xl:w-2/3 gap-4 bg-slate-100 px-4' style={{
       // media query
       
     }}>

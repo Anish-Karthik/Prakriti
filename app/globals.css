@@ -89,14 +89,3 @@
   }
 }
 
-@media (max-width: 1024px) {
-  .quiz {
-    width: 100%;
-    @apply mb-[-40px] !important;
-  }
-}
-@media (min-width: 1025px) {
-  .quiz {
-    @apply w-2/3;
-  }
-}
