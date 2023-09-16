@@ -7,7 +7,7 @@ export default function Home() {
  
   return (
     <main className="flex min-h-screen flex-col items-center justify-between">
-      <div className="bg-slate-800 p-3 w-2/3 rounded-md text-white">
+      <div className="bg-slate-800 p-3 w-full xl:w-2/3 rounded-md text-white">
         <div className='flex flex-row py-2 justify-center w-full border-b-2 border-white-500'>
        
           <BotAvatar 

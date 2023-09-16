@@ -9,6 +9,8 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { NEXT_PUBLIC_APP_NAME } from '@/public/constants'
 
+import { InfoIcon } from 'lucide-react'
+
 const font = Montserrat({
   weight: "600",
   subsets: ["latin"]
@@ -34,11 +36,15 @@ const LandingNavbar = () => {
         </div>
       </Link>
 
-      <div className='flex items-center'>
+      <div className='flex items-center gap-3'>
         <Link href={isSignedIn? "/dashboard" : "/sign-up"}>
           <Button  variant='outline' className='rounded-full'>
             Get Started
           </Button>
+        </Link>
+
+        <Link href="/about">
+          <InfoIcon color={"white"} width={"35"} height={"35"}/>
         </Link>
       </div>
 
