@@ -1,10 +1,9 @@
 "use client"
-
 import { Montserrat } from 'next/font/google'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
 
+import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { NEXT_PUBLIC_APP_NAME } from '@/public/constants'
 import { FileIcon, LayoutDashboardIcon, MessageSquareIcon, FileQuestion, Users, HeartPulse, HelpCircle, SettingsIcon,Apple,SunSnow } from "lucide-react"
@@ -14,12 +13,13 @@ const montserrat = Montserrat({
   subsets: ["latin"]
 });
 
-
+// get current path
 const Sidebar = () => {
+  const pathname = usePathname();
   return (
-    <div className='space-y-4 py-2 flex flex-col h-full bg-[#111827] text-white'>
+    <div className='space-y-4 py-2 flex flex-col h-full bg-[#111827] text-white '>
       <div className='px-3 py-2 flex-1'>
-        <Link href='/dashboard' className="flex items-center pl-2 ">
+        <Link href='/' className="flex items-center pl-2 ">
           <div className='relative w-8 h-8 mr-4'>
             <Image 
               fill
@@ -32,7 +32,7 @@ const Sidebar = () => {
           </h1>
         </Link>
 
-        <div className='space-y-1'>
+        <div className='space-y-1.5 pt-3 lg:pt-4'>
           {routes.map((route) =>(
             
             <Link
@@ -41,6 +41,7 @@ const Sidebar = () => {
               className={cn(
                 'text-sm group flex p-3 w-full justify-start cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition ',
                 montserrat.className,
+                pathname === route.href? 'bg-white/50 !important text-black/90' : '',
               )}
             >
               <div className='flex items-center flex-1'>
@@ -82,34 +83,34 @@ export const routes:{
     color: "text-emerald-500",
   },
   {
-    label: 'Ayur-Unity',
-    icon: Users,
-    href: '/code',
-    color: "text-blue-500",
-  },
-  {
-    label: 'Expert Consultation',
-    icon: HeartPulse,
-    href: '/music',
-    color: "text-red-700",
-  },
-  
-  {
     label: 'Diet Plan',
     icon: Apple,
     href: '/diet-plan',
     color: "text-red-500",
   },
   {
+    label: 'Ayur-Unity',
+    icon: Users,
+    href: '/ayur-unity',
+    color: "text-blue-500",
+  },
+  {
+    label: 'Expert Consultation',
+    icon: HeartPulse,
+    href: '/expert-consultation',
+    color: "text-red-700",
+  },
+  
+  {
     label: 'Seasonal Care',
     icon:   SunSnow,
-    href: '/music',
+    href: '/seasonal-care',
     color: "text-yellow-500",
   },
   {
     label: 'FAQs',
     icon: HelpCircle,
-    href: '/code',
+    href: '/faq',
     color: "text-green-500",
   },
   {
