@@ -12,7 +12,7 @@ import React from 'react'
 const communityTabs = [
   { value: "threads", label: "Threads", icon: "/assets/reply.svg" },
   { value: "members", label: "Members", icon: "/assets/members.svg" },
-  { value: "requests", label: "Requests", icon: "/assets/request.svg" },
+  // { value: "requests", label: "Requests", icon: "/assets/request.svg" },
 ];
 
 const CommunityPage = async ({ params }: { params: {id: string } }) => {
@@ -25,15 +25,13 @@ const CommunityPage = async ({ params }: { params: {id: string } }) => {
   const communityDetails = await fetchCommunityDetails(params.id);
 
   return (
-    <section>
+    <section className='bg-dark-1 p-5 pr-9'>
       <ProfileHeader 
-        accountId={communityDetails.createdBy.id}
         authUserId={user.id}
         name={communityDetails.name}
         username={communityDetails.username}
         imgUrl={communityDetails.image}
         bio={communityDetails.bio}
-        type='Community'
       />
 
       <div className='mt-9'>
@@ -79,13 +77,13 @@ const CommunityPage = async ({ params }: { params: {id: string } }) => {
             </section>
 
           </TabsContent>          
-          <TabsContent value={"requests"} className='w-full text-light-1'>
+          {/* <TabsContent value={"requests"} className='w-full text-light-1'>
             <ThreadsTab
               currentUserId={user.id}
               accountId={communityDetails._id}
               accountType="User"
             />
-          </TabsContent>        
+          </TabsContent>         */}
         </Tabs>
       </div>
 

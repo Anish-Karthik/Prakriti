@@ -1,5 +1,6 @@
 import { fetchCommunityDetails } from '@/lib/actions/community.actions';
 import { cn, formatDateString } from '@/lib/utils';
+import mongoose from 'mongoose';
 import Image from 'next/image';
 import Link from 'next/link';
 import { format } from 'path';
@@ -16,7 +17,13 @@ interface ThreadCardProps {
     image: string;
     name: string;
   }
-  community: string | null;
+  community: {
+    name: string;
+    image: string;
+    id: string;
+    _id: mongoose.Types.ObjectId;
+    bio: string;
+  } | null,
   createdAt: string
   comments: {
     author: {
@@ -41,10 +48,8 @@ const ThreadCard = async ({
 }: 
   ThreadCardProps
 ) => {
-  console.log('Community', community)
-  const communityDetails = await fetchCommunityDetails(community ?? "");
   return (
-    <article className={cn('flex flex-col w-full rounded-xl', isComment? 'px-0 xs:px-7 py-3': 'bg-dark-2 p-7')}>
+    <article className={cn('flex flex-col w-full rounded-xl', isComment? 'px-0 xs:px-7 py-3': 'bg-dark-4 p-7')}>
       <div className='flex items-start justify-between'>
 
         <div className='flex w-full flex-1 flex-row gap-4'>
@@ -92,11 +97,11 @@ const ThreadCard = async ({
         
       </div>
       {!isComment && community && (
-        <Link href={`/communities/${communityDetails.id}`} className='mt-5 flex items-center'>
-          <p className='text-subtle-medium text-gray-1'>{formatDateString(createdAt)} - {communityDetails.name} Community</p>
+        <Link href={`/ayur-unity/${community.name}`} className='mt-5 flex items-center'>
+          <p className='text-subtle-medium text-gray-1'>{formatDateString(createdAt)} - {community.name} Community</p>
           <Image 
-            src={communityDetails.image}
-            alt={communityDetails.name}
+            src={community.image}
+            alt={community.name}
             className='ml-1 rounded-full cursor-pointer object-cover'
             width={14}
             height={14}
