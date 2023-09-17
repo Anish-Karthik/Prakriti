@@ -1,3 +1,4 @@
+import "@/lib/css/styles.css"
 import UserCard from '@/components/cards/UserCard';
 import ProfileHeader from '@/components/shared/ProfileHeader';
 import ThreadsTab from '@/components/shared/ThreadsTab';

@@ -26,7 +26,12 @@ const nextConfig = {
         // images.unsplash.com
         protocol: "https",
         hostname: "images.unsplash.com",
-      }
+      },
+      // allow all domains 
+      {
+        protocol: "https",
+        hostname: "*",
+      },
     ],
     typescript: {
       ignoreBuildErrors: true,
