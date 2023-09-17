@@ -1,95 +1,98 @@
 import "@/lib/css/styles.css"
-import UserCard from '@/components/cards/UserCard';
-import ProfileHeader from '@/components/shared/ProfileHeader';
-import ThreadsTab from '@/components/shared/ThreadsTab';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { fetchCommunityDetails } from '@/lib/actions/community.actions';
-import { fetchUser } from '@/lib/actions/user.actions';
-import { currentUser } from '@clerk/nextjs'
-import Image from 'next/image';
-import { redirect } from 'next/navigation';
-import React from 'react'
+import { currentUser } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
-const communityTabs = [
-  { value: "threads", label: "Threads", icon: "/assets/reply.svg" },
-  { value: "members", label: "Members", icon: "/assets/members.svg" },
-  // { value: "requests", label: "Requests", icon: "/assets/request.svg" },
-];
+import ThreadCard from "@/components/cards/ThreadCard";
+import Pagination from "@/components/shared/Pagination";
 
-const CommunityPage = async ({ params }: { params: {id: string } }) => {
-  const user = await currentUser()
-  if(!user)  return null;
+import { createThread, fetchPosts } from "@/lib/actions/thread.actions";
+import { fetchUser } from "@/lib/actions/user.actions";
+import { fetchCommunityDetails } from "@/lib/actions/community.actions";
+
+
+async function Home({
+  searchParams,
+  params,
+}: {
+  searchParams: { [key: string]: string | undefined };
+  params: { id: string };
+}) {
+  const user = await currentUser();
+  if (!user) return null;
+
   const userInfo = await fetchUser(user.id);
-  if(!userInfo?.onboarded) redirect('/onboarding');
+  if (!userInfo?.onboarded) redirect("/onboarding");
 
+  const community = await fetchCommunityDetails(params.id);
 
-  const communityDetails = await fetchCommunityDetails(params.id);
+  // const sampleThreads = [
+  //   {
+  //     text: "I am a sample post",
+  //     author: userInfo._id,
+  //     communityId: community._id,
+  //   },
+  //   {
+  //     text: `I am a sample post 2 at ${community.name}`,
+  //     author: userInfo._id,
+  //     communityId: community._id,
+  //   },
+  //   {
+  //     text: `I am a sample post 3 at ${community.name}`,
+  //     author: userInfo._id,
+  //     communityId: community._id,
+  //   },
+  //   {
+  //     text: `I am a sample post 2 at ${community.name}`,
+  //     author: userInfo._id,
+  //     communityId: community._id,
+  //   },
+  // ];
+
+  // sampleThreads.map(async (thread) => await createThread({ ...thread }));
+
+  // TODO: Add create Thread functionality
+
+  const result = await fetchPosts(
+    searchParams.page ? +searchParams.page : 1,
+    30
+  );
 
   return (
-    <section className='bg-dark-1 p-5 pr-9'>
-      <ProfileHeader 
-        authUserId={user.id}
-        name={communityDetails.name}
-        username={communityDetails.username}
-        imgUrl={communityDetails.image}
-        bio={communityDetails.bio}
+    <div className="p-5 bg-dark-1 pr-9">
+      <h1 className='head-text text-left'>Home</h1>
+
+      <section className='mt-9 flex flex-col gap-10'>
+        {result.posts.length === 0 ? (
+          <p className='no-result'>No threads found</p>
+        ) : (
+          <>
+            {result.posts.map((post) => {
+
+              if (post.community && post.community.name === params.id){
+                return (<ThreadCard
+                  key={post._id}
+                  id={post._id}
+                  currentUserId={user.id}
+                  parentId={post.parentId}
+                  content={post.text}
+                  author={post.author}
+                  community={post.community}
+                  createdAt={post.createdAt}
+                  comments={post.children}
+                />)
+              }
+            })}
+          </>
+        )}
+      </section>
+
+      <Pagination
+        path='/'
+        pageNumber={searchParams?.page ? +searchParams.page : 1}
+        isNext={result.isNext}
       />
-
-      <div className='mt-9'>
-        <Tabs defaultValue='threads' className='w-full'>
-          <TabsList className='tab'>
-            {communityTabs.map((tab: any) => (
-              <TabsTrigger key={tab.label} value={tab.value} className='tab'>
-                <Image
-                  src={tab.icon}
-                  alt={tab.label}
-                  width={24}
-                  height={24}
-                  className='object-contain'
-                />
-                <p className='max-sm:hidden'>{tab.label}</p>
-
-                {tab.label === 'Threads' && (
-                  <p className='ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2'>{communityDetails?.threads?.length}</p>
-                )}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          <TabsContent value={"threads"} className='w-full text-light-1'>
-            <ThreadsTab
-              currentUserId={user.id}
-              accountId={communityDetails._id}
-              accountType="Community"
-            />
-          </TabsContent>
-          <TabsContent value={"members"} className='w-full text-light-1'>
-            <section className='mt-9 flex flex-col gap-10'>
-              {communityDetails.members.map((member: any) => (
-                <UserCard
-                  key={member.id}
-                  id={member.id}
-                  name={member.name}
-                  username={member.username}
-                  imgUrl={member.image}
-                  personType='User'
-                />
-              ))}
-            </section>
-
-          </TabsContent>          
-          {/* <TabsContent value={"requests"} className='w-full text-light-1'>
-            <ThreadsTab
-              currentUserId={user.id}
-              accountId={communityDetails._id}
-              accountType="User"
-            />
-          </TabsContent>         */}
-        </Tabs>
-      </div>
-
-    </section>
-  )
+    </div>
+  );
 }
 
-export default CommunityPage
+export default Home;

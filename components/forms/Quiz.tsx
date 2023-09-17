@@ -7,11 +7,12 @@ import { Input } from '../ui/input'
 import { questionMCQarray, TquestionMCQ } from '@/lib/questions'
 import { ChatCompletionRequestMessage } from 'openai-edge'
 import axios from 'axios'
+import { useAuth } from '@clerk/nextjs'
 
 export type TAnswer = {
   answer: string,
   option: 0 | 1 | 2 | -1,
-  type: 'vatta' | 'pitta' | 'kapha' | 'initial'
+  type: 'vata' | 'pitta' | 'kapha' | 'initial'
   qno: number
 }
 export type TOptionalInput = {
@@ -23,11 +24,13 @@ const Quiz = () => {
   const [index, setIndex] = useState(0)
   const [question, setQuestion] = useState(questionMCQarray[index])
   const [answerMCQarray, setAnswers] = useState<TAnswer[]>(new Array(questionMCQarray.length).fill({answer: '', type: 'initial', qno: -1, option: -1}))
-  const router = useRouter()
+  const router = useRouter();
+  const { userId } = useAuth();
+  
 
   function onClick(e?: React.MouseEvent<HTMLButtonElement, MouseEvent>, answerFromUser?: TAnswer) {
     const tmp = [...answerMCQarray]
-    // type if 0 then vatta, 1 then pitta, 2 then kapha
+    // type if 0 then vata, 1 then pitta, 2 then kapha
     if (e) {
       tmp[index] = {
         answer: e.currentTarget.value, 
@@ -50,10 +53,14 @@ const Quiz = () => {
     const response = await axios.post('/api/ai/submitAnswers', {
       answers: answerMCQarray,
     })
-    window.localStorage.setItem('vatta',JSON.stringify(response.data.vatta))
-    window.localStorage.setItem('pitta',JSON.stringify(response.data.pitta))
-    window.localStorage.setItem('kapha',JSON.stringify(response.data.kapha))
-    console.log(response.data.vatta)
+    window.sessionStorage.setItem('vata',JSON.stringify(response.data.vata))
+    window.sessionStorage.setItem('pitta',JSON.stringify(response.data.pitta))
+    window.sessionStorage.setItem('kapha',JSON.stringify(response.data.kapha))
+    window.sessionStorage.setItem('prakriti',JSON.stringify(response.data.prakriti))
+    console.log(response.data.prakriti)
+    toast.success(`Prakriti Calculated ${response.data.prakriti}`);
+    router.refresh();
+    router.refresh();
   }
 
   useEffect(() => {
@@ -65,7 +72,7 @@ const Quiz = () => {
       setQuestion(questionMCQarray[index])
     }
   }, [index])
-
+  if(!userId) return null;
 
   return (
     <div className='flex-1 flex flex-col items-center justify-start w-full xl:w-2/3 gap-4 bg-slate-100 px-4' style={{
@@ -139,7 +146,7 @@ export default Quiz
 
 
 export const mapNumberToType = (number: string) => {
-  if (number == '0') return 'vatta'
+  if (number == '0') return 'vata'
   if (number == '1') return 'pitta'
   if (number == '2') return 'kapha'
   return 'initial'
