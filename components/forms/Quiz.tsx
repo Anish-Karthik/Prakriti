@@ -46,10 +46,9 @@ const Quiz = () => {
   }
   async function  submitAnswers()
   {
-    router.refresh()
-    router.push('/dashboard')
-    toast.success(`Quiz Completed`)
-    console.log(answerMCQarray)
+    // toast.success(`Quiz Completed`)
+    // console.log(answerMCQarray)
+    toast.loading(`Calculating Prakriti`);
     const response = await axios.post('/api/ai/submitAnswers', {
       answers: answerMCQarray,
     })
@@ -57,10 +56,10 @@ const Quiz = () => {
     window.sessionStorage.setItem('pitta',JSON.stringify(response.data.pitta))
     window.sessionStorage.setItem('kapha',JSON.stringify(response.data.kapha))
     window.sessionStorage.setItem('prakriti',JSON.stringify(response.data.prakriti))
-    console.log(response.data.prakriti)
+    // console.log(response.data.prakriti)
+    toast.remove();
     toast.success(`Prakriti Calculated ${response.data.prakriti}`);
-    router.refresh();
-    router.refresh();
+    router.push('/dashboard')
   }
 
   useEffect(() => {

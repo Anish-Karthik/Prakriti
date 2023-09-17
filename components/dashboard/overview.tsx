@@ -6,6 +6,7 @@ import { useAuth } from "@clerk/nextjs";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { fetchUserQuiz } from "@/lib/actions/user-quiz.actions";
 import toast from "react-hot-toast";
+import { set } from "mongoose";
 
 type Tdata = {
     name: string,
@@ -14,7 +15,10 @@ type Tdata = {
 
 export function Overview() {
   const [ data, setData ] = useState<Tdata[]>([]);
+  const [ loading, setLoading ] = useState<boolean>(true);
+  const [ userPrakriti, setUserPrakriti ] = useState<string>('');
   const { userId } = useAuth();
+
 
   const fetchData = async () => {
     if(!userId) return [];
@@ -85,33 +89,45 @@ export function Overview() {
   };
 
   useEffect(() => {
-    
-    fetchData().then((data: Tdata[]) => setData(data));
+    setLoading(true);
+    fetchData().then((data: Tdata[]) => {
+      setData(data);
+      setLoading(false);
+    });
   }, []);
+  useEffect(() => {
+    setUserPrakriti(window.sessionStorage.getItem('prakriti') || '');
+  }, [data]);
 
 
   return (
     <ResponsiveContainer width="100%" height={350}>
-      <BarChart data={data} margin={{ left: 30, right: 10, top: 10, bottom: 20 }}>
-        <XAxis
-          dataKey="name"
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-        />
-        <YAxis
-          tickFormatter={(value) => `${value}%`}
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-          domain={[0, 100]} 
-        />
-        <Tooltip />
-       
-        <Bar dataKey="percentage" fill="#adfa1d" radius={[4, 4, 0, 0]} stackId="a" />
-      </BarChart>
+      {loading ?
+        <div className="flex justify-center items-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+        </div>
+      :
+        <BarChart data={data} margin={{ left: 30, right: 10, top: 10, bottom: 20 }}>
+          <XAxis
+            dataKey="name"
+            stroke="#888888"
+            fontSize={12}
+            tickLine={false}
+            axisLine={false}
+          />
+          <YAxis
+            tickFormatter={(value) => `${value}%`}
+            stroke="#888888"
+            fontSize={12}
+            tickLine={false}
+            axisLine={false}
+            domain={[0, 100]} 
+          />
+          <Tooltip />
+          
+          <Bar dataKey="percentage" fill="#adfa1d" radius={[4, 4, 0, 0]} stackId="a" />
+        </BarChart>
+      }
     </ResponsiveContainer>
   )
 }
