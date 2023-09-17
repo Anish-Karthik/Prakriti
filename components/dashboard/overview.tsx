@@ -22,7 +22,7 @@ export function Overview() {
     if(!userId) return [];
     let vata=0,pitta=0,kapha=0, prakriti='';
     // Fetch user info and quiz data if data is not present in session storage
-    if(!window.sessionStorage.getItem('vata') || !window.sessionStorage.getItem('pitta') || !window.sessionStorage.getItem('kapha') || !window.sessionStorage.getItem('prakriti')) {
+    if(!window.localStorage.getItem('vata') || !window.localStorage.getItem('pitta') || !window.localStorage.getItem('kapha') || !window.localStorage.getItem('prakriti')) {
       const userInfo = await fetchUser(userId);
       const userQuizData = await fetchUserQuiz(userInfo?._id);
       userQuizData?.answers?.forEach((answer: number) => {
@@ -31,16 +31,16 @@ export function Overview() {
         else if (answer == 2) kapha++;
       });
       prakriti = userInfo.prakriti;
-      window.sessionStorage.setItem('vata',JSON.stringify(vata));
-      window.sessionStorage.setItem('pitta',JSON.stringify(pitta));
-      window.sessionStorage.setItem('kapha',JSON.stringify(kapha));
-      window.sessionStorage.setItem('prakriti',JSON.stringify(userInfo.prakriti));
+      window.localStorage.setItem('vata',JSON.stringify(vata));
+      window.localStorage.setItem('pitta',JSON.stringify(pitta));
+      window.localStorage.setItem('kapha',JSON.stringify(kapha));
+      window.localStorage.setItem('prakriti',JSON.stringify(userInfo.prakriti));
     }
     else {
-      vata = Number(window.sessionStorage.getItem('vata') || 0);
-      pitta = Number(window.sessionStorage.getItem('pitta') || 0);
-      kapha = Number(window.sessionStorage.getItem('kapha') || 0);
-      prakriti = JSON.parse(window.sessionStorage.getItem('prakriti') || '');
+      vata = Number(window.localStorage.getItem('vata') || 0);
+      pitta = Number(window.localStorage.getItem('pitta') || 0);
+      kapha = Number(window.localStorage.getItem('kapha') || 0);
+      prakriti = JSON.parse(window.localStorage.getItem('prakriti') || '');
     }
     setUserPrakriti(prakriti);
     const totalCount = questionMCQarray.length;
