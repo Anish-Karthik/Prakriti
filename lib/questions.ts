@@ -1,5 +1,5 @@
 export type Toption = {
-  vatta: string;
+  vata: string;
   pitta: string;
   kapha: string;
 }
@@ -13,7 +13,7 @@ export const questionMCQarray : TquestionMCQ[] = [
     question: "How would you describe your body frame?",
     options: ["Thin, light, and bony", "Medium build and muscular", "Heavyset and sturdy"]
     // options: {
-    //   vatta: "Thin, light, and bony",
+    //   vata: "Thin, light, and bony",
     //   pitta: "Medium build and muscular",
     //   kapha: "Heavyset and sturdy",
     // },
@@ -22,7 +22,7 @@ export const questionMCQarray : TquestionMCQ[] = [
     question: "What is your typical body temperature?",
     options: ["Cold", "Normal", "Warm"],
     // {
-    //   vatta: "Cold",
+    //   vata: "Cold",
     //   pitta: "Normal",
     //   kapha: "Warm",
     // },

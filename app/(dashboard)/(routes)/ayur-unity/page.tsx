@@ -1,93 +1,36 @@
-import "@/lib/css/styles.css"
-import { currentUser } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
+"use client"
 
-import ThreadCard from "@/components/cards/ThreadCard";
-import Pagination from "@/components/shared/Pagination";
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation';
 
-import { createThread, fetchPosts } from "@/lib/actions/thread.actions";
-import { fetchUser } from "@/lib/actions/user.actions";
-import { fetchCommunityDetails } from "@/lib/actions/community.actions";
+const AyurUnityPage = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [userPrakriti, setUserPrakriti] = useState<string>('');
+  const router = useRouter();
 
-
-async function Home({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | undefined };
-}) {
-  const user = await currentUser();
-  if (!user) return null;
-
-  const userInfo = await fetchUser(user.id);
-  if (!userInfo?.onboarded) redirect("/onboarding");
-
-  const community = await fetchCommunityDetails("vatta");
-
-  // const sampleThreads = [
-  //   {
-  //     text: "I am a sample post",
-  //     author: userInfo._id,
-  //     communityId: community._id,
-  //   },
-  //   {
-  //     text: `I am a sample post 2 at ${community.name}`,
-  //     author: userInfo._id,
-  //     communityId: community._id,
-  //   },
-  //   {
-  //     text: `I am a sample post 3 at ${community.name}`,
-  //     author: userInfo._id,
-  //     communityId: community._id,
-  //   },
-  //   {
-  //     text: `I am a sample post 2 at ${community.name}`,
-  //     author: userInfo._id,
-  //     communityId: community._id,
-  //   },
-  // ];
-
-  // sampleThreads.map(async (thread) => await createThread({ ...thread }));
-
-  // TODO: Add create Thread functionality
-
-  const result = await fetchPosts(
-    searchParams.page ? +searchParams.page : 1,
-    30
-  );
+  useEffect(() => { 
+    setUserPrakriti(JSON.parse(window.sessionStorage.getItem('prakriti') || ''));
+    setLoading(false);
+  }, []);
+  useEffect(() => {
+    if (userPrakriti) {
+      router.push(`/ayur-unity/${userPrakriti}`);
+    }
+  }, [userPrakriti]);
 
   return (
-    <div className="p-5 bg-dark-1 pr-9">
-      <h1 className='head-text text-left'>Home</h1>
-
-      <section className='mt-9 flex flex-col gap-10'>
-        {result.posts.length === 0 ? (
-          <p className='no-result'>No threads found</p>
-        ) : (
-          <>
-            {result.posts.map((post) => (
-              <ThreadCard
-                key={post._id}
-                id={post._id}
-                currentUserId={user.id}
-                parentId={post.parentId}
-                content={post.text}
-                author={post.author}
-                community={post.community}
-                createdAt={post.createdAt}
-                comments={post.children}
-              />
-            ))}
-          </>
-        )}
-      </section>
-
-      <Pagination
-        path='/'
-        pageNumber={searchParams?.page ? +searchParams.page : 1}
-        isNext={result.isNext}
-      />
-    </div>
-  );
+    <>
+    {loading && (
+      <div className="flex items-center justify-center h-screen">
+        <div className="flex flex-col items-center justify-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+          <div className="text-2xl font-bold mt-4">Loading...</div>
+        </div>
+      </div>
+    )}
+    </>
+      
+  )
 }
 
-export default Home;
+export default AyurUnityPage
