@@ -91,7 +91,7 @@ export const routes:{
   {
     label: 'Ayur-Unity',
     icon: Users,
-    href: '/ayur-unity',
+    href: `/ayur-unity/${JSON.parse(window.sessionStorage.getItem('prakriti') || '')}`,
     color: "text-blue-500",
   },
   {

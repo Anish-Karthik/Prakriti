@@ -10,10 +10,21 @@ import {
 
 
 import { Overview_Tab } from "@/components/Overview_Tab/Overview_Tab"
+import { useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
+import { useEffect } from "react";
 
 
 
 export default function DashboardPage() {
+  const router = useRouter();
+  const { userId } = useAuth();
+  useEffect(() => {
+    if (!userId) {
+      router.push("/sign-in");
+    }
+  }, [userId]);
+
   return (
     <>
       <div className=" flex-col md:flex">
