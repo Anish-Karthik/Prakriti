@@ -145,11 +145,7 @@ export default Quiz
 
 
 export const mapNumberToType = (number: string) => {
-<<<<<<< HEAD
-  if (number == '0') return 'vatta'
-=======
   if (number == '0') return 'vata'
->>>>>>> api-call
   if (number == '1') return 'pitta'
   if (number == '2') return 'kapha'
   return 'initial'
