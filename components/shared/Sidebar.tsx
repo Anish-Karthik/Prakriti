@@ -92,7 +92,7 @@ export const routes:{
     label: 'Ayur-Unity',
     icon: Users,
     href: "/ayur-unity",
-    color: "text-blue-500",
+    color: "text-sky-500",
   },
   {
     label: 'Expert Consultation',
