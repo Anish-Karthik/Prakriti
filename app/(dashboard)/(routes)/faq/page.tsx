@@ -5,8 +5,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import React from "react";
 
-export function FAQ() {
+
+export const faq = () => {
   return (
     <div className="mt-4 pt-2 px-8 bg-gray-50 justify-center rounded-md ">
       <h2 className="font-bold text-center text-2xl">
@@ -38,4 +40,4 @@ export function FAQ() {
   )
 }
 
-export default FAQ;
+export default faq;
