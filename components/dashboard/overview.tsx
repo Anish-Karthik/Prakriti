@@ -5,8 +5,6 @@ import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, PieChart, Pi
 import { useAuth } from "@clerk/nextjs";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { fetchUserQuiz } from "@/lib/actions/user-quiz.actions";
-import toast from "react-hot-toast";
-import { set } from "mongoose";
 
 type Tdata = {
     name: string,
@@ -32,6 +30,7 @@ export function Overview() {
         else if (answer == 1) pitta++;
         else if (answer == 2) kapha++;
       });
+      prakriti = userInfo.prakriti;
       window.sessionStorage.setItem('vata',JSON.stringify(vata));
       window.sessionStorage.setItem('pitta',JSON.stringify(pitta));
       window.sessionStorage.setItem('kapha',JSON.stringify(kapha));
@@ -43,6 +42,7 @@ export function Overview() {
       kapha = Number(window.sessionStorage.getItem('kapha') || 0);
       prakriti = JSON.parse(window.sessionStorage.getItem('prakriti') || '');
     }
+    setUserPrakriti(prakriti);
     const totalCount = questionMCQarray.length;
     //vata=parseInt(JSON.parse(vata))
 
@@ -99,10 +99,6 @@ export function Overview() {
       setLoading(false);
     });
   }, []);
-  useEffect(() => {
-    setUserPrakriti(window.sessionStorage.getItem('prakriti') || '');
-  }, [data]);
-
 
   return (
     <ResponsiveContainer width="100%" height={350}>
