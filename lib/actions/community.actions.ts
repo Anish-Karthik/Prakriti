@@ -8,22 +8,33 @@ import User from "@/lib/models/user.model";
 
 import { connectToDB } from "../mongoose";
 
-export async function createCommunity(
+export type TCreateCommunity = {
   id: string,
   name: string,
   username: string,
   image: string,
   bio: string,
-  createdById: string // Change the parameter name to reflect it's an id
+  createdById: string,
+}
+
+export async function createCommunity(
+  { id, name, username, image, bio, createdById }: TCreateCommunity
+ // Change the parameter name to reflect it's an id
 ) {
   try {
     connectToDB();
 
     // Find the user with the provided unique id
-    const user = await User.findOne({ id: createdById });
+    const user = await User.findOne({ _id: createdById });
 
     if (!user) {
       throw new Error("User not found"); // Handle the case if the user with the id is not found
+    }
+
+    const existingCommunity = await Community.findOne({ name });
+
+    if (existingCommunity) {
+      await Community.findOneAndDelete({ name });
     }
 
     const newCommunity = new Community({
@@ -34,12 +45,11 @@ export async function createCommunity(
       bio,
       createdBy: user._id, // Use the mongoose ID of the user
     });
-
+    const userInfo = await User.findOne({ _id: createdById });
+    // userInfo.communities.push(newCommunity._id);
+    // await userInfo.save();
+    newCommunity.members.push(userInfo._id);
     const createdCommunity = await newCommunity.save();
-
-    // Update User model
-    user.communities.push(createdCommunity._id);
-    await user.save();
 
     return createdCommunity;
   } catch (error) {
@@ -49,15 +59,12 @@ export async function createCommunity(
   }
 }
 
-export async function fetchCommunityDetails(id: string | null) {
+export async function fetchCommunityDetails(username: string) {
   try {
     connectToDB();
-    if(!id) return null;
+    if(!username) return null;
 
-    const isObjectId = isValidObjectId(id);
-    const searchId = isObjectId ? { _id: id } : { id };
-
-    const communityDetails = await Community.findOne(searchId).populate([
+    const communityDetails = await Community.findOne({username}).populate([
         "createdBy",
         {
           path: "members",
