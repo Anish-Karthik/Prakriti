@@ -9,8 +9,7 @@ const AyurUnityPage = () => {
   const router = useRouter();
 
   useEffect(() => { 
-    setUserPrakriti(JSON.parse(window.sessionStorage.getItem('prakriti') || ''));
-    setLoading(false);
+    setUserPrakriti(JSON.parse(window.localStorage.getItem('prakriti') || ''));
   }, []);
   useEffect(() => {
     if (userPrakriti) {
@@ -22,9 +21,9 @@ const AyurUnityPage = () => {
     <>
     {loading && (
       <div className="flex items-center justify-center h-screen">
-        <div className="flex flex-col items-center justify-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
-          <div className="text-2xl font-bold mt-4">Loading...</div>
+        <div className="flex flex-col justify-center items-center text-light-1">
+          <div className="animate-spin rounded-full h-72 w-72 border-t-8 border-b-8 border-gray-100"></div>
+          <div className="text-4xl font-bold mt-4">Loading...</div>
         </div>
       </div>
     )}

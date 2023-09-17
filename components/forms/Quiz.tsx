@@ -52,10 +52,10 @@ const Quiz = () => {
     const response = await axios.post('/api/ai/submitAnswers', {
       answers: answerMCQarray,
     })
-    window.sessionStorage.setItem('vata',JSON.stringify(response.data.vata))
-    window.sessionStorage.setItem('pitta',JSON.stringify(response.data.pitta))
-    window.sessionStorage.setItem('kapha',JSON.stringify(response.data.kapha))
-    window.sessionStorage.setItem('prakriti',JSON.stringify(response.data.prakriti))
+    window.localStorage.setItem('vata',JSON.stringify(response.data.vata))
+    window.localStorage.setItem('pitta',JSON.stringify(response.data.pitta))
+    window.localStorage.setItem('kapha',JSON.stringify(response.data.kapha))
+    window.localStorage.setItem('prakriti',JSON.stringify(response.data.prakriti))
     // console.log(response.data.prakriti)
     toast.remove();
     toast.success(`Prakriti Calculated ${response.data.prakriti}`);
