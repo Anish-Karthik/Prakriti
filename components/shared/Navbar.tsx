@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <div className={cn('flex items-center pr-8 pt-2', 
       pathname.includes('ayur-unity')? "bg-dark-1": "", 
-      pathname.includes('quiz')? "bg-slate-100 xl:bg-white": "" 
+      pathname.includes('quiz')? " xl:bg-white": "" 
     )}>
       <MobileSidebar />
       <div className='flex w-full justify-end'>

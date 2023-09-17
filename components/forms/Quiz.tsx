@@ -74,11 +74,10 @@ const Quiz = () => {
   if(!userId) return null;
 
   return (
-    <div className='flex-1 flex flex-col items-center justify-start w-full xl:w-2/3 gap-4 bg-slate-100 px-4' style={{
+    <div className='rounded-md flex flex-col items-center justify-center xl:w-2/3 gap-4 bg-slate-100 px-4 py-2 lg:-mt-16 sm:-mt-8' style={{
       // media query
-      
     }}>
-      <div className='w-full lg:h-15 rounded-md pt-[130px]'>
+      <div className='w-full  rounded-md'>
         <Button disabled={index == 30 || index == 0} type="submit" className='bg-white text-black hover:bg-gray-300' onClick={(e)=>{
           setIndex((prev)=>prev-1)
         }}>←</Button>
