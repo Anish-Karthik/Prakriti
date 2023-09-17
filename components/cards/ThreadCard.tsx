@@ -97,7 +97,11 @@ const ThreadCard = async ({
         
       </div>
       {!isComment && community && (
+<<<<<<< HEAD
         <Link href={`/ayur-unity/${community.name}`} className='mt-5 flex items-center'>
+=======
+        <Link href={`/ayur-unity/${community.name}/details`} className='mt-5 flex items-center'>
+>>>>>>> api-call
           <p className='text-subtle-medium text-gray-1'>{formatDateString(createdAt)} - {community.name} Community</p>
           <Image 
             src={community.image}

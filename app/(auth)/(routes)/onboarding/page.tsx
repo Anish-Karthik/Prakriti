@@ -18,7 +18,7 @@ async function Page() {
 
   // check if user has onboarded
   const userInfo = await fetchUser(user.id);
-  if (userInfo?.onboarded) redirect("/dasboard");
+  if (userInfo?.onboarded) redirect("/dashboard");
 
   const userData = {
     id: user.id,

@@ -1,6 +1,6 @@
 "use server";
 
-import { FilterQuery, SortOrder, isValidObjectId } from "mongoose";
+import mongoose, { FilterQuery, SortOrder, isValidObjectId } from "mongoose";
 
 import Community from "@/lib/models/community.model";
 import Thread from "@/lib/models/thread.model";
@@ -16,6 +16,7 @@ export type TCreateCommunity = {
   bio: string,
   createdById: string,
 }
+export type TCommunityUsername = 'vata' | 'pitta' | 'kapha' | 'vata-pitta' | 'pitta-kapha' | 'kapha-vata' | 'vata-pitta-kapha';
 
 export async function createCommunity(
   { id, name, username, image, bio, createdById }: TCreateCommunity
@@ -167,26 +168,28 @@ export async function fetchCommunities({
     return { communities, isNext };
   } catch (error) {
     console.error("Error fetching communities:", error);
-    throw error;
   }
 }
 
-export async function addMemberToCommunity(
-  communityId: string,
-  memberId: string
-) {
+export async function addMemberToCommunity({
+  userId,
+  communityUsername,
+} : {
+  userId: mongoose.Types.ObjectId ;
+  communityUsername: TCommunityUsername;
+}) {
   try {
     connectToDB();
 
     // Find the community by its unique id
-    const community = await Community.findOne({ id: communityId });
+    const community = await Community.findOne({ username: communityUsername });
 
     if (!community) {
       throw new Error("Community not found");
     }
 
     // Find the user by their unique id
-    const user = await User.findOne({ id: memberId });
+    const user = await User.findOne({ _id: userId });
 
     if (!user) {
       throw new Error("User not found");
@@ -196,33 +199,38 @@ export async function addMemberToCommunity(
     if (community.members.includes(user._id)) {
       throw new Error("User is already a member of the community");
     }
+    if (user.communities.includes(community._id)) {
+      throw new Error("Community is already a member of the user");
+    }
 
     // Add the user's _id to the members array in the community
     community.members.push(user._id);
     await community.save();
 
     // Add the community's _id to the communities array in the user
-    user.communities.push(community._id);
-    await user.save();
+    // user.communities.push(community._id);
+    // await user.save();
 
     return community;
   } catch (error) {
     // Handle any errors
     console.error("Error adding member to community:", error);
-    throw error;
   }
 }
 
-export async function removeUserFromCommunity(
-  userId: string,
-  communityId: string
-) {
+export async function removeUserFromCommunity({
+  userId,
+  communityUsername,
+} : {
+  userId: mongoose.Types.ObjectId ;
+  communityUsername: TCommunityUsername;
+}) {
   try {
     connectToDB();
 
-    const userIdObject = await User.findOne({ id: userId }, { _id: 1 });
+    const userIdObject = await User.findOne({ _id: userId }, { _id: 1 });
     const communityIdObject = await Community.findOne(
-      { id: communityId },
+      { username: communityUsername },
       { _id: 1 }
     );
 
@@ -241,16 +249,15 @@ export async function removeUserFromCommunity(
     );
 
     // Remove the community's _id from the communities array in the user
-    await User.updateOne(
-      { _id: userIdObject._id },
-      { $pull: { communities: communityIdObject._id } }
-    );
+    // await User.updateOne(
+    //   { _id: userIdObject._id },
+    //   { $pull: { communities: communityIdObject._id } }
+    // );
 
     return { success: true };
   } catch (error) {
     // Handle any errors
     console.error("Error removing user from community:", error);
-    throw error;
   }
 }
 

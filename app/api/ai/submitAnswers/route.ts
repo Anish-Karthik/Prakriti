@@ -6,12 +6,12 @@ import { updateUserQuiz } from '@/lib/actions/user-quiz.actions';
 import { fetchUser } from '@/lib/actions/user.actions';
 import { TquestionMCQ } from '@/lib/questions';
 import { TAnswer } from '@/components/forms/Quiz';
+import { addMemberToCommunity, removeUserFromCommunity, type TCommunityUsername } from '@/lib/actions/community.actions';
 
 const runtime = 'edge';
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
 const openai = new OpenAIApi(configuration);
 
 export async function POST(req: Request) {
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     if (!answers) {
       return new NextResponse("Missing messages", { status: 400 });
     }
-    let vatta=0,pitta=0,kapha=0;
+    let vata=0,pitta=0,kapha=0;
 
     const user = await fetchUser(userId);
 
@@ -45,20 +45,91 @@ export async function POST(req: Request) {
     
     for(const answer of answers)
     {
-      if(answer.type=='vatta')
-        vatta++;
+      if(answer.type=='vata')
+        vata++;
       else if(answer.type=='pitta')
         pitta++;
       else if(answer.type=='kapha')
         kapha++;
     }
-    const responseObj = {
-      vatta,
-      pitta,
-      kapha
-    };
-    
 
+    
+    // TODO: Replace this with a AI model to predict prakriti
+    let prakriti: TCommunityUsername = "vata";
+    // assign prakriti on the basis of vata, pitta, kapha, vata-pitta, pitta-kapha, kapha-vata, vata-pitta-kapha
+    // assign vata-pitta, pitta-kapha, kapha-vata if difference is less than 10%
+    // assign vata-pitta-kapha if difference is less than 5%
+    if(vata>pitta && vata>kapha) {
+      if(vata-pitta<10 && vata-kapha<10)
+        prakriti = "vata-pitta";
+      else if(vata-pitta<5 && vata-kapha<5)
+        prakriti = "vata-pitta-kapha";
+      else
+        prakriti = "vata";
+    } else if(pitta>vata && pitta>kapha) {
+      if(pitta-vata<10 && pitta-kapha<10)
+        prakriti = "vata-pitta";
+      else if(pitta-vata<5 && pitta-kapha<5)
+        prakriti = "vata-pitta-kapha";
+      else
+        prakriti = "pitta";
+    } else if(kapha>vata && kapha>pitta) {
+      if(kapha-vata<10 && kapha-pitta<10)
+        prakriti = "kapha-vata";
+      else if(kapha-vata<5 && kapha-pitta<5)
+        prakriti = "vata-pitta-kapha";
+      else
+        prakriti = "kapha";
+    } else if(vata==pitta && vata>kapha) {
+      if(vata-kapha<10)
+        prakriti = "vata-pitta";
+      else if(vata-kapha<5)
+        prakriti = "vata-pitta-kapha";
+      else
+        prakriti = "vata";
+    } else if(vata==kapha && vata>pitta) {  
+      if(vata-pitta<10)
+        prakriti = "vata-pitta";
+      else if(vata-pitta<5)
+        prakriti = "vata-pitta-kapha";
+      else
+        prakriti = "vata";
+    } else if(pitta==kapha && pitta>vata) {
+      if(pitta-vata<10)
+        prakriti = "vata-pitta";
+      else if(pitta-vata<5)
+        prakriti = "vata-pitta-kapha";
+      else
+        prakriti = "pitta";
+    } else if(vata==pitta && vata==kapha) {
+      prakriti = "vata-pitta-kapha";
+    }
+    const responseObj = {
+      vata,
+      pitta,
+      kapha,
+      prakriti
+    };
+    let isMember = false;
+    const userCommunties: TCommunityUsername[] = ['vata', 'pitta', 'kapha', 'vata-pitta', 'pitta-kapha', 'kapha-vata', 'vata-pitta-kapha'];
+    for(const communityUsername of userCommunties) {
+      if(communityUsername == prakriti) {
+        isMember = true;
+        continue;
+      }
+      await removeUserFromCommunity({
+        userId: user._id,
+        communityUsername: communityUsername,
+      });
+    }
+    if(!isMember) {
+      await addMemberToCommunity({
+        userId: user._id,
+        communityUsername: prakriti,
+      });
+      user.prakriti = prakriti;
+      await user.save();
+    }
 
     return new NextResponse(JSON.stringify(responseObj), { status: 200, headers: { 'Content-Type': 'application/json' } });
     
