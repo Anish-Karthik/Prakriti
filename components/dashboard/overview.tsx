@@ -1,7 +1,7 @@
 "use client";
 import { questionMCQarray } from "@/lib/questions";
 import { useEffect, useState } from "react";
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip  } from "recharts"
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, PieChart, Pie  } from "recharts"
 import { useAuth } from "@clerk/nextjs";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { fetchUserQuiz } from "@/lib/actions/user-quiz.actions";
@@ -41,7 +41,7 @@ export function Overview() {
       vata = Number(window.sessionStorage.getItem('vata') || 0);
       pitta = Number(window.sessionStorage.getItem('pitta') || 0);
       kapha = Number(window.sessionStorage.getItem('kapha') || 0);
-      prakriti = window.sessionStorage.getItem('prakriti') || '';
+      prakriti = JSON.parse(window.sessionStorage.getItem('prakriti') || '');
     }
     const totalCount = questionMCQarray.length;
     //vata=parseInt(JSON.parse(vata))
@@ -60,31 +60,35 @@ export function Overview() {
       {
         name: "Vata",
         percentage: vataPercentage,
+        fill:"#8884d8",
+        
       },
       {
         name: "Pitta",
         percentage: pittaPercentage,
+        fill:"#ffc658"
       },
       {
         name: "Kapha",
         percentage: kaphaPercentage,
+        fill:"#82ca9d"        
       },
-      {
-        name: "Vata-Pitta",
-        percentage: vataPittaPercentage,
-      },
-      {
-        name: "Vata-Kapha",
-        percentage: vataKaphaPercentage,
-      },
-      {
-        name: "Pitta-Kapha",
-        percentage: pittaKaphaPercentage,
-      },
-      {
-        name: "Vata-Pitta-Kapha",
-        percentage: vataPittaKaphaPercentage,
-      },
+      // {
+      //   name: "Vata-Pitta",
+      //   percentage: vataPittaPercentage,
+      // },
+      // {
+      //   name: "Vata-Kapha",
+      //   percentage: vataKaphaPercentage,
+      // },
+      // {
+      //   name: "Pitta-Kapha",
+      //   percentage: pittaKaphaPercentage,
+      // },
+      // {
+      //   name: "Vata-Pitta-Kapha",
+      //   percentage: vataPittaKaphaPercentage,
+      // },
     ];
   };
 
@@ -107,26 +111,12 @@ export function Overview() {
           <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
         </div>
       :
-        <BarChart data={data} margin={{ left: 30, right: 10, top: 10, bottom: 20 }}>
-          <XAxis
-            dataKey="name"
-            stroke="#888888"
-            fontSize={12}
-            tickLine={false}
-            axisLine={false}
-          />
-          <YAxis
-            tickFormatter={(value) => `${value}%`}
-            stroke="#888888"
-            fontSize={12}
-            tickLine={false}
-            axisLine={false}
-            domain={[0, 100]} 
-          />
+        <PieChart className="py-10 w-fit h-fit">
+          {/* tootip data also must appear within the chart */}
           <Tooltip />
-          
-          <Bar dataKey="percentage" fill="#adfa1d" radius={[4, 4, 0, 0]} stackId="a" />
-        </BarChart>
+          <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize="2em" fontWeight="bold" fill="#888888">{userPrakriti}</text>
+          <Pie data={data} labelLine={true} dataKey="percentage" nameKey="name" cx="50%" cy="50%" innerRadius={100} outerRadius={150}  label />
+        </PieChart>
       }
     </ResponsiveContainer>
   )
