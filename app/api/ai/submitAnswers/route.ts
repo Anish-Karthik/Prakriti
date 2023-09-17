@@ -114,7 +114,6 @@ export async function POST(req: Request) {
     const userCommunties: TCommunityUsername[] = ['vata', 'pitta', 'kapha', 'vata-pitta', 'pitta-kapha', 'kapha-vata', 'vata-pitta-kapha'];
     for(const communityUsername of userCommunties) {
       if(communityUsername == prakriti) {
-        isMember = true;
         continue;
       }
       await removeUserFromCommunity({
@@ -122,14 +121,12 @@ export async function POST(req: Request) {
         communityUsername: communityUsername,
       });
     }
-    if(!isMember) {
-      await addMemberToCommunity({
-        userId: user._id,
-        communityUsername: prakriti,
-      });
-      user.prakriti = prakriti;
-      await user.save();
-    }
+    await addMemberToCommunity({
+      userId: user._id,
+      communityUsername: prakriti,
+    });
+    user.prakriti = prakriti;
+    await user.save();
 
     return new NextResponse(JSON.stringify(responseObj), { status: 200, headers: { 'Content-Type': 'application/json' } });
     
