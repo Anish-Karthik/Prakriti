@@ -4,7 +4,7 @@ import React from 'react'
 const QuizPage = () => {
   
   return (
-    <div className='flex flex-col h-full w-full justify-center items-center '>
+    <div className='flex flex-col h-screen w-full justify-center items-center'>
       <Quiz />
     </div>
     

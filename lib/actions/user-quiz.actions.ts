@@ -24,7 +24,6 @@ export async function updateUserQuiz(userId: mongoose.Schema.Types.ObjectId, ans
 export async function fetchUserQuiz(userId: mongoose.Schema.Types.ObjectId) {
   try {
     connectToDB();
-
     return await UserQuiz
       .findOne({ user: userId })
   } catch (error: any) {

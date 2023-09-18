@@ -60,18 +60,18 @@ export function Overview() {
       {
         name: "Vata",
         percentage: vataPercentage,
-        fill:"#8884d8",
+        fill:"#7d34fa",
         
       },
       {
         name: "Pitta",
         percentage: pittaPercentage,
-        fill:"#ffc658"
+        fill:"#faed34"
       },
       {
         name: "Kapha",
         percentage: kaphaPercentage,
-        fill:"#82ca9d"        
+        fill:"#19fc75"        
       },
       // {
       //   name: "Vata-Pitta",
