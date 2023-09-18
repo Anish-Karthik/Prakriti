@@ -208,8 +208,8 @@ export async function addMemberToCommunity({
     await community.save();
 
     // Add the community's _id to the communities array in the user
-    // user.communities.push(community._id);
-    // await user.save();
+    user.community = community._id;
+    await user.save();
 
     return community;
   } catch (error) {
@@ -253,6 +253,7 @@ export async function removeUserFromCommunity({
     //   { _id: userIdObject._id },
     //   { $pull: { communities: communityIdObject._id } }
     // );
+
 
     return { success: true };
   } catch (error) {
