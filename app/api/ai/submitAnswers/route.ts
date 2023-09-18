@@ -41,8 +41,6 @@ export async function POST(req: Request) {
     }
     const ans = answers.map((answer: TAnswer) => answer.option);
     
-    updateUserQuiz(user._id, ans)
-    
     for(const answer of answers)
     {
       if(answer.type=='vata')
@@ -53,6 +51,7 @@ export async function POST(req: Request) {
         kapha++;
     }
 
+    await updateUserQuiz(user._id, ans, {vata, pitta, kapha});
     
     // TODO: Replace this with a AI model to predict prakriti
     let prakriti: TCommunityUsername = "vata";
@@ -108,28 +107,9 @@ export async function POST(req: Request) {
       vata,
       pitta,
       kapha,
-      prakriti
+      prakriti,
+      previousPrakriti: user.prakriti,
     };
-    let isMember = false;
-    const userCommunties: TCommunityUsername[] = ['vata', 'pitta', 'kapha', 'vata-pitta', 'pitta-kapha', 'kapha-vata', 'vata-pitta-kapha'];
-    for(const communityUsername of userCommunties) {
-      if(communityUsername == prakriti) {
-        isMember = true;
-        continue;
-      }
-      await removeUserFromCommunity({
-        userId: user._id,
-        communityUsername: communityUsername,
-      });
-    }
-    if(!isMember) {
-      await addMemberToCommunity({
-        userId: user._id,
-        communityUsername: prakriti,
-      });
-      user.prakriti = prakriti;
-      await user.save();
-    }
 
     return new NextResponse(JSON.stringify(responseObj), { status: 200, headers: { 'Content-Type': 'application/json' } });
     

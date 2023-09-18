@@ -4,7 +4,7 @@ import mongoose from "mongoose"
 import UserQuiz from "../models/user-quiz.model"
 import { connectToDB } from "../mongoose"
 
-export async function updateUserQuiz(userId: mongoose.Schema.Types.ObjectId, answers: number[]) {
+export async function updateUserQuiz(userId: mongoose.Schema.Types.ObjectId, answers: number[],{vata, pitta, kapha}: {vata: number, pitta: number, kapha: number}) {
   try {
     connectToDB()
     await UserQuiz.findOneAndUpdate(
@@ -12,6 +12,9 @@ export async function updateUserQuiz(userId: mongoose.Schema.Types.ObjectId, ans
       {
         user: userId,
         answers,
+        vata,
+        pitta,
+        kapha,
         updatedAt: new Date(),
       },
       { upsert: true }
