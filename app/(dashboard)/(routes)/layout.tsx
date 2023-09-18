@@ -15,7 +15,7 @@ const DashBoardLayout = ({
           <Sidebar />
         </div>
       </div>
-      <main className='lg:pl-72 h-full max-h-[90vh]'>
+      <main className='lg:pl-[8rem] h-full max-h-[90vh]'>
         <Navbar />
         {children}
       </main>

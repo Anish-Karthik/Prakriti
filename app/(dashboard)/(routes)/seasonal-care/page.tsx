@@ -15,10 +15,11 @@ import { Winter } from './Winter';
 
 const Page = () => {
   return (
-    <div className='w-screen p-2 px-5'>
-      <div className='grid gap-0 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2'>
-      <Tabs defaultValue="summer" className="space-y-4">
-            <TabsList>
+   
+        <div className='w-screen p-2  flex justify-center '>
+      <div className='grid gap-0 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 mx-auto '>
+      <Tabs defaultValue="summer" className="space-y-4 col-span-2">
+            <TabsList className='w-full justify-between'>
               <TabsTrigger value="summer">Summer</TabsTrigger>
               <TabsTrigger value="monsoon">
                 Monsoon
@@ -53,6 +54,7 @@ const Page = () => {
           </Tabs>
       </div>
     </div>
+    
   );
 };
 
