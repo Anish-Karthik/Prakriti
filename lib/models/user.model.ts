@@ -8,9 +8,6 @@ const userSchema = new mongoose.Schema({
   bio: { type: String, default: ""},
   onboarded: { type: Boolean, default: false },
   prakriti: { type: String, default: ""},
-  vata: { type: Number, default: 0},
-  pitta: { type: Number, default: 0},
-  kapha: { type: Number, default: 0},
   // refer community.model.ts for the following 2 fields
   posts: [
     { 

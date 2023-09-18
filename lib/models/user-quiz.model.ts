@@ -6,6 +6,9 @@ const userQuizSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  vata: { type: Number, default: 0},
+  pitta: { type: Number, default: 0},
+  kapha: { type: Number, default: 0},
   answers: {
     type: [Number], required: true 
   },
