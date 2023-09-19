@@ -206,6 +206,8 @@ export async function addMemberToCommunity({
     // Add the user's _id to the members array in the community
     community.members.push(user._id);
     await community.save();
+    console.log("community", community);
+    console.log(community.members);
 
     // Add the community's _id to the communities array in the user
     user.community = community._id;

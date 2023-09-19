@@ -16,9 +16,9 @@ export async function POST(req: Request) {
     const body = await req.json();
     const {prakriti, previousPrakriti} = body;
 
-    if(previousPrakriti == prakriti) {
-      return new NextResponse("Already assigned", { status: 200 });
-    }
+    // if(previousPrakriti == prakriti) {
+    //   return new NextResponse("Already assigned", { status: 200 });
+    // }
 
     if(!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     if(!user) {
       return new NextResponse("User not found", { status: 404 });
     }
-    if(previousPrakriti != "" && previousPrakriti != null && previousPrakriti != undefined) {
+    if(previousPrakriti != "" && previousPrakriti != null && previousPrakriti != undefined && previousPrakriti != prakriti) {
       await removeUserFromCommunity({
         userId: user._id,
         communityUsername: previousPrakriti,
