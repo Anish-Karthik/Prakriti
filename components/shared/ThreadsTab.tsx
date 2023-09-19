@@ -16,9 +16,9 @@ const ThreadsTab = async ({
   accountType,
 }: ThreadsTabProps) => {
   let result = accountType === "User"? await fetchUserPosts(accountId): await fetchCommunityPosts(accountId);
-  console.log(`result ${accountType}`, result);
+  // console.log(`result ${accountType}`, result);
   // if(!result) return redirect('/')
-  console.log(result)
+  // console.log(result)
 
   return (
     <section className='mt-9 flex flex-col gap-10'>
