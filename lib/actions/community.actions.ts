@@ -199,7 +199,7 @@ export async function addMemberToCommunity({
     if (community.members.includes(user._id)) {
       throw new Error("User is already a member of the community");
     }
-    if (user.communities.includes(community._id)) {
+    if (user.community == community._id) {
       throw new Error("Community is already a member of the user");
     }
 

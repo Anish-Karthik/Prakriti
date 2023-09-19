@@ -51,7 +51,7 @@ export async function POST(req: Request) {
     return new NextResponse(JSON.stringify(responseObj), { status: 200, headers: { 'Content-Type': 'application/json' } });
     
   } catch (error) {
-    console.error("[CODE_ERROR]",error);
+    console.error("[COMMUNITY_ERROR]",error);
     return new NextResponse("Internal error", { status: 500 });
   }
 }
