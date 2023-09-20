@@ -58,6 +58,7 @@ export async function POST(req: Request) {
     // assign prakriti on the basis of vata, pitta, kapha, vata-pitta, pitta-kapha, kapha-vata, vata-pitta-kapha
     // assign vata-pitta, pitta-kapha, kapha-vata if difference is less than 10%
     // assign vata-pitta-kapha if difference is less than 5%
+    
     if(vata>pitta && vata>kapha) {
       if(vata-pitta<10 && vata-kapha<10)
         prakriti = "vata-pitta";
@@ -103,6 +104,7 @@ export async function POST(req: Request) {
     } else if(vata==pitta && vata==kapha) {
       prakriti = "vata-pitta-kapha";
     }
+    // localStorage.setItem("prakriti",prakriti);
     const responseObj = {
       vata,
       pitta,
