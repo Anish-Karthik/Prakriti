@@ -199,13 +199,15 @@ export async function addMemberToCommunity({
     if (community.members.includes(user._id)) {
       throw new Error("User is already a member of the community");
     }
-    if (user.communities.includes(community._id)) {
+    if (user.community == community._id) {
       throw new Error("Community is already a member of the user");
     }
 
     // Add the user's _id to the members array in the community
     community.members.push(user._id);
     await community.save();
+    console.log("community", community);
+    console.log(community.members);
 
     // Add the community's _id to the communities array in the user
     user.community = community._id;
