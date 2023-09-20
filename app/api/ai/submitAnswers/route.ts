@@ -45,24 +45,6 @@ export async function POST(req: Request) {
     // const prakriti = await axios.post('https://prakriti-classifier-code-o-sapiens.onrender.com/predict_api', 
     //   {data: [vata, pitta, kapha]}
     // );
-    let data = JSON.stringify({"data": [vata, pitta, kapha]});
-
-    let config = {
-      method: 'post',
-      maxBodyLength: Infinity,
-      url: 'https://prakriti-classifier-code-o-sapiens.onrender.com/predict_api',
-      headers: { 
-        'Content-Type': 'application/json'
-      },
-      data : data
-    };
-    const response = await axios.request(config);
-    const prakriti = response.data;
-
-    console.log(prakriti);
-    if(!prakriti) {
-      throw new Error("Prakriti not found");
-    }
 
     // const prakriti = await axios.post('https://prakriti-classifier-code-o-sapiens.onrender.com/predict_api', 
     //   {data: [vata, pitta, kapha]}
@@ -84,7 +66,6 @@ export async function POST(req: Request) {
     console.log(prakriti);
     if(!prakriti) {
       throw new Error("Prakriti not found");
->>>>>>> 8e6780561afd0830f737f136a391be285a1c2973
     }
     // localStorage.setItem("prakriti",prakriti);
     const responseObj = {
