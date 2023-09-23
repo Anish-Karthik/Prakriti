@@ -49,8 +49,8 @@ export async function POST(req: Request) {
     // const prakriti = await axios.post('https://prakriti-classifier-code-o-sapiens.onrender.com/predict_api', 
     //   {data: [vata, pitta, kapha]}
     // );
+    
     let data = JSON.stringify({"data": [vata, pitta, kapha]});
-
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
