@@ -8,11 +8,12 @@ import { useUser} from "@clerk/nextjs"
 
 export default function ChatComponent() {
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-  const { input, handleInputChange, handleSubmit, isLoading,messages } = useChat();
+  const {setInput, input, handleInputChange, handleSubmit, isLoading,messages } = useChat();
   const [languageMessages,setLanguageMessages]=useState<Message[]>([])
   //const [messages,setMessages]=useState([])
   const [language,SetLanguage]=useState('english');
   const [display,setDisplay]=useState('block')
+  const [option_view,setoption_view]=useState('hidden')
   const yogi="https://i.ibb.co/N7cJc3F/1024.png";
   const {user}=useUser();
   const Profile=user?.profileImageUrl;
@@ -24,6 +25,7 @@ export default function ChatComponent() {
         chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
   }, [messages]);
 
+  
  
   const sendPostRequest = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -61,13 +63,14 @@ export default function ChatComponent() {
       console.error('Error:', error);
     }
   };
-
+  
+   
   return (
     <div
       className="chat-container scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200 no-scrollbar overflow-auto"
       ref={chatContainerRef}
       style={{
-        maxHeight: "400px",
+        maxHeight: "500px",
       }}
     >
       
@@ -129,6 +132,16 @@ export default function ChatComponent() {
         <div className={"flex flex-row p-2 "+display}>
             <BotAvatar props={yogi}/>
             <p className="px-2">Hey there! I am Yogi,Your Personalized AI for Prakirthi </p>
+        </div>
+        <div className={"w-full justify-between flex flex-col gap-4 px-5 py-5 items-stretch hidden"}>
+          {/* <Button 
+          onClick={()=>{
+            setInput("A");
+            handleSubmit;
+          }}
+          >A</Button>
+          <Button>B</Button>
+          <Button>C</Button> */}
         </div>
         <div className="flex flex-row py-2">
           <Input className="text-black" value={input} placeholder="Ask to Y.O.G.I" onChange={handleInputChange} />
