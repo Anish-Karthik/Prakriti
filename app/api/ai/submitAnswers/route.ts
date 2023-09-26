@@ -68,7 +68,6 @@ export async function POST(req: Request) {
       throw new Error("Prakriti not found");
     }
     // localStorage.setItem("prakriti",prakriti);
-    // localStorage.setItem("prakriti",prakriti);
     const responseObj = {
       vata,
       pitta,
