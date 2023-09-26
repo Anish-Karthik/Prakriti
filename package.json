@@ -66,6 +66,7 @@
     "react-day-picker": "^8.8.1",
     "react-dom": "18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-google-charts": "^4.0.1",
     "react-hook-form": "^7.45.4",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.10.1",

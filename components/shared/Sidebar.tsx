@@ -70,12 +70,7 @@ export const routes:{
     href: '/dashboard',
     color: "text-sky-500",
   },
-  {
-    label: 'General Quiz',
-    icon: FileQuestion,
-    href: '/quiz',
-    color: "text-pink-700",
-  }, 
+  
   {
     label: 'Chatbot',
     icon: MessageSquareIcon,

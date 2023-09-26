@@ -1,8 +1,7 @@
 // route.ts Route Handlers
 import { Configuration, OpenAIApi } from "openai-edge";
 import { OpenAIStream, StreamingTextResponse } from "ai";
-
-export const runtime = 'edge';
+export const runtime='edge';
 
 const config = new Configuration({
     apiKey: process.env.OPENAI_API_KEY
@@ -11,11 +10,9 @@ const openai = new OpenAIApi(config);
 
 
 export async function POST(request: Request) {
-    let { messages, lang, prakriti } = await request.json(); 
+    let { messages, lang } = await request.json(); 
     console.log(lang)
-    if(!prakriti) {
-        prakriti = "any"
-    }
+    
     if(!lang) {
         lang = "english"
     }
@@ -27,8 +24,8 @@ export async function POST(request: Request) {
             ...messages
         ]
     })
-
     const stream = await OpenAIStream(response);
 
     return new StreamingTextResponse(stream);
+    
 }

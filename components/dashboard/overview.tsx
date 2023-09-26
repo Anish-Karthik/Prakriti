@@ -5,6 +5,20 @@ import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, PieChart, Pi
 import { useAuth } from "@clerk/nextjs";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { fetchUserQuiz } from "@/lib/actions/user-quiz.actions";
+import { Chart } from "react-google-charts";
+
+
+
+export const options = {
+  is3D: true,
+  titleTextStyle: {
+    fontSize: 18, // Adjust the font size as needed
+    color: "#7d34fa", // Set the color you want
+    bold: true, // You can make the title bold
+  },
+};
+
+
 
 type Tdata = {
     name: string,
@@ -12,12 +26,14 @@ type Tdata = {
 };
 
 export function Overview() {
-  const [ data, setData ] = useState<Tdata[]>([]);
-  const [ loading, setLoading ] = useState<boolean>(true);
-  const [ userPrakriti, setUserPrakriti ] = useState<string>('');
+  const [ data, setData] = useState<Tdata[]>([]);
+  const [ loading, setLoading] = useState<boolean>(true);
+  const [ userPrakriti, setUserPrakriti] = useState<string>('');
   const { userId } = useAuth();
 
-
+ 
+  
+  
   const fetchData = async () => {
     if(!userId) return [];
     let vata=0,pitta=0,kapha=0, prakriti='';
@@ -73,24 +89,16 @@ export function Overview() {
         percentage: kaphaPercentage,
         fill:"#19fc75"        
       },
-      // {
-      //   name: "Vata-Pitta",
-      //   percentage: vataPittaPercentage,
-      // },
-      // {
-      //   name: "Vata-Kapha",
-      //   percentage: vataKaphaPercentage,
-      // },
-      // {
-      //   name: "Pitta-Kapha",
-      //   percentage: pittaKaphaPercentage,
-      // },
-      // {
-      //   name: "Vata-Pitta-Kapha",
-      //   percentage: vataPittaKaphaPercentage,
-      // },
+     
     ];
   };
+  const datas = [
+    ["Task", "Hours per Day"],
+    ["Vata",80],
+    ["Pitta",16],
+    ["Kapha",4],
+  ];
+  
 
   useEffect(() => {
     setLoading(true);
@@ -100,20 +108,32 @@ export function Overview() {
     });
   }, []);
 
+  
+
   return (
-    <ResponsiveContainer width="100%" height={350}>
-      {loading ?
-        <div className="flex justify-center items-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
-        </div>
-      :
-        <PieChart className="py-10 w-fit h-fit">
-          {/* tootip data also must appear within the chart */}
-          <Tooltip />
-          <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize="2em" fontWeight="bold" fill="#888888">{userPrakriti}</text>
-          <Pie data={data} labelLine={true} dataKey="percentage" nameKey="name" cx="50%" cy="50%" innerRadius={100} outerRadius={150}  label />
-        </PieChart>
-      }
-    </ResponsiveContainer>
+    // <ResponsiveContainer width="100%" height={350}>
+    //   {loading ?
+    //     <div className="flex justify-center items-center">
+    //       <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+    //     </div>
+    //   :
+    //     <PieChart className="py-10 w-fit h-fit">
+    //       {/* tootip data also must appear within the chart */}
+    //       <Tooltip />
+    //       <text x="50%" y="50%" textAnchor="middle" dominantBaseline="middle" fontSize="2em" fontWeight="bold" fill="#888888">{userPrakriti}</text>
+    //       <Pie data={data} labelLine={true} dataKey="percentage" nameKey="name" cx="50%" cy="50%" innerRadius={100} outerRadius={150}  label />
+    //     </PieChart>
+       
+        
+    //   }
+    // </ResponsiveContainer>
+    
+    <Chart
+    chartType="PieChart"
+    data={datas}
+    options={options}
+    width={"100%"}
+    height={"400px"}
+  />
   )
 }
