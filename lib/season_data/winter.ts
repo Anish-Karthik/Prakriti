@@ -7,4 +7,4 @@ export const vata = `1. Stay warm: Bundle up with warm clothing, scarves, and ha
 4. Moisturize: Apply natural oils or moisturizers to keep your skin hydrated and prevent dryness caused by cold weather.<br/><br />
 
 5. Gentle exercise: Engage in gentle exercises like yoga or walking indoors to keep your body active and maintain circulation.
-`;
+`

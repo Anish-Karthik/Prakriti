@@ -7,4 +7,4 @@ export const vata = `1. Light, warm meals: Consume digestion-friendly, warm, and
 4. Warming spices: Incorporate warming spices like ginger, cinnamon, and turmeric in your meals to aid digestion and support your body's balance during the moist season.<br/><br />
 
 5. Ayurvedic herbs: Consider including Ayurvedic herbs like ashwagandha or triphala under the guidance of an Ayurvedic practitioner to support your overall well-being during monsoon.<br/><br />
-`;
+`

@@ -1,11 +1,12 @@
-'use client';
-import { useUser } from '@clerk/nextjs';
-import React from 'react';
+"use client"
+
+import React from "react"
+import { useUser } from "@clerk/nextjs"
 
 const Profile = () => {
-  const {user}=useUser();
-  const Profile=user?.profileImageUrl;
-  const src=Profile;
+  const { user } = useUser()
+  const Profile = user?.profileImageUrl
+  const src = Profile
   return (
     <div className="profile-container">
       <section>
@@ -18,7 +19,9 @@ const Profile = () => {
                   alt="avatar"
                   className="rounded-full w-32 h-32"
                 />
-                <p className="text-gray-600 text-md mt-2 text-center">Prakirthi ID:0001</p>
+                <p className="text-gray-600 text-md mt-2 text-center">
+                  Prakirthi ID:0001
+                </p>
                 <p className="text-gray-600 text-sm mb-4"></p>
                 <div className="flex justify-center">
                   <button className="bg-blue-500 border border-gray-500 text-slate-800 py-2 px-5 rounded-full mr-2 hover:bg-gray-200">
@@ -47,7 +50,11 @@ const Profile = () => {
                       <p>Email</p>
                     </div>
                     <div className="col-span-2">
-                      <p className="text-gray-600">{user?.emailAddresses.toString().trim()!=="" ? user?.emailAddresses.toString(): "Undefined"}</p>
+                      <p className="text-gray-600">
+                        {user?.emailAddresses.toString().trim() !== ""
+                          ? user?.emailAddresses.toString()
+                          : "Undefined"}
+                      </p>
                     </div>
                   </div>
                   <hr className="my-4" />
@@ -56,7 +63,11 @@ const Profile = () => {
                       <p>Phone</p>
                     </div>
                     <div className="col-span-2">
-                      <p className="text-gray-600">{user?.phoneNumbers.toString().trim()!=="" ? user?.phoneNumbers.toString(): "Undefined"}</p>
+                      <p className="text-gray-600">
+                        {user?.phoneNumbers.toString().trim() !== ""
+                          ? user?.phoneNumbers.toString()
+                          : "Undefined"}
+                      </p>
                     </div>
                   </div>
                   <hr className="my-4" />
@@ -121,7 +132,7 @@ const Profile = () => {
         </div>
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

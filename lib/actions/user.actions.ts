@@ -1,22 +1,29 @@
 "use server"
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath } from "next/cache"
+import { FilterQuery, SortOrder } from "mongoose"
+
+import Post from "@/lib/models/thread.model"
 import User from "@/lib/models/user.model"
 import { connectToDB } from "@/lib/mongoose"
-import Post from "@/lib/models/thread.model";
-import { FilterQuery, SortOrder } from "mongoose";
-interface UpdateUserProps {
-  userId: string;
-  username: string;
-  name: string;
-  image: string;
-  bio: string;
-  path: string;
-};
 
-export async function updateUser(
-  { userId, username, name, image, bio, path }: UpdateUserProps
-): Promise<void> {
+interface UpdateUserProps {
+  userId: string
+  username: string
+  name: string
+  image: string
+  bio: string
+  path: string
+}
+
+export async function updateUser({
+  userId,
+  username,
+  name,
+  image,
+  bio,
+  path,
+}: UpdateUserProps): Promise<void> {
   connectToDB()
   try {
     await User.findOneAndUpdate(
@@ -30,8 +37,8 @@ export async function updateUser(
         updatedAt: new Date(),
       },
       { upsert: true }
-    );
-    if (path === '/profile/edit') {
+    )
+    if (path === "/profile/edit") {
       revalidatePath(path)
     }
   } catch (error: any) {
@@ -42,15 +49,13 @@ export async function updateUser(
 
 export async function fetchUser(userId: string) {
   try {
-    connectToDB();
-    
+    connectToDB()
 
-    return await User
-      .findOne({ id: userId })
-      // .populate({
-      //   path: 'communities',
-      //   model: 'Community',
-      // })
+    return await User.findOne({ id: userId })
+    // .populate({
+    //   path: 'communities',
+    //   model: 'Community',
+    // })
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`)
   }
@@ -58,24 +63,24 @@ export async function fetchUser(userId: string) {
 
 export async function fetchUserPosts(userId: string) {
   try {
-    connectToDB();
+    connectToDB()
 
     // TODO: populate communities
-    const Posts = await User
-      .findOne({ id: userId })
+    const Posts = await User.findOne({ id: userId })
       .populate({
-        path: 'Posts',
+        path: "Posts",
         model: Post,
         populate: {
-          path: 'children',
+          path: "children",
           model: Post,
           populate: {
-            path: 'author',
-            model: 'User',
-            select: 'id name image'
-          }
-        }
-      }).exec()
+            path: "author",
+            model: "User",
+            select: "id name image",
+          },
+        },
+      })
+      .exec()
 
     return Posts
   } catch (error: any) {
@@ -85,47 +90,45 @@ export async function fetchUserPosts(userId: string) {
 
 export async function fetchUsers({
   userId,
-  searchString = '',
+  searchString = "",
   pageNumber = 1,
   pageSize = 20,
-  sortBy = 'desc',  
-} : {
-  userId: string,
-  searchString?: string,
-  pageNumber?: number,
-  pageSize?: number,
-  sortBy?: SortOrder,
+  sortBy = "desc",
+}: {
+  userId: string
+  searchString?: string
+  pageNumber?: number
+  pageSize?: number
+  sortBy?: SortOrder
 }) {
   try {
-    connectToDB();
-    const skipAmount = (pageNumber - 1) * pageSize;
+    connectToDB()
+    const skipAmount = (pageNumber - 1) * pageSize
 
-    const regex = new RegExp(searchString, 'i');
+    const regex = new RegExp(searchString, "i")
 
     const query: FilterQuery<typeof User> = {
       id: { $ne: userId },
     }
 
-    if(searchString.trim() !== '') {
-      query.$or = [
-        { name: { $regex: regex } },
-        { username: { $regex: regex } },
-      ]
+    if (searchString.trim() !== "") {
+      query.$or = [{ name: { $regex: regex } }, { username: { $regex: regex } }]
     }
 
     const sortOptions = { createdAt: sortBy }
 
     const usersQuery = await User.find(query)
-    .sort(sortOptions)
-    .skip(skipAmount)
-    .limit(pageSize).exec()
+      .sort(sortOptions)
+      .skip(skipAmount)
+      .limit(pageSize)
+      .exec()
 
-    const totalUsersCount = await User.countDocuments(query);
+    const totalUsersCount = await User.countDocuments(query)
 
-    const users = usersQuery;
+    const users = usersQuery
 
-    const isNext = totalUsersCount > skipAmount + users.length;
-    return { users, isNext };
+    const isNext = totalUsersCount > skipAmount + users.length
+    return { users, isNext }
   } catch (error: any) {
     throw new Error(`Failed to fetch users: ${error.message}`)
   }
@@ -133,7 +136,7 @@ export async function fetchUsers({
 
 export async function getActivity(userId: string) {
   try {
-    connectToDB();
+    connectToDB()
 
     // find all Posts and comments by user
 
@@ -144,14 +147,16 @@ export async function getActivity(userId: string) {
       return acc.concat(userPost.children)
     }, [])
 
-    const replies = await Post.find({ 
+    const replies = await Post.find({
       _id: { $in: childPostIds },
       author: { $ne: userId },
-    }).populate({
-      path: 'author',
-      model: User,
-      select: '_id name image'
-    }).exec()
+    })
+      .populate({
+        path: "author",
+        model: User,
+        select: "_id name image",
+      })
+      .exec()
 
     return replies
   } catch (error: any) {

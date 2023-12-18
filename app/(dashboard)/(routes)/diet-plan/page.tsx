@@ -1,17 +1,9 @@
-'use client';
+"use client"
 
-import { BrowserRouter as Router } from 'react-router-dom'; 
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
-import { BreakFast } from '@/components/diet-plan/BreakFast';
+import { BrowserRouter as Router } from "react-router-dom"
 
-
-
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { BreakFast } from "@/components/diet-plan/BreakFast"
 
 export default function DashboardPage() {
   return (
@@ -24,34 +16,28 @@ export default function DashboardPage() {
           <Tabs defaultValue="Breakfast" className="space-y-4">
             <TabsList>
               <TabsTrigger value="Breakfast">Breakfast</TabsTrigger>
-              <TabsTrigger value="Lunch">
-                Lunch
-              </TabsTrigger>
-              <TabsTrigger value="Snacks">
-                Snacks
-              </TabsTrigger>
-              <TabsTrigger value="Dinner">
-              Dinner
-              </TabsTrigger>
+              <TabsTrigger value="Lunch">Lunch</TabsTrigger>
+              <TabsTrigger value="Snacks">Snacks</TabsTrigger>
+              <TabsTrigger value="Dinner">Dinner</TabsTrigger>
             </TabsList>
             <TabsContent value="Breakfast" className="space-y-4">
               <Router>
-               <BreakFast/>
+                <BreakFast />
               </Router>
             </TabsContent>
             <TabsContent value="Lunch" className="space-y-4">
-            <Router>
-               <BreakFast/>
+              <Router>
+                <BreakFast />
               </Router>
             </TabsContent>
             <TabsContent value="Snacks" className="space-y-4">
-            <Router>
-               <BreakFast/>
+              <Router>
+                <BreakFast />
               </Router>
             </TabsContent>
             <TabsContent value="Dinner" className="space-y-4">
-            <Router>
-               <BreakFast/>
+              <Router>
+                <BreakFast />
               </Router>
             </TabsContent>
           </Tabs>

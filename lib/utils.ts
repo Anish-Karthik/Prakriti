@@ -1,12 +1,12 @@
-import { type ClassValue, clsx } from "clsx"
+import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 export function isBase64Image(imageData: string) {
-  const base64Regex = /^data:image\/(png|jpe?g|gif|webp);base64,/;
-  return base64Regex.test(imageData);
+  const base64Regex = /^data:image\/(png|jpe?g|gif|webp);base64,/
+  return base64Regex.test(imageData)
 }
 
 export function formatDateString(dateString: string) {
@@ -14,25 +14,25 @@ export function formatDateString(dateString: string) {
     year: "numeric",
     month: "short",
     day: "numeric",
-  };
+  }
 
-  const date = new Date(dateString);
-  const formattedDate = date.toLocaleDateString(undefined, options);
+  const date = new Date(dateString)
+  const formattedDate = date.toLocaleDateString(undefined, options)
 
   const time = date.toLocaleTimeString([], {
     hour: "numeric",
     minute: "2-digit",
-  });
+  })
 
-  return `${time} - ${formattedDate}`;
+  return `${time} - ${formattedDate}`
 }
 
 export function formatThreadCount(count: number): string {
   if (count === 0) {
-    return "No Threads";
+    return "No Threads"
   } else {
-    const threadCount = count.toString().padStart(2, "0");
-    const threadWord = count === 1 ? "Thread" : "Threads";
-    return `${threadCount} ${threadWord}`;
+    const threadCount = count.toString().padStart(2, "0")
+    const threadWord = count === 1 ? "Thread" : "Threads"
+    return `${threadCount} ${threadWord}`
   }
 }

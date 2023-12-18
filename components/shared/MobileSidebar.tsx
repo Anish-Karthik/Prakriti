@@ -1,10 +1,12 @@
-"use client"; 
+"use client"
 
-import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { Menu } from 'lucide-react'
-import Sidebar from './Sidebar'
+import { useEffect, useState } from "react"
+import { Menu } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+
+import Sidebar from "./Sidebar"
 
 const MobileSidebar = () => {
   // fix hydration error
@@ -13,17 +15,17 @@ const MobileSidebar = () => {
     setIsMounted(true)
   }, [])
   if (!isMounted) {
-    return null;
+    return null
   }
 
   return (
     <Sheet>
       <SheetTrigger>
-        <Button variant={"ghost"} size={"icon"} className='lg:hidden'>
+        <Button variant={"ghost"} size={"icon"} className="lg:hidden">
           <Menu />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className='p-0 text-light-2'>
+      <SheetContent side="left" className="p-0 text-light-2">
         <Sidebar />
       </SheetContent>
     </Sheet>

@@ -1,11 +1,13 @@
-import React from 'react'
-import Profile from './profile'
- const page = () => {
+import React from "react"
+
+import Profile from "./profile"
+
+const page = () => {
   return (
     <div>
-      <Profile/>
+      <Profile />
     </div>
   )
 }
 
-export default page;
+export default page

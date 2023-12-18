@@ -1,30 +1,33 @@
-
 export type Toption = {
-  vata: string;
-  pitta: string;
-  kapha: string;
+  vata: string
+  pitta: string
+  kapha: string
 }
 export type TquestionMCQ = {
-  question: string;
-  options: string[];
+  question: string
+  options: string[]
 }
 
-export const questionMCQarray : TquestionMCQ[] = [
+export const questionMCQarray: TquestionMCQ[] = [
   {
     question: "How would you describe your body frame?",
-    options: ["Thin, light, and bony", "Medium build and muscular", "Heavyset and sturdy"]
+    options: [
+      "Thin, light, and bony",
+      "Medium build and muscular",
+      "Heavyset and sturdy",
+    ],
   },
   {
     question: "What is your typical body temperature?",
     options: ["Cold", "Normal", "Warm"],
-    
   },
   {
     question: "How is your skin?",
     options: ["Dry", "Sensitive", "Oily"],
   },
   {
-    question: "Do you have a tendency to gain weight easily or have difficulty losing weight?",
+    question:
+      "Do you have a tendency to gain weight easily or have difficulty losing weight?",
     options: ["Yes", "No", "Sometimes"],
   },
   {
@@ -128,9 +131,10 @@ export const questionMCQarray : TquestionMCQ[] = [
     options: ["Social settings", "Solitude", "Both"],
   },
   {
-    question: "Do you have a tendency to overexert yourself physically and mentally?",
+    question:
+      "Do you have a tendency to overexert yourself physically and mentally?",
     options: ["Yes", "No", "Sometimes"],
   },
-];
+]
 
-export default questionMCQarray;
+export default questionMCQarray

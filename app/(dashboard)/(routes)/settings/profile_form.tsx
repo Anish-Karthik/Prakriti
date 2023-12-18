@@ -56,10 +56,7 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>
 // This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
   bio: "I am a Vata type",
-  urls: [
-    { value: "https://google.com" },
-    { value: "http://twitter.com" },
-  ],
+  urls: [{ value: "https://google.com" }, { value: "http://twitter.com" }],
 }
 
 export function ProfileForm() {

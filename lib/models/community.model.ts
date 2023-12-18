@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
 const communitySchema = new mongoose.Schema({
   id: { type: String, required: true },
@@ -8,24 +8,29 @@ const communitySchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
-  image: { type: String, default: ""},
-  bio: { type: String, default: ""},
-  members: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  }],
+  image: { type: String, default: "" },
+  bio: { type: String, default: "" },
+  members: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  threads: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Thread",
-  }],
+  threads: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Thread",
+    },
+  ],
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-});
+})
 
-const Community = mongoose.models.Community || mongoose.model("Community", communitySchema);
+const Community =
+  mongoose.models.Community || mongoose.model("Community", communitySchema)
 
-export default Community;
+export default Community
