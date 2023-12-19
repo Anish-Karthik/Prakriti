@@ -1,10 +1,11 @@
 import "@/lib/css/styles.css"
 import { redirect } from "next/navigation"
-import { currentUser } from "@clerk/nextjs"
+import serverAuth from "@/lib/serverAuth"
 
 import { fetchCommunityDetails } from "@/lib/actions/community.actions"
 import { createThread, fetchPosts } from "@/lib/actions/thread.actions"
 import { fetchUser } from "@/lib/actions/user.actions"
+import getCurrentUser from "@/hooks/useCurrentUser"
 import ThreadCard from "@/components/cards/ThreadCard"
 import Pagination from "@/components/shared/Pagination"
 
@@ -15,7 +16,7 @@ async function Home({
   searchParams: { [key: string]: string | undefined }
   params: { id: string }
 }) {
-  const user = await currentUser()
+  const user = await getCurrentUser()
   if (!user) return null
 
   const userInfo = await fetchUser(user.id)

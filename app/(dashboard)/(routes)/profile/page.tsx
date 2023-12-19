@@ -1,11 +1,13 @@
 import React from "react"
 
 import Profile from "./profile"
+import getCurrentUser from "@/hooks/useCurrentUser"
 
-const page = () => {
+const page = async() => {
+  const user=await getCurrentUser();
   return (
     <div>
-      <Profile />
+      <Profile user={user!}/>
     </div>
   )
 }

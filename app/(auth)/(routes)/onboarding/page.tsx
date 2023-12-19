@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation"
-import { currentUser } from "@clerk/nextjs"
-
+import serverAuth from "@/lib/serverAuth"
+import getCurrentUser from "@/hooks/useCurrentUser"
 import { fetchUser } from "@/lib/actions/user.actions"
 import AccountProfile from "@/components/forms/AccountProfile"
 
@@ -14,7 +14,8 @@ interface UserProps {
 }
 
 async function Page() {
-  const user = await currentUser()
+  //@ts-ignore
+  const user = await getCurrentUser();
   if (!user) return null // to avoid typescript warnings
 
   // check if user has onboarded
@@ -24,9 +25,12 @@ async function Page() {
   const userData = {
     id: user.id,
     objectId: userInfo?._id || "",
+    //@ts-ignore
     username: userInfo?.username || user.username || "",
+    //@ts-ignore
     name: userInfo?.name || user.firstName || "",
     bio: userInfo?.bio || "",
+    //@ts-ignore
     image: userInfo?.image || user.imageUrl || "",
   }
 

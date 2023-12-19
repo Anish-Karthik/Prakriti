@@ -1,12 +1,17 @@
 "use client"
 
 import React from "react"
-import { useUser } from "@clerk/nextjs"
+import getCurrentUser from "@/hooks/useCurrentUser"
+import { User } from "@prisma/client"
 
-const Profile = () => {
-  const { user } = useUser()
-  const Profile = user?.profileImageUrl
-  const src = Profile
+interface DashboardPageProps{
+  user:User
+}
+
+const ProfilePage: React.FC<DashboardPageProps> = ({ user }) => {
+  
+  
+  const profile=""
   return (
     <div className="profile-container">
       <section>
@@ -14,11 +19,7 @@ const Profile = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-1">
               <div className="mb-4 flex flex-col  justify-center items-center">
-                <img
-                  src={Profile}
-                  alt="avatar"
-                  className="rounded-full w-32 h-32"
-                />
+               
                 <p className="text-gray-600 text-md mt-2 text-center">
                   Prakirthi ID:0001
                 </p>
@@ -41,7 +42,7 @@ const Profile = () => {
                       <p>Full Name</p>
                     </div>
                     <div className="col-span-2">
-                      <p className="text-gray-600">{user?.fullName}</p>
+                      <p className="text-gray-600">{user?.name}</p>
                     </div>
                   </div>
                   <hr className="my-4" />
@@ -51,8 +52,8 @@ const Profile = () => {
                     </div>
                     <div className="col-span-2">
                       <p className="text-gray-600">
-                        {user?.emailAddresses.toString().trim() !== ""
-                          ? user?.emailAddresses.toString()
+                        {user?.email.toString().trim() !== ""
+                          ? user?.email.toString()
                           : "Undefined"}
                       </p>
                     </div>
@@ -63,11 +64,11 @@ const Profile = () => {
                       <p>Phone</p>
                     </div>
                     <div className="col-span-2">
-                      <p className="text-gray-600">
+                      {/* <p className="text-gray-600">
                         {user?.phoneNumbers.toString().trim() !== ""
                           ? user?.phoneNumbers.toString()
                           : "Undefined"}
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                   <hr className="my-4" />
@@ -135,4 +136,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default ProfilePage

@@ -1,11 +1,11 @@
 import React from "react"
-import { currentUser } from "@clerk/nextjs"
+
 
 import DoctorCard from "@/components/cards/DoctorCard"
 
 // show available doctors to schedule an appointment (online meeting room)
 const page = async () => {
-  const user = await currentUser()
+  
   const doctors = [
     {
       name: "Dr. Cody Brian",

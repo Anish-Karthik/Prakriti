@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@clerk/nextjs"
+
 import axios from "axios"
 import { ChatCompletionRequestMessage } from "openai-edge"
 import { toast } from "react-hot-toast"
@@ -38,7 +38,7 @@ const Quiz = () => {
     })
   )
   const router = useRouter()
-  const { userId } = useAuth()
+  
 
   function onClick(
     e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -95,7 +95,6 @@ const Quiz = () => {
       setQuestion(questionMCQarray[index])
     }
   }, [index])
-  if (!userId) return null
 
   return (
     <div
