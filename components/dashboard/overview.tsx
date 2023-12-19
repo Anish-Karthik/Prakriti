@@ -14,10 +14,12 @@ import {
   YAxis,
 } from "recharts"
 
-import { fetchUserQuiz } from "@/lib/actions/user-quiz.actions"
 import { fetchUser } from "@/lib/actions/user.actions"
 import { questionMCQarray } from "@/lib/questions"
 
+function fetchUserQuiz(userId: string) {
+  return {answers: [0, 1, 2, 0, 1, 2, 0, 1, 2, 0]}
+}
 export const options = {
   is3D: true,
   titleTextStyle: {
@@ -52,7 +54,8 @@ export function Overview() {
       !window.localStorage.getItem("prakriti")
     ) {
       const userInfo = await fetchUser(userId)
-      const userQuizData = await fetchUserQuiz(userInfo?._id)
+      if (!userInfo) return []
+      const userQuizData = await fetchUserQuiz(userInfo?.id)
       userQuizData?.answers?.forEach((answer: number) => {
         if (answer == 0) vata++
         else if (answer == 1) pitta++

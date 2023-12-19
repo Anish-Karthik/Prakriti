@@ -38,7 +38,7 @@ export async function POST(req: Request) {
     at.addGrant({ room, roomJoin: true, canPublish: true, canSubscribe: true })
 
     return NextResponse.json({ token: at.toJwt() })
-  } catch (error) {
+  } catch (error: any) {
     console.log(error)
   }
 }

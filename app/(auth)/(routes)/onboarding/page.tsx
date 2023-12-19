@@ -4,26 +4,17 @@ import { currentUser } from "@clerk/nextjs"
 import { fetchUser } from "@/lib/actions/user.actions"
 import AccountProfile from "@/components/forms/AccountProfile"
 
-interface UserProps {
-  _id?: string
-  objectId?: string
-  username?: string
-  name?: string
-  bio?: string
-  image?: string
-}
-
 async function Page() {
   const user = await currentUser()
   if (!user) return null // to avoid typescript warnings
 
   // check if user has onboarded
   const userInfo = await fetchUser(user.id)
+  console.log(userInfo)
   if (userInfo?.onboarded) redirect("/dashboard")
 
   const userData = {
     id: user.id,
-    objectId: userInfo?._id || "",
     username: userInfo?.username || user.username || "",
     name: userInfo?.name || user.firstName || "",
     bio: userInfo?.bio || "",

@@ -26,6 +26,7 @@
     "@mui/material": "^5.14.9",
     "@mui/styled-engine-sc": "^5.14.9",
     "@nanostores/react": "github:ai/react",
+    "@prisma/client": "^5.6.0",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.3",
     "@radix-ui/react-checkbox": "^1.0.4",
@@ -69,7 +70,6 @@
     "openai": "^4.4.0",
     "openai-edge": "^1.2.2",
     "postcss": "8.4.29",
-    "prisma": "^5.2.0",
     "prisma-client": "^0.0.0",
     "react": "18.2.0",
     "react-bootstrap": "^2.8.0",
@@ -103,7 +103,7 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-tailwindcss": "^3.13.0",
     "prettier": "^2.8.8",
-    "prisma": "^5.4.1",
+    "prisma": "^5.7.1",
     "tailwindcss": "^3.3.2"
   }
 }

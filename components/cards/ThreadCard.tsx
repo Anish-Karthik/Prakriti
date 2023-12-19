@@ -2,9 +2,6 @@ import { format } from "path"
 import React from "react"
 import Image from "next/image"
 import Link from "next/link"
-import mongoose from "mongoose"
-
-import { fetchCommunityDetails } from "@/lib/actions/community.actions"
 import { cn, formatDateString } from "@/lib/utils"
 
 interface ThreadCardProps {
@@ -22,7 +19,6 @@ interface ThreadCardProps {
     name: string
     image: string
     id: string
-    _id: mongoose.Types.ObjectId
     bio: string
   } | null
   createdAt: string

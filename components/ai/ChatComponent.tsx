@@ -64,7 +64,7 @@ export default function ChatComponent() {
 
       const tmp: Message[] = [newMessage, ...languageMessages]
       setLanguageMessages(tmp)
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error:", error)
     }
   }

@@ -23,18 +23,12 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { User } from "@prisma/client"
 
-interface UserProps {
-  id: string
-  objectId: string
-  username: string
-  name: string
-  bio: string
-  image: string
-}
+
 
 interface AccountProfileProps {
-  user: UserProps
+  user: User,
   btnTitle: string
 }
 

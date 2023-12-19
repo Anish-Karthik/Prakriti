@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @map("_id")
+  username  String    @unique
+  name      String
+  image     String    @default("")
+  bio       String    @default("")
+  onboarded Boolean   @default(false)
+  prakriti  String    @default("")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  meetings  Meeting[]
+  doctor    Doctor?
+}
+
+model Doctor {
+  id         String    @id @map("_id")
+  userId     String    @unique
+  speciality String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  user       User      @relation(fields: [userId], references: [id])
+  meetings   Meeting[]
+}
+
+enum MeetingStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model Meeting {
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String
+  doctorId  String
+  time      String
+  status    MeetingStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  user      User          @relation(fields: [userId], references: [id])
+  doctor    Doctor        @relation(fields: [doctorId], references: [id])
+}
+
+// Assuming Post and Community models exist
