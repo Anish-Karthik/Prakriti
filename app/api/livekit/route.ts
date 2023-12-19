@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server"
 import { AccessToken } from "livekit-server-sdk"
 
-export async function GET(req: NextRequest) {
+export async function POST(req: Request) {
   try {
-    const room = req.nextUrl.searchParams.get("room")
-    const username = req.nextUrl.searchParams.get("id")
+    // const body = (await req.json()).body
+    const { room, username } = await req.json();
+    // const room = req.nextUrl.searchParams.get("room")
+    // const username = req.nextUrl.searchParams.get("id")
 
-    console.log(username)
+    console.log(username)    
     console.log(room)
     if (!room) {
       return NextResponse.json(

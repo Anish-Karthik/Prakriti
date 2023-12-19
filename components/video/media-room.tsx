@@ -2,6 +2,7 @@
 
 import { useAuth, useUser } from "@clerk/nextjs"
 import { LiveKitRoom, VideoConference } from "@livekit/components-react"
+import axios from "axios"
 
 import "@livekit/components-styles"
 import { useEffect, useState } from "react"
@@ -30,10 +31,11 @@ export const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
       try {
         const tmp = "7967679"
         console.log(userId)
-        const resp = await fetch(`/api/livekit?room=${chatId}&id=${userId}`)
+        // const resp = await fetch(`/api/livekit?room=${chatId}&id=${userId}`)
+        const resp = await axios.post(`/api/livekit`,{room:chatId,username:userId})
         console.log(tmp)
-        const data = await resp.json()
-        setToken(data.token)
+//        const data = await resp.json()
+        setToken(resp.data.token)
       } catch (e) {
         console.log(e)
       }
