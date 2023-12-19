@@ -1,14 +1,22 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
-import { useUser } from "@clerk/nextjs"
+
 import { Message, useChat } from "ai/react"
 
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { BotAvatar } from "./BotAvatar"
+import { toast } from "react-hot-toast"
+import axios from "axios"
+import getCurrentUser from "@/hooks/useCurrentUser"
+import { User } from "@prisma/client"
 
-export default function ChatComponent() {
+interface DashboardPageProps{
+  user?:User
+}
+
+const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null)
   const {
     setInput,
@@ -20,18 +28,26 @@ export default function ChatComponent() {
   } = useChat()
   const [languageMessages, setLanguageMessages] = useState<Message[]>([])
   //const [messages,setMessages]=useState([])
-  const [language, SetLanguage] = useState("english")
+  const [language, SetLanguage] = useState("HINDI")
   const [display, setDisplay] = useState("block")
+  const[flag,setFlag]=useState(false)
   const [option_view, setoption_view] = useState("hidden")
   const yogi = "https://i.ibb.co/N7cJc3F/1024.png"
-  const { user } = useUser()
-  const Profile = user?.profileImageUrl
+  
+  const Profile ="";
 
   useEffect(() => {
     if (messages.length > 0) setDisplay("hidden")
     if (chatContainerRef.current)
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
   }, [messages])
+
+
+  const setPrakriti=async(prakriti:string)=>
+  {
+     await axios.post("/api/setPrakriti",{userId:user?.id,prakriti:prakriti})
+    setFlag(true);
+  }
 
   const sendPostRequest = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -52,7 +68,7 @@ export default function ChatComponent() {
 
       const stream = await response.arrayBuffer()
       const data = JSON.parse(new TextDecoder().decode(stream))
-
+      console.log(data+"jjksdjb")
       // Create a new message object with id, role, and content
       const newMessage: Message = {
         id: String(Math.random() * 10),
@@ -63,6 +79,7 @@ export default function ChatComponent() {
       // Add the new message to languageMessages
 
       const tmp: Message[] = [newMessage, ...languageMessages]
+     
       setLanguageMessages(tmp)
     } catch (error: any) {
       console.error("Error:", error)
@@ -71,7 +88,7 @@ export default function ChatComponent() {
 
   return (
     <div
-      className="chat-container scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200 no-scrollbar overflow-auto"
+      className="chat-container scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-100   overflow-auto"
       ref={chatContainerRef}
       style={{
         maxHeight: "500px",
@@ -98,6 +115,23 @@ export default function ChatComponent() {
                 if (currentTextBlock === "") {
                   return <p key={message.id + index}>&nbsp;</p>
                 } else {
+                  if(currentTextBlock.includes("Vata") && flag===false)
+                  {
+                    setFlag(true);
+                    setPrakriti("Vata");
+                  }
+                  else if(currentTextBlock.includes("Pitta") && flag===false)
+                  {
+                    setFlag(true);
+                   setPrakriti("Pitta");
+                   
+                  }
+                  else if(currentTextBlock.includes("Kapha") && flag===false)
+                  {
+                    setFlag(true);
+                   setPrakriti("Kapha");
+                   
+                  }
                   return <p key={message.id + index}>{currentTextBlock}</p>
                 }
               })}
@@ -119,7 +153,8 @@ export default function ChatComponent() {
                   </h2>
                 </div>
               </h3>
-              <p>{message.content}</p>
+              {/* @ts-ignore */}
+              <p>{message.content.choices[0].message.content}</p>
             </div>
           ))}
         </>
@@ -168,3 +203,6 @@ export default function ChatComponent() {
     </div>
   )
 }
+
+
+export default ChatComponent;

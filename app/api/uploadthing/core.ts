@@ -1,7 +1,8 @@
-import { currentUser } from "@clerk/nextjs"
+
+import getCurrentUser from "@/hooks/useCurrentUser"
 import { createUploadthing, type FileRouter } from "uploadthing/next"
 
-const getUser = async () => await currentUser()
+const getUser = async () => await getCurrentUser()
 
 const f = createUploadthing()
 

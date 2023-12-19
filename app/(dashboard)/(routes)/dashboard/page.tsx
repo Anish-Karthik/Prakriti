@@ -1,25 +1,26 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Metadata } from "next"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@clerk/nextjs"
+import getCurrentUser from "@/hooks/useCurrentUser"
 import { BrowserRouter as Router } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Overview_Tab } from "@/components/Overview_Tab/Overview_Tab"
+import { User } from "@prisma/client"
 
-export default function DashboardPage() {
+interface DashboardPageProps{
+  user?:User
+}
+
+
+const DashboardPage  = ({ }) => {
   const router = useRouter()
-  const { userId } = useAuth()
-  useEffect(() => {
-    if (!userId) {
-      router.push("/sign-in")
-    }
-  }, [userId])
-
+  const [user,setUser]=useState(null);
+ 
   return (
     <>
       <div className=" flex-col md:flex">
@@ -53,3 +54,6 @@ export default function DashboardPage() {
     </>
   )
 }
+
+
+export default DashboardPage
