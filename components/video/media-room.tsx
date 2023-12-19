@@ -32,9 +32,12 @@ export const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
         const tmp = "7967679"
         console.log(userId)
         // const resp = await fetch(`/api/livekit?room=${chatId}&id=${userId}`)
-        const resp = await axios.post(`/api/livekit`,{room:chatId,username:userId})
+        const resp = await axios.post(`/api/livekit`, {
+          room: chatId,
+          username: userId,
+        })
         console.log(tmp)
-//        const data = await resp.json()
+        //        const data = await resp.json()
         setToken(resp.data.token)
       } catch (e) {
         console.log(e)

@@ -32,8 +32,8 @@ export async function createCommunity({
   image,
   bio,
   createdById,
-}: TCreateCommunity) // Change the parameter name to reflect it's an id
-{
+}: TCreateCommunity) {
+  // Change the parameter name to reflect it's an id
   try {
     connectToDB()
 
