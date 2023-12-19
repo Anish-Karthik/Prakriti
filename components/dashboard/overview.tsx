@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useAuth } from "@clerk/nextjs"
+
 import { Chart } from "react-google-charts"
 import {
   Bar,
@@ -36,10 +36,10 @@ export function Overview() {
   const [data, setData] = useState<Tdata[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [userPrakriti, setUserPrakriti] = useState<string>("")
-  const { userId } = useAuth()
+  
 
   const fetchData = async () => {
-    if (!userId) return []
+    
     let vata = 0,
       pitta = 0,
       kapha = 0,
@@ -51,18 +51,8 @@ export function Overview() {
       !window.localStorage.getItem("kapha") ||
       !window.localStorage.getItem("prakriti")
     ) {
-      const userInfo = await fetchUser(userId)
-      const userQuizData = await fetchUserQuiz(userInfo?._id)
-      userQuizData?.answers?.forEach((answer: number) => {
-        if (answer == 0) vata++
-        else if (answer == 1) pitta++
-        else if (answer == 2) kapha++
-      })
-      prakriti = userInfo.prakriti
-      window.localStorage.setItem("vata", JSON.stringify(vata))
-      window.localStorage.setItem("pitta", JSON.stringify(pitta))
-      window.localStorage.setItem("kapha", JSON.stringify(kapha))
-      window.localStorage.setItem("prakriti", JSON.stringify(userInfo.prakriti))
+     
+      
     } else {
       vata = Number(window.localStorage.getItem("vata") || 0)
       pitta = Number(window.localStorage.getItem("pitta") || 0)
@@ -110,13 +100,7 @@ export function Overview() {
     ["Kapha", 4],
   ]
 
-  useEffect(() => {
-    setLoading(true)
-    fetchData().then((data: Tdata[]) => {
-      setData(data)
-      setLoading(false)
-    })
-  }, [])
+ 
 
   return (
     // <ResponsiveContainer width="100%" height={350}>

@@ -25,8 +25,33 @@ const montserrat = Montserrat({
   subsets: ["latin"],
 })
 
+
+  import { useEffect } from "react"
+
+
 // get current path
 const Sidebar = () => {
+
+ const googleTranslateElementInit = () => {
+  //@ts-ignore
+    new window.google.translate.TranslateElement(
+      {
+        pageLanguage: "en",
+        autoDisplay: false
+      },
+      "google_translate_element"
+    );
+  };
+  useEffect(() => {
+    var addScript = document.createElement("script");
+    addScript.setAttribute(
+      "src",
+      "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+    );
+    document.body.appendChild(addScript);
+    //@ts-ignore
+    window.googleTranslateElementInit = googleTranslateElementInit;
+  }, []);
   const pathname = usePathname()
   return (
     <div className="space-y-4 py-2 flex flex-col h-full bg-[#111827] text-white ">
@@ -63,6 +88,7 @@ const Sidebar = () => {
             </Link>
           ))}
         </div>
+         <div className="hidden" id="google_translate_element"></div>
       </div>
     </div>
   )
@@ -95,31 +121,31 @@ export const routes: {
     href: "/diet-plan",
     color: "text-red-500",
   },
-  {
-    label: "Ayur-Unity",
-    icon: Users,
-    href: "/ayur-unity",
-    color: "text-sky-500",
-  },
-  {
-    label: "Expert Consultation",
-    icon: HeartPulse,
-    href: "/ayur-sama",
-    color: "text-red-700",
-  },
+  // {
+  //   label: "Ayur-Unity",
+  //   icon: Users,
+  //   href: "/ayur-unity",
+  //   color: "text-sky-500",
+  // },
+  // {
+  //   label: "Expert Consultation",
+  //   icon: HeartPulse,
+  //   href: "/ayur-sama",
+  //   color: "text-red-700",
+  // },
 
-  {
-    label: "Seasonal Care",
-    icon: SunSnow,
-    href: "/seasonal-care",
-    color: "text-yellow-500",
-  },
-  {
-    label: "FAQs",
-    icon: HelpCircle,
-    href: "/faq",
-    color: "text-green-500",
-  },
+  // {
+  //   label: "Seasonal Care",
+  //   icon: SunSnow,
+  //   href: "/seasonal-care",
+  //   color: "text-yellow-500",
+  // },
+  // {
+  //   label: "FAQs",
+  //   icon: HelpCircle,
+  //   href: "/faq",
+  //   color: "text-green-500",
+  // },
   {
     label: "Profile",
     icon: FileIcon,

@@ -1,13 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { useAuth } from "@clerk/nextjs"
 import TypewriterComponent from "typewriter-effect"
 
 import { Button } from "../ui/button"
 
 export const LandingHero = () => {
-  const { isSignedIn } = useAuth()
 
   return (
     <div className="text-white font-bold py-36 text-center space-y-5">
@@ -35,7 +33,7 @@ export const LandingHero = () => {
         wellness.
       </div>
       <div>
-        <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
+        <Link href={ "/sign-in"}>
           <Button
             variant="premium"
             className="md:text-lg p-4 md:p-6 rounded-full font-semibold"

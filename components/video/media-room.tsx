@@ -1,6 +1,5 @@
 "use client"
 
-import { useAuth, useUser } from "@clerk/nextjs"
 import { LiveKitRoom, VideoConference } from "@livekit/components-react"
 import axios from "axios"
 
@@ -8,16 +7,17 @@ import "@livekit/components-styles"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
+import { User } from "@prisma/client"
 
 interface MediaRoomProps {
   chatId: string
   video: boolean
+  user:User
   audio: boolean
 }
 
-export const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
-  const { user } = useUser()
-  const { userId } = useAuth()
+export const MediaRoom = ({ chatId, video, audio,user }: MediaRoomProps) => {
+  
   const router = useRouter()
 
   const [Loading, setLoading] = useState(false)
@@ -30,9 +30,9 @@ export const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
     ;(async () => {
       try {
         const tmp = "7967679"
-        console.log(userId)
+        console.log(user.id)
         // const resp = await fetch(`/api/livekit?room=${chatId}&id=${userId}`)
-        const resp = await axios.post(`/api/livekit`,{room:chatId,username:userId})
+        const resp = await axios.post(`/api/livekit`,{room:chatId,username:user.id})
         console.log(tmp)
 //        const data = await resp.json()
         setToken(resp.data.token)
@@ -40,7 +40,7 @@ export const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
         console.log(e)
       }
     })()
-  }, [user?.id, user?.lastName, chatId, user, userId])
+  }, [user?.id, user?.name, chatId, user, user.id])
 
   if (token === "") {
     return (

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { auth } from "@clerk/nextjs"
+
 import {
   ChatCompletionRequestMessage,
   Configuration,
@@ -8,17 +8,18 @@ import {
 
 import {
   addMemberToCommunity,
-  removeUserFromCommunity,
   type TCommunityUsername,
 } from "@/lib/actions/community.actions"
 import { updateUserQuiz } from "@/lib/actions/user-quiz.actions"
 import { fetchUser } from "@/lib/actions/user.actions"
 import { TquestionMCQ } from "@/lib/questions"
 import { TAnswer } from "@/components/forms/Quiz"
+import getCurrentUser from "@/hooks/useCurrentUser"
+import { ObjectId } from "mongoose"
 
 export async function POST(req: Request) {
   try {
-    const { userId } = auth()
+    
     const body = await req.json()
     const { prakriti, previousPrakriti } = body
 
@@ -26,11 +27,9 @@ export async function POST(req: Request) {
     //   return new NextResponse("Already assigned", { status: 200 });
     // }
 
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 })
-    }
+    const user=await getCurrentUser();
 
-    const user = await fetchUser(userId)
+   
 
     if (!user) {
       return new NextResponse("User not found", { status: 404 })
@@ -41,18 +40,21 @@ export async function POST(req: Request) {
       previousPrakriti != undefined &&
       previousPrakriti != prakriti
     ) {
+      //@ts-ignore
       await removeUserFromCommunity({
-        userId: user._id,
+        //@ts-ignore
+        userId: user.id as unknown as ObjectId,
         communityUsername: previousPrakriti,
       })
     }
     await addMemberToCommunity({
-      userId: user._id,
+      //@ts-ignore
+      userId: user.id,
       communityUsername: prakriti,
     })
     user.prakriti = prakriti
 
-    await user.save()
+    
 
     const responseObj = {
       success: true,

@@ -1,7 +1,6 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { UserButton } from "@clerk/nextjs"
 
 import { cn } from "@/lib/utils"
 
@@ -19,7 +18,7 @@ const Navbar = () => {
     >
       <MobileSidebar />
       <div className="flex w-full justify-end">
-        <UserButton afterSignOutUrl="/" />
+       
       </div>
     </div>
   )

@@ -5,7 +5,6 @@ import { Montserrat } from "next/font/google"
 import Image from "next/image"
 import Link from "next/link"
 import { NEXT_PUBLIC_APP_NAME } from "@/public/constants"
-import { useAuth } from "@clerk/nextjs"
 import { InfoIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -17,7 +16,7 @@ const font = Montserrat({
 })
 
 const LandingNavbar = () => {
-  const { isSignedIn } = useAuth()
+  
 
   return (
     <nav className="p-4 bg-transparent flex items-center justify-between">
@@ -33,7 +32,7 @@ const LandingNavbar = () => {
       </Link>
 
       <div className="flex items-center gap-3">
-        <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
+        <Link href={"/sign-in"}>
           <Button variant="outline" className="rounded-full">
             Get Started
           </Button>
