@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
 import { User } from "@prisma/client"
+import getCurrentUser from "@/hooks/useCurrentUser"
 
 interface MediaRoomProps {
   chatId: string
@@ -16,10 +17,9 @@ interface MediaRoomProps {
   audio: boolean
 }
 
-export const MediaRoom = ({ chatId, video, audio,user }: MediaRoomProps) => {
+export const MediaRoom = ({ chatId, video, audio, user }: MediaRoomProps) => {
   
   const router = useRouter()
-
   const [Loading, setLoading] = useState(false)
   console.log(user)
   const [token, setToken] = useState("")
@@ -29,11 +29,10 @@ export const MediaRoom = ({ chatId, video, audio,user }: MediaRoomProps) => {
     }
     ;(async () => {
       try {
-        const tmp = "7967679"
+        const userInfo = await getCurrentUser()
         console.log(user.id)
         // const resp = await fetch(`/api/livekit?room=${chatId}&id=${userId}`)
-        const resp = await axios.post(`/api/livekit`,{room:chatId,username:userId})
-        console.log(tmp)
+        const resp = await axios.post(`/api/livekit`,{room:chatId,username: userInfo!.id})
         //        const data = await resp.json()
         setToken(resp.data.token)
       } catch (e) {
