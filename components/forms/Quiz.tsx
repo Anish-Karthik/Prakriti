@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-
 import axios from "axios"
 import { ChatCompletionRequestMessage } from "openai-edge"
 import { toast } from "react-hot-toast"
@@ -38,7 +37,6 @@ const Quiz = () => {
     })
   )
   const router = useRouter()
-  
 
   function onClick(
     e?: React.MouseEvent<HTMLButtonElement, MouseEvent>,

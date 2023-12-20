@@ -1,38 +1,30 @@
-import React from 'react'
-import { Button } from '../ui/button'
-import db from '@/lib/db'
+"use client"
 
-const AcceptRejectButton = ({
-  meetingId
-}: {
-  meetingId?: string
-}) => {
-  async function acceptMeeting() {
-    await db.meeting.update({
-      where: {
-        id: meetingId,
-      },
-      data: {
-        status: "ACCEPTED",
-      },
-    })
-    console.log("accept")
+import React from "react"
+import { useRouter } from "next/navigation"
+
+import { acceptMeeting, rejectMeeting } from "@/lib/actions/meeting.actions"
+
+import { Button } from "../ui/button"
+
+const AcceptRejectButton = ({ meetingId }: { meetingId?: string }) => {
+  const router = useRouter()
+  async function acceptMeetingf() {
+    await acceptMeeting({ meetingId: meetingId! })
+    router.push(`/ayur-sama/${meetingId}`)
   }
-  async function rejectMeeting() {
-    await db.meeting.update({
-      where: {
-        id: meetingId,
-      },
-      data: {
-        status: "REJECTED",
-      },
-    })
-    console.log("reject")
+  async function rejectMeetingf() {
+    await rejectMeeting({ meetingId: meetingId! })
+    router.push(`/ayur-sama/${meetingId}`)
   }
   return (
-    <div className='flex gap-2 w-full'>
-      <Button onClick={acceptMeeting}>Accept</Button>
-      <Button onClick={rejectMeeting}>Reject</Button>
+    <div className="flex gap-2 w-full justify-between">
+      <Button onClick={acceptMeetingf} variant="default" className="w-full">
+        Accept
+      </Button>
+      <Button onClick={rejectMeetingf} variant="destructive" className="w-full">
+        Reject
+      </Button>
     </div>
   )
 }

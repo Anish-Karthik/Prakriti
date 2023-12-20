@@ -1,19 +1,21 @@
 import Image from "next/image"
-
-import { Button } from "../ui/button"
-import BookButton from "../shared/BookButton"
 import { Doctor, User } from "@prisma/client"
-import { currentUser, useAuth } from "@clerk/nextjs"
+
 import AcceptRejectButton from "../shared/AcceptRejectButton"
+import BookButton from "../shared/BookButton"
+import { Button } from "../ui/button"
 
 const DoctorCard = ({
   user,
+  currUser,
   meetingId,
+  type,
 }: {
-  user: User & { doctor?: Doctor }
+  currUser: User
+  user: User & { doctor?: Doctor | null }
   meetingId?: string
+  type: "ACCEPTED" | "PENDING" | "REJECTED"
 }) => {
-  const userId = useAuth().userId!
   return (
     <div className="flex h-full flex-col gap-2 rounded-md bg-slate-100 justify-center p-2 shadow-md">
       <center className="py-2">
@@ -33,13 +35,31 @@ const DoctorCard = ({
           {user.doctor?.speciality || user.prakriti}
         </p>
       </div>
-      <div className="w-full px-5">
-        <AcceptRejectButton viewingUser={user} currentUserId={userId} meetingId={meetingId} />
-        <BookButton viewingUser={user} currentUserId={userId} meetingId={meetingId} />
-        <Button className="w-full" variant={"ghost"}>
-          Message
-        </Button>
-      </div>
+      {type === "PENDING" && (
+        <div className="w-full px-5 flex flex-col gap-2">
+          <AcceptRejectButton meetingId={meetingId} />
+          {!!user.doctor && (
+            <BookButton
+              viewingUser={user}
+              currentUserId={currUser.id}
+              meetingId={meetingId}
+            />
+          )}
+          <Button className="w-full" variant={"ghost"}>
+            Message
+          </Button>
+        </div>
+      )}
+      {type === "ACCEPTED" && user.doctor && (
+        <div className="w-full px-5 flex flex-col gap-2">
+          <Button className="w-full">Feedback</Button>
+        </div>
+      )}
+      {type === "ACCEPTED" && user.doctor && (
+        <div className="w-full px-5 flex flex-col gap-2">
+          <Button className="w-full">View</Button>
+        </div>
+      )}
     </div>
   )
 }

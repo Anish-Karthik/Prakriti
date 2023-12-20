@@ -1,19 +1,19 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react"
-
+import { User } from "@prisma/client"
 import { Message, useChat } from "ai/react"
+import axios from "axios"
+import { toast } from "react-hot-toast"
+
+import getCurrentUser from "@/hooks/useCurrentUser"
 
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { BotAvatar } from "./BotAvatar"
-import { toast } from "react-hot-toast"
-import axios from "axios"
-import getCurrentUser from "@/hooks/useCurrentUser"
-import { User } from "@prisma/client"
 
-interface DashboardPageProps{
-  user?:User
+interface DashboardPageProps {
+  user?: User
 }
 
 const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
@@ -30,11 +30,11 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
   //const [messages,setMessages]=useState([])
   const [language, SetLanguage] = useState("HINDI")
   const [display, setDisplay] = useState("block")
-  const[flag,setFlag]=useState(false)
+  const [flag, setFlag] = useState(false)
   const [option_view, setoption_view] = useState("hidden")
   const yogi = "https://i.ibb.co/N7cJc3F/1024.png"
-  
-  const Profile ="";
+
+  const Profile = ""
 
   useEffect(() => {
     if (messages.length > 0) setDisplay("hidden")
@@ -42,11 +42,12 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
   }, [messages])
 
-
-  const setPrakriti=async(prakriti:string)=>
-  {
-     await axios.post("/api/setPrakriti",{userId:user?.id,prakriti:prakriti})
-    setFlag(true);
+  const setPrakriti = async (prakriti: string) => {
+    await axios.post("/api/setPrakriti", {
+      userId: user?.id,
+      prakriti: prakriti,
+    })
+    setFlag(true)
   }
 
   const sendPostRequest = async (event: React.FormEvent) => {
@@ -68,7 +69,7 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
 
       const stream = await response.arrayBuffer()
       const data = JSON.parse(new TextDecoder().decode(stream))
-      console.log(data+"jjksdjb")
+      console.log(data + "jjksdjb")
       // Create a new message object with id, role, and content
       const newMessage: Message = {
         id: String(Math.random() * 10),
@@ -79,7 +80,7 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
       // Add the new message to languageMessages
 
       const tmp: Message[] = [newMessage, ...languageMessages]
-     
+
       setLanguageMessages(tmp)
     } catch (error: any) {
       console.error("Error:", error)
@@ -115,22 +116,21 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
                 if (currentTextBlock === "") {
                   return <p key={message.id + index}>&nbsp;</p>
                 } else {
-                  if(currentTextBlock.includes("Vata") && flag===false)
-                  {
-                    setFlag(true);
-                    setPrakriti("Vata");
-                  }
-                  else if(currentTextBlock.includes("Pitta") && flag===false)
-                  {
-                    setFlag(true);
-                   setPrakriti("Pitta");
-                   
-                  }
-                  else if(currentTextBlock.includes("Kapha") && flag===false)
-                  {
-                    setFlag(true);
-                   setPrakriti("Kapha");
-                   
+                  if (currentTextBlock.includes("Vata") && flag === false) {
+                    setFlag(true)
+                    setPrakriti("Vata")
+                  } else if (
+                    currentTextBlock.includes("Pitta") &&
+                    flag === false
+                  ) {
+                    setFlag(true)
+                    setPrakriti("Pitta")
+                  } else if (
+                    currentTextBlock.includes("Kapha") &&
+                    flag === false
+                  ) {
+                    setFlag(true)
+                    setPrakriti("Kapha")
                   }
                   return <p key={message.id + index}>{currentTextBlock}</p>
                 }
@@ -204,5 +204,4 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
   )
 }
 
-
-export default ChatComponent;
+export default ChatComponent

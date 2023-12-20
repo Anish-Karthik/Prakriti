@@ -1,43 +1,29 @@
-import { redirect } from "next/navigation"
-import serverAuth from "@/lib/serverAuth"
-import getCurrentUser from "@/hooks/useCurrentUser"
-import { fetchUser } from "@/lib/actions/user.actions"
-import AccountProfile from "@/components/forms/AccountProfile"
+import Link from "next/link"
 
-async function Page() {
-  //@ts-ignore
-  const user = await getCurrentUser();
-  if (!user) return null // to avoid typescript warnings
+import { currentUser } from "@/hooks/currentUser"
+import { Button } from "@/components/ui/button"
 
-  // check if user has onboarded
-  const userInfo = await fetchUser(user.id)
-  console.log(userInfo)
-  if (userInfo?.onboarded) redirect("/dashboard")
-
-  const userData = {
-    id: user.id,
-    objectId: userInfo?._id || "",
-    //@ts-ignore
-    username: userInfo?.username || user.username || "",
-    //@ts-ignore
-    name: userInfo?.name || user.firstName || "",
-    bio: userInfo?.bio || "",
-    //@ts-ignore
-    image: userInfo?.image || user.imageUrl || "",
-  }
-
+const page = async () => {
+  const user = await currentUser()
+  console.log(user)
   return (
-    <main className="mx-auto flex max-w-3xl flex-col justify-start px-10 py-20">
-      <h1 className="head-text">Onboarding</h1>
-      <p className="mt-3 text-base-regular text-light-2">
-        Complete your profile now, to use Prakriti.
-      </p>
-
-      <section className="mt-9 bg-dark-2 p-10">
-        <AccountProfile user={userData} btnTitle="Continue" />
-      </section>
-    </main>
+    <div className="h-screen flex flex-col items-center justify-center">
+      <center>
+        <div className="flex flex-col gap-3 p-3 shadow-md bg-slate-200">
+          <Button>
+            <Link href={"/onboarding/doctor"}>
+              <h1 className="text-xl">Create A Doctor Account</h1>
+            </Link>
+          </Button>
+          <Button>
+            <Link href="/onboarding/user">
+              <h1 className="text-xl">Create A User Account</h1>
+            </Link>
+          </Button>
+        </div>
+      </center>
+    </div>
   )
 }
 
-export default Page
+export default page

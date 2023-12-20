@@ -1,37 +1,33 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from "next"
+import { getServerSession } from "next-auth"
 
 import prisma from "@/lib/prismadb"
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
-import { getServerSession } from 'next-auth';
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions"
 
 const serverAuth = async (req: NextApiRequest, res: NextApiResponse) => {
-  try
-  {
-    const session = await getServerSession(req, res, authOptions);
+  try {
+    const session = await getServerSession(req, res, authOptions)
 
     if (!session?.user?.email) {
-      return;
+      return
       //TODO:CHECK WHETHER IT WORK
       //throw new Error('Not signed in');
-    } 
-
-    const currentUser=await prisma.user.findFirst({
-      where:{
-        email:session.user.email
-      }
-    })
-     if (!currentUser) {
-      throw new Error('User not found');
     }
 
-    return { currentUser };
-  }
-  catch(e:any)
-  {
-    console.log(e);
-    return;
-  }
- 
-};
+    const currentUser = await prisma.user.findFirst({
+      where: {
+        email: session.user.email,
+      },
+    })
+    if (!currentUser) {
+      throw new Error("User not found")
+    }
 
-export default serverAuth;
+    return { currentUser }
+  } catch (e: any) {
+    console.log(e)
+    return
+  }
+}
+
+export default serverAuth

@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-
 import { Chart } from "react-google-charts"
 import {
   Bar,
@@ -18,7 +17,7 @@ import { fetchUser } from "@/lib/actions/user.actions"
 import { questionMCQarray } from "@/lib/questions"
 
 function fetchUserQuiz(userId: string) {
-  return {answers: [0, 1, 2, 0, 1, 2, 0, 1, 2, 0]}
+  return { answers: [0, 1, 2, 0, 1, 2, 0, 1, 2, 0] }
 }
 export const options = {
   is3D: true,
@@ -38,10 +37,8 @@ export function Overview() {
   const [data, setData] = useState<Tdata[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [userPrakriti, setUserPrakriti] = useState<string>("")
-  
 
   const fetchData = async () => {
-    
     let vata = 0,
       pitta = 0,
       kapha = 0,
@@ -53,8 +50,6 @@ export function Overview() {
       !window.localStorage.getItem("kapha") ||
       !window.localStorage.getItem("prakriti")
     ) {
-     
-      
     } else {
       vata = Number(window.localStorage.getItem("vata") || 0)
       pitta = Number(window.localStorage.getItem("pitta") || 0)
@@ -101,8 +96,6 @@ export function Overview() {
     ["Pitta", 16],
     ["Kapha", 4],
   ]
-
- 
 
   return (
     // <ResponsiveContainer width="100%" height={350}>

@@ -4,14 +4,13 @@ import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { User } from "@prisma/client"
+import { Doctor, User } from "@prisma/client"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { updateUser } from "@/lib/actions/user.actions"
+import { updateDoctor } from "@/lib/actions/user.actions"
 import { useUploadThing } from "@/lib/hooks/uploadthing"
-import { isBase64Image } from "@/lib/utils"
-import { UserValidation } from "@/lib/validations/user"
+import { cn, isBase64Image } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -25,13 +24,28 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
+const UserValidation = z.object({
+  profile_photo: z.string().url().nonempty(),
+  experience: z.string(),
+  certificate: z.string(),
+  speciality: z.string(),
+  name: z.string().min(3).max(30),
+  username: z.string().min(3).max(30),
+  bio: z.string().min(3).max(1000),
+})
+
 interface AccountFormFieldProps {
   form: any
   name: string
 }
 
-const AccountProfile = ({ user }: { user: Partial<User> }) => {
+const DoctorProfile = ({
+  user,
+}: {
+  user: Partial<User> & { doctor?: Doctor | null }
+}) => {
   const [files, setFiles] = useState<File[]>([])
+  const [certs, setCerts] = useState<File[]>([])
   const { startUpload } = useUploadThing("media")
   const router = useRouter()
   const pathname = usePathname()
@@ -43,6 +57,9 @@ const AccountProfile = ({ user }: { user: Partial<User> }) => {
       name: user.name || "",
       bio: user.bio || "",
       profile_photo: user.image,
+      certificate: user?.doctor?.certificate || "",
+      experience: user?.doctor?.experience || "",
+      speciality: user?.doctor?.speciality || "",
     },
   })
 
@@ -68,6 +85,28 @@ const AccountProfile = ({ user }: { user: Partial<User> }) => {
     }
   }
 
+  function handleCertChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    onChange: (value: string) => void
+  ) {
+    e.preventDefault()
+    const fileReader = new FileReader()
+
+    if (e.target?.files && e.target.files.length > 0) {
+      const file = e.target?.files[0]
+      setCerts(Array.from(e.target.files))
+
+      if (!file.type.includes("image")) return
+
+      fileReader.onload = async (event) => {
+        const imageDataUrl = event.target?.result?.toString() || ""
+        onChange(imageDataUrl)
+      }
+
+      fileReader.readAsDataURL(file)
+    }
+  }
+
   async function onSubmit(values: z.infer<typeof UserValidation>) {
     const blob = values.profile_photo
 
@@ -81,15 +120,28 @@ const AccountProfile = ({ user }: { user: Partial<User> }) => {
       }
     }
 
-    await updateUser({
+    const hasCertChanged = isBase64Image(blob)
+
+    if (hasCertChanged) {
+      const imgRes = await startUpload(certs)
+
+      if (imgRes && imgRes[0].url) {
+        values.certificate = imgRes[0].url
+      }
+    }
+
+    await updateDoctor({
       userId: user.id!,
       username: values.username,
       name: values.name,
       bio: values.bio,
       image: values.profile_photo,
-      path: pathname,
       email: user.email!,
       hashedPassword: user.hashedPassword!,
+      path: pathname,
+      certificate: values.certificate,
+      experience: values.experience,
+      speciality: values.speciality,
     })
 
     if (pathname === "/profile/edit") {
@@ -109,12 +161,18 @@ const AccountProfile = ({ user }: { user: Partial<User> }) => {
         <AccountProfilePhoto
           form={form}
           handleImageChange={handleImageChange}
-          name="profile"
+          name="profile_photo"
         />
         <AccountInputField form={form} name="name" />
         <AccountInputField form={form} name="username" />
+        <AccountInputField form={form} name="speciality" />
+        <AccountProfilePhoto
+          form={form}
+          handleImageChange={handleCertChange}
+          name="certificate"
+          type="flat"
+        />
         <AccountTextArea form={form} name="bio" />
-
         <Button type="submit" variant={"outline"} className="bg-primary-500">
           Submit
         </Button>
@@ -123,41 +181,45 @@ const AccountProfile = ({ user }: { user: Partial<User> }) => {
   )
 }
 
-export default AccountProfile
+export default DoctorProfile
 
 function AccountProfilePhoto({
   form,
   handleImageChange,
   name,
+  type = "rounded",
 }: AccountFormFieldProps & {
   handleImageChange: (
     e: React.ChangeEvent<HTMLInputElement>,
     onChange: (value: string) => void
   ) => void
+  type?: "rounded" | "flat"
 }) {
   return (
     <FormField
       control={form.control}
-      name="profile_photo"
+      name={name}
       render={({ field }) => (
         <FormItem className="flex items-center gap-4">
-          <FormLabel className="account-form_image-label">
+          <FormLabel className={cn("account-form_image-label")}>
             {field.value ? (
               <Image
                 src={field.value}
                 alt="Profile Photo"
-                width={96}
-                height={96}
+                width={60}
+                height={40}
                 priority={true}
-                className="rounded-full object-contain"
+                className={cn(
+                  type === "rounded" ? "object-contain" : "w-[50%] px-[5%]"
+                )}
               />
             ) : (
               <Image
                 src={"assets/profile.svg"}
                 alt="Profile Photo"
-                width={30}
-                height={30}
-                className="rounded-full object-contain"
+                width={60}
+                height={40}
+                className="object-contain"
               />
             )}
           </FormLabel>
@@ -166,7 +228,7 @@ function AccountProfilePhoto({
               type="file"
               accept="image/*"
               placeholder="Upload a profile photo"
-              className="account-form_image-input"
+              className="account-form_image-input w-full"
               onChange={(e) => handleImageChange(e, field.onChange)}
             />
           </FormControl>

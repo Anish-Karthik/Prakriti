@@ -11,27 +11,31 @@ datasource db {
 }
 
 model User {
-  id        String    @id @map("_id")
-  username  String    @unique
-  name      String
-  image     String    @default("")
-  bio       String    @default("")
-  onboarded Boolean   @default(false)
-  prakriti  String    @default("")
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  meetings  Meeting[]
-  doctor    Doctor?
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  username       String    @unique
+  name           String
+  image          String    @default("")
+  bio            String    @default("")
+  onboarded      Boolean   @default(false)
+  prakriti       String    @default("")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  email          String    @unique
+  hashedPassword String
+  meetings       Meeting[]
+  doctor         Doctor?
 }
 
 model Doctor {
-  id         String    @id @map("_id")
-  userId     String    @unique
-  speciality String
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  user       User      @relation(fields: [userId], references: [id])
-  meetings   Meeting[]
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String    @unique @db.ObjectId
+  certificate String
+  experience  String
+  speciality  String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User      @relation(fields: [userId], references: [id])
+  meetings    Meeting[]
 }
 
 enum MeetingStatus {
@@ -42,8 +46,8 @@ enum MeetingStatus {
 
 model Meeting {
   id        String        @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String
-  doctorId  String
+  userId    String        @db.ObjectId
+  doctorId  String        @db.ObjectId
   time      String
   status    MeetingStatus @default(PENDING)
   createdAt DateTime      @default(now())

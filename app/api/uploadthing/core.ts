@@ -1,8 +1,8 @@
-
-import getCurrentUser from "@/hooks/useCurrentUser"
 import { createUploadthing, type FileRouter } from "uploadthing/next"
 
-const getUser = async () => await getCurrentUser()
+import { currentUser } from "@/hooks/currentUser"
+
+const getUser = async () => await currentUser()
 
 const f = createUploadthing()
 

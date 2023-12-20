@@ -1,19 +1,20 @@
-import {IconType} from 'react-icons'
-import React from 'react'
-interface AuthButtonProps{
-  icon:IconType,
-  onClick:()=>void;
+import React from "react"
+import { IconType } from "react-icons"
+
+interface AuthButtonProps {
+  icon: IconType
+  onClick: () => void
 }
 
-export const AuthButton:React.FC<AuthButtonProps> = ({
-  icon:Icon,
-  onClick
+export const AuthButton: React.FC<AuthButtonProps> = ({
+  icon: Icon,
+  onClick,
 }) => {
   return (
     <button
-    onClick={onClick}
-    type='button'
-    className='
+      onClick={onClick}
+      type="button"
+      className="
     inline-flex
     w-full
     justify-center
@@ -28,9 +29,9 @@ export const AuthButton:React.FC<AuthButtonProps> = ({
     ring-gray-300
     hover:bg-gray-50
     focus:outline-offset-0
-    '
+    "
     >
-      <Icon/>
+      <Icon />
     </button>
   )
 }

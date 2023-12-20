@@ -4,23 +4,22 @@ import { useEffect, useState } from "react"
 import { Metadata } from "next"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import getCurrentUser from "@/hooks/useCurrentUser"
+import { User } from "@prisma/client"
 import { BrowserRouter as Router } from "react-router-dom"
 
+import getCurrentUser from "@/hooks/useCurrentUser"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Overview_Tab } from "@/components/Overview_Tab/Overview_Tab"
-import { User } from "@prisma/client"
 
-interface DashboardPageProps{
-  user?:User
+interface DashboardPageProps {
+  user?: User
 }
 
-
-const DashboardPage  = ({ }) => {
+const DashboardPage = ({}) => {
   const router = useRouter()
-  const [user,setUser]=useState(null);
- 
+  const [user, setUser] = useState(null)
+
   return (
     <>
       <div className=" flex-col md:flex">
@@ -54,6 +53,5 @@ const DashboardPage  = ({ }) => {
     </>
   )
 }
-
 
 export default DashboardPage

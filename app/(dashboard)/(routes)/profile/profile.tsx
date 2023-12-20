@@ -1,17 +1,16 @@
 "use client"
 
 import React from "react"
-import getCurrentUser from "@/hooks/useCurrentUser"
 import { User } from "@prisma/client"
 
-interface DashboardPageProps{
-  user:User
+import getCurrentUser from "@/hooks/useCurrentUser"
+
+interface DashboardPageProps {
+  user: User
 }
 
 const ProfilePage: React.FC<DashboardPageProps> = ({ user }) => {
-  
-  
-  const profile=""
+  const profile = ""
   return (
     <div className="profile-container">
       <section>
@@ -19,7 +18,6 @@ const ProfilePage: React.FC<DashboardPageProps> = ({ user }) => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-1">
               <div className="mb-4 flex flex-col  justify-center items-center">
-               
                 <p className="text-gray-600 text-md mt-2 text-center">
                   Prakirthi ID:0001
                 </p>

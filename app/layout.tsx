@@ -1,18 +1,14 @@
-
 import AuthContext from "./context/AuthContext"
-
 import "./globals.css"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { NEXT_PUBLIC_APP_DESCRIPTION } from "@/public/constants"
-import i18next from 'i18next'
-import { initReactI18next } from 'react-i18next'
-import HttpApi from 'i18next-http-backend'
-import LanguageDetector from 'i18next-browser-languagedetector'
+import i18next from "i18next"
+import LanguageDetector from "i18next-browser-languagedetector"
+import HttpApi from "i18next-http-backend"
+import { initReactI18next } from "react-i18next"
 
 import { ToasterProvider } from "@/components/toaster-provider"
-
-
 
 export default function RootLayout({
   children,
@@ -20,16 +16,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    
-      <html lang="en">
-        <body className="h-screen w-screen overflow-x-hidden">
-          <AuthContext>
+    <html lang="en">
+      <body className="h-screen w-screen overflow-x-hidden">
+        <AuthContext>
           <ToasterProvider />
           {children}
-         
-          </AuthContext>
-        </body>
-      </html>
-    
+        </AuthContext>
+      </body>
+    </html>
   )
 }

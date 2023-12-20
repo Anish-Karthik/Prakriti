@@ -1,6 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
+
 import db from "@/lib/db"
 
 interface UpdateUserProps {
@@ -10,6 +11,8 @@ interface UpdateUserProps {
   image: string
   bio: string
   path: string
+  email: string
+  hashedPassword?: string
 }
 
 export async function updateUser({
@@ -19,9 +22,11 @@ export async function updateUser({
   image,
   bio,
   path,
+  email,
+  hashedPassword,
 }: UpdateUserProps): Promise<void> {
   try {
-
+    console.log(email)
     await db.user.upsert({
       where: {
         id: userId,
@@ -31,6 +36,7 @@ export async function updateUser({
         name,
         image,
         bio,
+        email,
         onboarded: true,
         updatedAt: new Date(),
       },
@@ -40,11 +46,69 @@ export async function updateUser({
         name,
         image,
         bio,
+        email: email,
+        hashedPassword: hashedPassword!,
         onboarded: true,
         updatedAt: new Date(),
       },
     })
 
+    if (path === "/profile/edit") {
+      revalidatePath(path)
+    }
+  } catch (error: any) {
+    console.log(error)
+    throw new Error(`Failed to create/update user: ${error.message}`)
+  }
+}
+
+export async function updateDoctor({
+  userId,
+  username,
+  name,
+  image,
+  bio,
+  path,
+  email,
+  hashedPassword,
+  certificate,
+  experience,
+  speciality,
+}: UpdateUserProps & {
+  certificate: string
+  experience: string
+  speciality: string
+}) {
+  try {
+    await updateUser({
+      userId,
+      username,
+      name,
+      image,
+      bio,
+      path,
+      email,
+      hashedPassword,
+    })
+
+    await db.doctor.upsert({
+      where: {
+        userId: userId,
+      },
+      update: {
+        certificate,
+        experience,
+        speciality,
+        updatedAt: new Date(),
+      },
+      create: {
+        userId,
+        certificate,
+        experience,
+        speciality,
+        updatedAt: new Date(),
+      },
+    })
     if (path === "/profile/edit") {
       revalidatePath(path)
     }
