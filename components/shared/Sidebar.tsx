@@ -33,7 +33,7 @@ const montserrat = Montserrat({
 // get current path
 
 interface SidebarProps{
-  name:string
+  name?:string
 }
 
 const Sidebar:React.FC<SidebarProps> = ({name}) => {
