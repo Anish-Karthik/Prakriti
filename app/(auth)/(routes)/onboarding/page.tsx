@@ -2,9 +2,11 @@ import Link from "next/link"
 
 import { currentUser } from "@/hooks/currentUser"
 import { Button } from "@/components/ui/button"
+import { redirect } from "next/navigation"
 
 const page = async () => {
   const user = await currentUser()
+  if (!user) redirect("/sign-in")
   console.log(user)
   return (
     <div className="h-screen flex flex-col items-center justify-center">
