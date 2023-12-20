@@ -9,9 +9,6 @@ import { BotAvatar } from "@/components/ai/BotAvatar";
 import ChatComponent from "@/components/ai/ChatComponent";
 
 
-
-
-
 interface LanguageStore {
   language: string;
   setLanguage: Dispatch<SetStateAction<string>>;

@@ -1,15 +1,24 @@
-"use client"
+"use client";
 
-import React, { use, useEffect, useRef, useState } from "react"
-import { User } from "@prisma/client"
-import { Message, useChat } from "ai/react"
-import axios from "axios"
-import { toast } from "react-hot-toast"
-import { ClipLoader } from "react-spinners"
+import React, { use, useEffect, useRef, useState } from "react";
+import { User } from "@prisma/client";
+import { Message, useChat } from "ai/react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { ClipLoader } from "react-spinners";
 
-import { Button } from "../ui/button"
-import { Input } from "../ui/input"
-import { BotAvatar } from "./BotAvatar"
+
+
+import { useMessageStore } from "@/hooks/useMessage";
+
+
+
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { BotAvatar } from "./BotAvatar";
+import Report from "./Report";
+import { useRouter } from "next/navigation";
+
 
 interface DashboardPageProps {
   user?: User
@@ -29,6 +38,7 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user, language }) => {
   const [languageMessages, setLanguageMessages] = useState<Message[]>([])
   //const [messages,setMessages]=useState([])
 
+  const [showReport, setShowReport] = useState(false)
   const [display, setDisplay] = useState("block")
   const [loading, setLoading] = useState(false)
   const [flag, setFlag] = useState(false)
@@ -48,7 +58,16 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user, language }) => {
       userId: user?.id,
       prakriti: prakriti,
     })
-    setFlag(true)
+    
+  }
+
+  const addMessages = useMessageStore((state) => state.addMessages);
+  const router=useRouter();
+  const genReport = () => {
+
+    addMessages(languageMessages)
+    router.push("/report")
+    
   }
 
   const sendPostRequest = async (event: React.FormEvent) => {
@@ -169,6 +188,9 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user, language }) => {
                 </h2>
               </div>
             </h3>
+            
+           
+          
             {message.content
               .split("\n")
               .map((currentTextBlock: string, index: number) => {
@@ -293,6 +315,17 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user, language }) => {
           </Button>
         </div>
       </form>
+      <div>
+        <Button onClick={genReport}>Download Data</Button>
+      </div>
+      {
+        showReport && (
+        <div className="z-50">
+          <Report messages={languageMessages} />
+        </div>
+        )
+      }
+     
     </div>
   )
 }
