@@ -8,7 +8,6 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { User } from "@prisma/client"
 import { Loader2 } from "lucide-react"
-import { User } from "@prisma/client"
 import getCurrentUser from "@/hooks/useCurrentUser"
 
 interface MediaRoomProps {

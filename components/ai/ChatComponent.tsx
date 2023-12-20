@@ -124,8 +124,8 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user, language }) => {
         let timeoutId: NodeJS.Timeout
         if (loading) {
           timeoutId = setTimeout(() => {
-            setLoading(false)
-          }, 5000)
+           
+          }, 1000)
         }
         setLoading(false)
       }
@@ -248,6 +248,7 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user, language }) => {
           <Button
             className="w-full "
             type="submit"
+            disabled={loading}
             onClick={(e) => {
               setInput("A")
             }}
@@ -257,6 +258,7 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user, language }) => {
           <Button
             className="w-full "
             type="submit"
+            disabled={loading}
             onClick={() => {
               setInput("B")
             }}
@@ -264,6 +266,7 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user, language }) => {
             B
           </Button>
           <Button
+            disabled={loading}
             className="w-full "
             type="submit"
             onClick={() => {

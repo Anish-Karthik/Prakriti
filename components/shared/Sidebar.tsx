@@ -1,44 +1,65 @@
-"use client"
+"use client";
 
-import { read } from "fs"
-import { useEffect } from "react"
-import { Montserrat } from "next/font/google"
-import Image from "next/image"
-import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
-import { NEXT_PUBLIC_APP_NAME } from "@/public/constants"
-import {
-  Apple,
-  FileIcon,
-  FileQuestion,
-  HeartPulse,
-  HelpCircle,
-  LayoutDashboardIcon,
-  MessageSquareIcon,
-  SettingsIcon,
-  SunSnow,
-  Users,
-} from "lucide-react"
-import { signOut } from "next-auth/react"
-import { useTranslation } from "react-i18next"
-import { HiArrowLeftOnRectangle, HiUsers } from "react-icons/hi2"
+import { read } from "fs";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Montserrat } from "next/font/google";
+import Image from "next/image";
+import Link from "next/link";
+import { redirect, usePathname, useRouter } from "next/navigation";
+import { NEXT_PUBLIC_APP_NAME } from "@/public/constants";
+import { Apple, FileIcon, FileQuestion, HeartPulse, HelpCircle, LayoutDashboardIcon, MessageSquareIcon, SettingsIcon, SunSnow, Users } from "lucide-react";
+import { signOut } from "next-auth/react";
+import { HiArrowLeftOnRectangle, HiUsers } from "react-icons/hi2";
 
-import { cn } from "@/lib/utils"
 
-import { Button } from "../ui/button"
 
+import { cn } from "@/lib/utils";
+import useLanguageStore from "@/hooks/useLanguage";
+
+
+
+import { Button } from "../ui/button";
+
+
+interface LanguageStore {
+  language: string;
+  setLanguage: Dispatch<SetStateAction<string>>;
+}
 const montserrat = Montserrat({
   weight: "600",
   subsets: ["latin"],
 })
 
 // get current path
-const Sidebar = () => {
-  const { t, i18n, ready } = useTranslation()
 
-  const changeLanguage = (lng: string | undefined) => {
-    i18n.changeLanguage(lng)
-  }
+interface SidebarProps{
+  name:string
+}
+
+const Sidebar:React.FC<SidebarProps> = ({name}) => {
+
+   const { language, setLanguage } = useLanguageStore() as LanguageStore;
+
+  const [currentRoutes, setRoutes] = useState(routes)
+
+  
+  useEffect(()=>{
+    switch(language.toLowerCase())
+    {
+      case "hindi":
+        setRoutes(Hindiroutes);
+        return
+      case "telugu":
+        setRoutes(TeluguRoutes);
+        return
+      case "tamil":
+        setRoutes(TamilRoutes);
+        return
+      default:
+        setRoutes(routes);
+        return
+    }
+  })
 
   const googleTranslateElementInit = () => {
     //@ts-ignore
@@ -75,7 +96,7 @@ const Sidebar = () => {
         </Link>
 
         <div className="space-y-1.5 pt-3 lg:pt-4">
-          {routes.map((route) => (
+          {currentRoutes.map((route) => (
             <div
               key={route.label}
               onClick={async () => {
@@ -109,6 +130,7 @@ const Sidebar = () => {
           // <Translate></Translate>
         }
       </div>
+     
     </div>
   )
 }
@@ -129,7 +151,7 @@ export const routes: {
   },
 
   {
-    label: "Chatbot",
+    label: "Yogi",
     icon: MessageSquareIcon,
     href: "/chatbot",
     color: "text-emerald-500",
@@ -180,6 +202,221 @@ export const routes: {
   },
   {
     label: "Logout",
+    href: "/sign-in",
+    icon: HiArrowLeftOnRectangle,
+    color: "text-white-500",
+  },
+]
+
+
+export const Hindiroutes: {
+  label: string
+  icon: any
+  href: string
+  color: string
+}[] = [
+  {
+    label: "डैशबोर्ड",
+    icon: LayoutDashboardIcon,
+    href: "/dashboard",
+    color: "text-sky-500",
+  },
+
+  {
+    label: "योगी",
+    icon: MessageSquareIcon,
+    href: "/chatbot",
+    color: "text-emerald-500",
+  },
+  {
+    label: "आहार योजना",
+    icon: Apple,
+    href: "/diet-plan",
+    color: "text-red-500",
+  },
+
+  {
+    label: "अयूर एकता",
+    icon: Users,
+    href: "/ayur-unity",
+    color: "text-sky-500",
+  },
+  {
+    label: "विशेषज्ञ परामर्श",
+    icon: HeartPulse,
+    href: "/ayur-sama",
+    color: "text-red-700",
+  },
+
+  {
+    label: "मौसमी देखभाल",
+    icon: SunSnow,
+    href: "/seasonal-care",
+    color: "text-yellow-500",
+  },
+  {
+    label: "सामान्य प्रश्न",
+    icon: HelpCircle,
+    href: "/faq",
+    color: "text-green-500",
+  },
+  {
+    label: "प्रोफाइल",
+    icon: FileIcon,
+    href: "/profile",
+    color: "text-white-500",
+  },
+  {
+    label: "सेटिंग्ज",
+    icon: SettingsIcon,
+    href: "/settings",
+    color: "text-white-500",
+  },
+  {
+    label: "बाहेर पडणे",
+    href: "/sign-in",
+    icon: HiArrowLeftOnRectangle,
+    color: "text-white-500",
+  },
+]
+
+
+export const TamilRoutes: {
+  label: string
+  icon: any
+  href: string
+  color: string
+}[] = [
+  {
+    label: "டாஷ்போர்டு",
+    icon: LayoutDashboardIcon,
+    href: "/dashboard",
+    color: "text-sky-500",
+  },
+
+  {
+    label: "யோகி",
+    icon: MessageSquareIcon,
+    href: "/chatbot",
+    color: "text-emerald-500",
+  },
+  {
+    label: "உணவு திட்டம்",
+    icon: Apple,
+    href: "/diet-plan",
+    color: "text-red-500",
+  },
+
+  {
+    label: "ஆயுர்-ஒற்றுமை",
+    icon: Users,
+    href: "/ayur-unity",
+    color: "text-sky-500",
+  },
+  {
+    label: "நிபுணர் ஆலோசனை",
+    icon: HeartPulse,
+    href: "/ayur-sama",
+    color: "text-red-700",
+  },
+
+  {
+    label: "பருவகால பராமரிப்பு",
+    icon: SunSnow,
+    href: "/seasonal-care",
+    color: "text-yellow-500",
+  },
+  {
+    label: "அடிக்கடி கேட்கப்படும்",
+    icon: HelpCircle,
+    href: "/faq",
+    color: "text-green-500",
+  },
+  {
+    label: "சுயவிவரம்",
+    icon: FileIcon,
+    href: "/profile",
+    color: "text-white-500",
+  },
+  {
+    label: "அமைப்புகள்",
+    icon: SettingsIcon,
+    href: "/settings",
+    color: "text-white-500",
+  },
+  {
+    label: "வெளியேறு",
+    href: "/sign-in",
+    icon: HiArrowLeftOnRectangle,
+    color: "text-white-500",
+  },
+]
+
+export const TeluguRoutes: {
+  label: string
+  icon: any
+  href: string
+  color: string
+}[] = [
+  {
+    label: "డాష్బోర్డ్",
+    icon: LayoutDashboardIcon,
+    href: "/dashboard",
+    color: "text-sky-500",
+  },
+
+  {
+    label: "చాట్‌బాట్",
+    icon: MessageSquareIcon,
+    href: "/chatbot",
+    color: "text-emerald-500",
+  },
+  {
+    label: "డైట్ ప్లాన్",
+    icon: Apple,
+    href: "/diet-plan",
+    color: "text-red-500",
+  },
+
+  {
+    label: "ఆయుర్-యూనిటీ",
+    icon: Users,
+    href: "/ayur-unity",
+    color: "text-sky-500",
+  },
+  {
+    label: "నిపుణుల సంప్రదింపులు",
+    icon: HeartPulse,
+    href: "/ayur-sama",
+    color: "text-red-700",
+  },
+
+  {
+    label: "సీజనల్ కేర్",
+    icon: SunSnow,
+    href: "/seasonal-care",
+    color: "text-yellow-500",
+  },
+  {
+    label: "తరచుగా అడిగే ప్రశ్నలు",
+    icon: HelpCircle,
+    href: "/faq",
+    color: "text-green-500",
+  },
+  {
+    label: "ప్రొఫైల్",
+    icon: FileIcon,
+    href: "/profile",
+    color: "text-white-500",
+  },
+  {
+    label: "సెట్టింగ్‌లు",
+    icon: SettingsIcon,
+    href: "/settings",
+    color: "text-white-500",
+  },
+  {
+    label: "లాగ్అవుట్",
     href: "/sign-in",
     icon: HiArrowLeftOnRectangle,
     color: "text-white-500",

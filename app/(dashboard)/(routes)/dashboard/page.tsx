@@ -1,16 +1,22 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { Metadata } from "next"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { User } from "@prisma/client"
-import { BrowserRouter as Router } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { Metadata } from "next";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { User } from "@prisma/client";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import getCurrentUser from "@/hooks/useCurrentUser"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Overview_Tab } from "@/components/Overview_Tab/Overview_Tab"
+
+
+import getCurrentUser from "@/hooks/useCurrentUser";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Overview_Tab } from "@/components/Overview_Tab/Overview_Tab";
+
+
+
+
 
 interface DashboardPageProps {
   user?: User
@@ -19,6 +25,7 @@ interface DashboardPageProps {
 const DashboardPage = ({}) => {
   const router = useRouter()
   const [user, setUser] = useState(null)
+
 
   return (
     <>
@@ -32,6 +39,7 @@ const DashboardPage = ({}) => {
                 className="md:text-lg p-4 md:p-6 rounded-full font-semibold"
               >
                 Know your Prakriti now
+                
               </Button>
             </Link>
           </div>

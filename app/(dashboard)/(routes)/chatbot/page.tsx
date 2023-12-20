@@ -1,18 +1,32 @@
-"use client"
+"use client";
 
-import { SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react";
 
-import { BotAvatar } from "@/components/ai/BotAvatar"
-import ChatComponent from "@/components/ai/ChatComponent"
+
+
+import useLanguageStore from "@/hooks/useLanguage";
+import { BotAvatar } from "@/components/ai/BotAvatar";
+import ChatComponent from "@/components/ai/ChatComponent";
+
+
+
+
+
+interface LanguageStore {
+  language: string;
+  setLanguage: Dispatch<SetStateAction<string>>;
+}
+
+
 
 export default function Home() {
   const source = "https://i.ibb.co/N7cJc3F/1024.png"
-  const [selectedLanguage, setSelectedLanguage] = useState("english")
-
+  const { language, setLanguage } = useLanguageStore() as LanguageStore;
+  
   const handleLanguageChange = (event: {
     target: { value: SetStateAction<string> }
   }) => {
-    setSelectedLanguage(event.target.value)
+    setLanguage(event.target.value)
   }
 
   return (
@@ -23,7 +37,7 @@ export default function Home() {
           <h2 className="text-2xl px-2">Y.O.G.I</h2>
           <div className="text-right absolute right-48 pb-6 borderr-0">
             <select
-              value={selectedLanguage}
+              value={language}
               onChange={handleLanguageChange}
               className="w-[180px] text-white bg-transparent"
             >
@@ -51,7 +65,7 @@ export default function Home() {
             </select>
           </div>
         </div>
-        <ChatComponent language={selectedLanguage} />
+        <ChatComponent language={language} />
       </div>
     </main>
   )
