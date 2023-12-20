@@ -6,9 +6,9 @@ interface LanguageStore {
   setLanguage: (lang: string) => void
 }
 
-const useLanguageStore = create<LanguageStore>((set) => ({
+export const useLanguageStore = create<LanguageStore>((set) => ({
   language: "english",
   setLanguage: (lang: string) => set({ language: lang }),
 }))
 
-export default useLanguageStore
+
