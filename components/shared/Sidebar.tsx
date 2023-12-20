@@ -14,7 +14,7 @@ import { HiArrowLeftOnRectangle, HiUsers } from "react-icons/hi2";
 
 
 import { cn } from "@/lib/utils";
-import useLanguageStore from "@/hooks/useLanguage";
+import {useLanguageStore} from "@/hooks/useLanguage";
 
 
 

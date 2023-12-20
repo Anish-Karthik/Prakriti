@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 
 
 
-import useLanguageStore from "@/hooks/useLanguage";
+import {useLanguageStore} from "@/hooks/useLanguage";
 import { BotAvatar } from "@/components/ai/BotAvatar";
 import ChatComponent from "@/components/ai/ChatComponent";
 
