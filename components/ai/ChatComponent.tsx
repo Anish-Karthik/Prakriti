@@ -1,22 +1,22 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from "react"
-
+import React, { use, useEffect, useRef, useState } from "react"
+import { User } from "@prisma/client"
 import { Message, useChat } from "ai/react"
+import axios from "axios"
+import { toast } from "react-hot-toast"
+import { ClipLoader } from "react-spinners"
 
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { BotAvatar } from "./BotAvatar"
-import { toast } from "react-hot-toast"
-import axios from "axios"
-import getCurrentUser from "@/hooks/useCurrentUser"
-import { User } from "@prisma/client"
 
-interface DashboardPageProps{
-  user?:User
+interface DashboardPageProps {
+  user?: User
+  language: string
 }
 
-const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
+const ChatComponent: React.FC<DashboardPageProps> = ({ user, language }) => {
   const chatContainerRef = useRef<HTMLDivElement | null>(null)
   const {
     setInput,
@@ -28,37 +28,54 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
   } = useChat()
   const [languageMessages, setLanguageMessages] = useState<Message[]>([])
   //const [messages,setMessages]=useState([])
-  const [language, SetLanguage] = useState("HINDI")
+
   const [display, setDisplay] = useState("block")
-  const[flag,setFlag]=useState(false)
+  const [loading, setLoading] = useState(false)
+  const [flag, setFlag] = useState(false)
   const [option_view, setoption_view] = useState("hidden")
   const yogi = "https://i.ibb.co/N7cJc3F/1024.png"
-  
-  const Profile ="";
+
+  const Profile = ""
 
   useEffect(() => {
-    if (messages.length > 0) setDisplay("hidden")
+    if (languageMessages.length > 0) setDisplay("hidden")
     if (chatContainerRef.current)
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
-  }, [messages])
+  }, [languageMessages])
 
-
-  const setPrakriti=async(prakriti:string)=>
-  {
-     await axios.post("/api/setPrakriti",{userId:user?.id,prakriti:prakriti})
-    setFlag(true);
+  const setPrakriti = async (prakriti: string) => {
+    await axios.post("/api/setPrakriti", {
+      userId: user?.id,
+      prakriti: prakriti,
+    })
+    setFlag(true)
   }
 
   const sendPostRequest = async (event: React.FormEvent) => {
+    setLoading(true)
     event.preventDefault()
     try {
+      const tmp_new: Message = {
+        id: String(Math.random() * 10),
+        content: input,
+        role: "user",
+      }
+      const tmp_new_message: Message[] = [...languageMessages, tmp_new]
+
+      // Use a functional update to ensure the most recent state is used
+      setLanguageMessages((prevLanguageMessages) => [
+        ...prevLanguageMessages,
+        tmp_new,
+      ])
+
+      setInput("")
       const response = await fetch("/api/translate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          messages: messages,
+          messages: tmp_new_message, // Sending the most recent messages
           lang: language,
         }),
       })
@@ -68,22 +85,65 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
 
       const stream = await response.arrayBuffer()
       const data = JSON.parse(new TextDecoder().decode(stream))
-      console.log(data+"jjksdjb")
+
       // Create a new message object with id, role, and content
-      const newMessage: Message = {
-        id: String(Math.random() * 10),
-        content: data,
-        role: "assistant",
+
+      if (language !== "english") {
+        const res = await axios.post("/api/bing_translate", {
+          body: data.choices[0].message.content,
+          lang: language,
+        })
+        console.log(res)
+        const newMessage: Message = {
+          id: String(Math.random() * 10),
+          //@ts-ignore
+          content: res.data.translatedText,
+          role: "assistant",
+        }
+
+        // Update languageMessages using functional update
+        setLanguageMessages((prevLanguageMessages) => [
+          ...prevLanguageMessages,
+          newMessage,
+        ])
+        setLoading(false)
+      } else {
+        setLoading(true)
+
+        const newMessage: Message = {
+          id: String(Math.random() * 10),
+          content: data.choices[0].message.content,
+          role: "assistant",
+        }
+
+        // Update languageMessages using functional update
+        setLanguageMessages((prevLanguageMessages) => [
+          ...prevLanguageMessages,
+          newMessage,
+        ])
+        let timeoutId: NodeJS.Timeout
+        if (loading) {
+          timeoutId = setTimeout(() => {
+            setLoading(false)
+          }, 5000)
+        }
+        setLoading(false)
       }
-
-      // Add the new message to languageMessages
-
-      const tmp: Message[] = [newMessage, ...languageMessages]
-     
-      setLanguageMessages(tmp)
     } catch (error) {
       console.error("Error:", error)
     }
+  }
+
+  const submit = () => {
+    setLoading(true)
+    let timeoutId: NodeJS.Timeout
+    handleSubmit
+    if (loading) {
+      timeoutId = setTimeout(() => {
+        setLoading(false)
+      }, 5000)
+    }
+    setLoading(true)
   }
 
   return (
@@ -94,7 +154,7 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
         maxHeight: "500px",
       }}
     >
-      {language === "english" ? (
+      {language === "enish" ? (
         messages.map((message: Message) => (
           <div key={message.id}>
             <h3 className="text-lg font-semibold mt-2">
@@ -115,22 +175,21 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
                 if (currentTextBlock === "") {
                   return <p key={message.id + index}>&nbsp;</p>
                 } else {
-                  if(currentTextBlock.includes("Vata") && flag===false)
-                  {
-                    setFlag(true);
-                    setPrakriti("Vata");
-                  }
-                  else if(currentTextBlock.includes("Pitta") && flag===false)
-                  {
-                    setFlag(true);
-                   setPrakriti("Pitta");
-                   
-                  }
-                  else if(currentTextBlock.includes("Kapha") && flag===false)
-                  {
-                    setFlag(true);
-                   setPrakriti("Kapha");
-                   
+                  if (currentTextBlock.includes("Vata") && flag === false) {
+                    setFlag(true)
+                    setPrakriti("Vata")
+                  } else if (
+                    currentTextBlock.includes("Pitta") &&
+                    flag === false
+                  ) {
+                    setFlag(true)
+                    setPrakriti("Pitta")
+                  } else if (
+                    currentTextBlock.includes("Kapha") &&
+                    flag === false
+                  ) {
+                    setFlag(true)
+                    setPrakriti("Kapha")
                   }
                   return <p key={message.id + index}>{currentTextBlock}</p>
                 }
@@ -153,36 +212,66 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
                   </h2>
                 </div>
               </h3>
-              {/* @ts-ignore */}
-              <p>{message.content.choices[0].message.content}</p>
+
+              {message.role === "assistant" ? (
+                // @ts-ignore
+                <p>{message.content}</p>
+              ) : (
+                <p>{message.content}</p>
+              )}
             </div>
           ))}
         </>
       )}
+      {loading && (
+        <div className="flex justify-center items-center h-full">
+          <ClipLoader color="lightblue" size={80} />
+        </div>
+      )}
 
-      <form
-        className="mt-12"
-        onSubmit={language === "english" ? handleSubmit : sendPostRequest}
-      >
+      <form className="mt-12" onSubmit={sendPostRequest}>
         <div className={"flex flex-row p-2 " + display}>
-          <BotAvatar props={yogi} />
-          <p className="px-2">
-            Hey there! I am Yogi,Your Personalized AI for Prakirthi{" "}
-          </p>
+          {languageMessages.length === 0 && messages.length === 0 && (
+            <>
+              <BotAvatar props={yogi} />
+              <p className="px-2">
+                Hey there! I am Yogi,Your Personalized AI for Prakirthi{" "}
+              </p>
+            </>
+          )}
         </div>
         <div
           className={
-            "w-full justify-between flex flex-col gap-4 px-5 py-5 items-stretch hidden"
+            "w-full justify-between flex flex-row gap-4 px-5 py-5 items-stretch  "
           }
         >
-          {/* <Button 
-          onClick={()=>{
-            setInput("A");
-            handleSubmit;
-          }}
-          >A</Button>
-          <Button>B</Button>
-          <Button>C</Button> */}
+          <Button
+            className="w-full "
+            type="submit"
+            onClick={(e) => {
+              setInput("A")
+            }}
+          >
+            A
+          </Button>
+          <Button
+            className="w-full "
+            type="submit"
+            onClick={() => {
+              setInput("B")
+            }}
+          >
+            B
+          </Button>
+          <Button
+            className="w-full "
+            type="submit"
+            onClick={() => {
+              setInput("C")
+            }}
+          >
+            C
+          </Button>
         </div>
         <div className="flex flex-row py-2">
           <Input
@@ -192,6 +281,7 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
             onChange={handleInputChange}
           />
           <Button
+            disabled={loading}
             className="font-bold text-lg mx-2 bg-green-500 hover:bg-green-400"
             type="submit"
           >
@@ -204,5 +294,4 @@ const ChatComponent: React.FC<DashboardPageProps> = ({ user }) => {
   )
 }
 
-
-export default ChatComponent;
+export default ChatComponent

@@ -6,7 +6,6 @@ import TypewriterComponent from "typewriter-effect"
 import { Button } from "../ui/button"
 
 export const LandingHero = () => {
-
   return (
     <div className="text-white font-bold py-36 text-center space-y-5">
       <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl">
@@ -33,7 +32,7 @@ export const LandingHero = () => {
         wellness.
       </div>
       <div>
-        <Link href={ "/sign-in"}>
+        <Link href={"/sign-in"}>
           <Button
             variant="premium"
             className="md:text-lg p-4 md:p-6 rounded-full font-semibold"

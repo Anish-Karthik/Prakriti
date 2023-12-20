@@ -6,18 +6,17 @@ import axios from "axios"
 import "@livekit/components-styles"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Loader2 } from "lucide-react"
 import { User } from "@prisma/client"
+import { Loader2 } from "lucide-react"
 
 interface MediaRoomProps {
   chatId: string
   video: boolean
-  user:User
+  user: User
   audio: boolean
 }
 
-export const MediaRoom = ({ chatId, video, audio,user }: MediaRoomProps) => {
-  
+export const MediaRoom = ({ chatId, video, audio, user }: MediaRoomProps) => {
   const router = useRouter()
 
   const [Loading, setLoading] = useState(false)
@@ -32,9 +31,12 @@ export const MediaRoom = ({ chatId, video, audio,user }: MediaRoomProps) => {
         const tmp = "7967679"
         console.log(user.id)
         // const resp = await fetch(`/api/livekit?room=${chatId}&id=${userId}`)
-        const resp = await axios.post(`/api/livekit`,{room:chatId,username:user.id})
+        const resp = await axios.post(`/api/livekit`, {
+          room: chatId,
+          username: user.id,
+        })
         console.log(tmp)
-//        const data = await resp.json()
+        //        const data = await resp.json()
         setToken(resp.data.token)
       } catch (e) {
         console.log(e)
