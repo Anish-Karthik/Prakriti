@@ -60,6 +60,7 @@
     "bootstrap": "^5.3.2",
     "child_process": "^1.0.2",
     "class-variance-authority": "^0.7.0",
+    "clerk": "^0.8.3",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "crisp-sdk-web": "^1.0.21",

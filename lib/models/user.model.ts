@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   bio: { type: String, default: "" },
   onboarded: { type: Boolean, default: false },
   prakriti: { type: String, default: "" },
+  doctor: { type: mongoose.Schema.Types.ObjectId, ref: "Doctor" },
   // refer community.model.ts for the following 2 fields
   posts: [
     {
