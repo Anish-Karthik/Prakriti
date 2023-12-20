@@ -33,17 +33,6 @@ function getValidTimings() {
   return validTimings
 }
 
-function getRandomString(length: number) {
-  let result = ""
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-  const charactersLength = characters.length
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength))
-  }
-  return result
-}
-
 const BookButton = ({
   viewingUser,
   currentUserId,
@@ -57,6 +46,11 @@ const BookButton = ({
   const [isBooked, setIsBooked] = React.useState(false)
   const validTimingFromCurrentHour = getValidTimings()
   const router = useRouter()
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
+  if (!isMounted) return null
 
   async function onClickMeetButton() {
     try {

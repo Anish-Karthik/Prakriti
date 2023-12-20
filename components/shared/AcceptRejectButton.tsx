@@ -9,6 +9,11 @@ import { Button } from "../ui/button"
 
 const AcceptRejectButton = ({ meetingId }: { meetingId?: string }) => {
   const router = useRouter()
+  const [isMounted, setIsMounted] = React.useState(false)
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
+  if (!isMounted) return null
   async function acceptMeetingf() {
     await acceptMeeting({ meetingId: meetingId! })
     router.push(`/ayur-sama/${meetingId}`)

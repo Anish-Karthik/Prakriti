@@ -37,7 +37,7 @@ const DoctorCard = ({
       </div>
       {type === "PENDING" && (
         <div className="w-full px-5 flex flex-col gap-2">
-          <AcceptRejectButton meetingId={meetingId} />
+          {!user.doctor && (<AcceptRejectButton meetingId={meetingId} /> )}
           {!!user.doctor && (
             <BookButton
               viewingUser={user}
