@@ -14,7 +14,7 @@ Through the synergy of Ensemble Learning, the model generates a comprehensive an
  
 By employing Ensemble Learning, the AI model enhances the accuracy and reliability of its classifications, ensuring that users receive precise and actionable insights into their Ayurvedic constitution. This comprehensive assessment empowers individuals to make informed choices regarding diet, lifestyle, and activities that align with their Prakriti, fostering a harmonious and balanced way of living according to Ayurvedic principles.
 Tailoring the user experience even further, once the classification of the user's Prakriti is determined, a personalized and AI-powered multilingual chatbot, affectionately known as Y.O.G.I, comes into play. This chatbot is built on a foundation of state-of-the-art pre-trained transformer technology.
-![image](https://github.com/Anish-Karthik/Prakriti/assets/111771214/7f12dd04-2b6c-4a10-882c-0bd1aa61afa2)
+![image](https://github.com/Anish-Karthik/Prakriti/assets/111771214/7f12dd04-2b6c-4a10-882c-0bd1aa61afa2) 
 
 
 ## An AI Ayurvedic Expert Chatbot YOGI:
