@@ -1,3 +1,4 @@
+
 # AI Chatbot to identify user prakriti:
 
 ##  Image Analysis:
@@ -37,5 +38,7 @@ With BERT architecture at the helm, our AI transformer model performs this intri
 ## Seasonal Care: 
 Ayurveda recognizes that maintaining well-being requires adapting to the ever-changing seasons. The AI transformer model, which is employed for diet plan classification and other personalized recommendations, extends its capabilities to offer seasonal care guidance. Leveraging its understanding of the user's unique Prakriti, the model provides tailored advice to promote optimal health and vitality throughout the year.
 ![image](https://github.com/Anish-Karthik/Prakriti/assets/111771214/4b534cfb-8b41-453b-bd04-8e7f902365ed)
+
+ 
 
  
